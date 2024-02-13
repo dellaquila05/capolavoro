@@ -1,1 +1,1 @@
-1 - Aggiungere sia al diagramma di stato che a quello di classe la parte inerente alla registrazione.
+1 - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione.
