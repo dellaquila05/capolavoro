@@ -6,25 +6,28 @@ $nome = $connessione->real_escape_string($_POST['nomeUtente']);
 $password = $connessione->real_escape_string($_POST['password']);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $sql_select = "SELECT * FROM utenti WHERE username = '$nome'";
+    $sql_select = "SELECT * FROM utente WHERE username = '$nome'";
     $result = $connessione->query($sql_select);
     if (mysqli_num_rows($result)) {
         $row = $result->fetch_array();
         if (password_verify($password, $row['password'])) {
             $_SESSION['loggato'] = true;
-            
-            header("location: area-privata.php");
+            header("location: ../private/home.html");
         } else {
-            echo "La password non è corretta";
+            EchoMessage("La password non è corretta", "./login.html");
+            $connessione->close();
         }
     } else {
-        echo "Non ci sono account con questo username";
+        
+        EchoMessage("Non ci sono account con questo username", "./login.html");
+        $connessione->close();
     }
 }
 
-if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
-   header("location: login.html");
-} else {
-
+function EchoMessage($msg, $redirect)
+{
+    echo '<script type="text/javascript">
+	alert("' . $msg . '")
+	window.location.href = "' . $redirect . '"
+	</script>';
 }
-?>
