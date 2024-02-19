@@ -1,9 +1,7 @@
 <?php
-$path = '..\config.json';
-$config_json = file_get_contents($path);
-$config = json_decode($config_json, true);
+$config_file = file_get_contents('config.json', true);
+$config = json_decode( $config_file , true);
 $database_config = $config['database'];
-
 $host = $database_config['host'];
 $username = $database_config['username'];
 $password = $database_config['password'];
