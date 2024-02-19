@@ -1,4 +1,6 @@
 <?php
+$config_json = file_get_contents("config.json", true);
+$config = json_decode($config_json, true);
 $config_file = file_get_contents('config.json', true);
 $config = json_decode( $config_file , true);
 $database_config = $config['database'];
