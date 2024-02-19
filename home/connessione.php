@@ -1,5 +1,5 @@
 <?php
-$path = realpath('../config.json');
+$path = '..\config.json';
 $config_json = file_get_contents($path);
 $config = json_decode($config_json, true);
 $database_config = $config['database'];
