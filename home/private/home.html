@@ -18,8 +18,7 @@
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-          
+            
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <span class="material-symbols-outlined">
                     info
@@ -55,21 +54,18 @@ Ogni 48 settimane, paga le tasse e migliora la sicurezza con servizi come teleca
         <table class="table">
             <tbody>
                 <tr>
-                    <form action="/management/management.php" method="post" >
-                    <td><button class="btn btn-secondary btn-block">Magazzino</button></td>
-                    <td><button class="btn btn-secondary btn-block">Fornitore</button></td>
-                    <td><button class="btn btn-secondary btn-block">Ordini</button></td>
-                    </form>
+                    <td><a href="/management/magazzino.php">Magazzino</a></td>
+                    <td><a href="/management/fornitore.php">Fornitore</a></td>
+                    <td><a href="/management/ordini.php">Ordini</a></td>
                 </tr>
                 <tr>
-                    <form action="/service/service.php" method="post" >
-                    <td><button class="btn btn-secondary btn-block" >Servizi</button></td>
-                    <td><button class="btn btn-secondary btn-block">Resoconto</button></td>
-                    <td><button class="btn btn-secondary btn-block">Finanze</button></td>
-                </form>
+                    <td><a href="/service/servizi.php" >Servizi</a></td>
+                    <td><a href="/service/resoconto.php">Resoconto</a></td>
+                    <td><a href="/service/finanze.php">Finanze</a></td>
                 </tr>
             </tbody>
         </table>
+        <br><br>
         <div class="row justify-content-end">
             <div class="col-2">
                 <button type="submit" class="btn btn-primary">Avanti</button>
