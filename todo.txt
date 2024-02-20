@@ -1,3 +1,2 @@
 1 - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione.
-2 - sistemare il problema col path i connessione.php
-3 - gestire gli errori della registrazione e della login (dove adesso c'è EchoMessage)
+2 - fare le insert nella tabella immagazina nella registrazione
