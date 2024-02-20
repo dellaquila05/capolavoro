@@ -1,2 +1,7 @@
-1 - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione.
-2 - fare le insert nella tabella immagazina nella registrazione
+ALL - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione, alla login e tutto il resto.
+ALL - Aggiungere quantità a tabella ordine 
+ALL - inserire i check nel db
+ALL - on delete del magazzino = set null 
+FELIX - gestire la pressione del tasto sign up più volte
+FELIX - gestire il rollback nella registrazione, se c'è un errore vanno cancellati i record registrati associati(FARE DOPO GLI ALERT)
+FELIX - sistemare le insert nella tabella immagazina nella registrazione
