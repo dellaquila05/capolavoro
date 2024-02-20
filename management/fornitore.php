@@ -64,7 +64,7 @@ session_start();
                     Prezzo di vendita in € 
                 </th>
                 <th>
-                    Quantità prodotto
+                    Quantità prodotto da acquistare
                 </th>
             </tr>
             <?php
@@ -92,11 +92,12 @@ if(!isset($_SESSION['loggato']) || $_SESSION['loggato'] = true){
 }
 ?>
         </table>
-    </div>
-    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+        <div class="d-flex flex-column justify-content-center align-items-center">
         <div  id="spazio">Spazio dispondibile in magazzino:</div>
-        <div ><button id="acquista" type="button" class="btn btn-primary">Acquista</button></div>
+        <button id="acquista" type="button" class="btn btn-primary">Acquista</button>
     </div>
+    </div>
+    
     
     
 </body>
