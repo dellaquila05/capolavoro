@@ -26,8 +26,9 @@ if ($connessione->query($sql1)) {
                     $sql6 = "SELECT id FROM prodotto ORDER BY id";
                     $result = $connessione->query($sql6);
                     if (mysqli_num_rows($result)) {
+                        $interruttore = true;
                         while ($idProdotto = $result->fetch_array()) {
-                            $sql7 = "INSERT INTO immagazzina(idMagazzino,idProdotto,quantitàPr) VALUES ('$idMagazzino', '$idProdotto', 0)";
+                            $sql7 = "INSERT INTO immagazzina(idMagazzino,idProdotto,quantitàPr) VALUES ('$idMagazzino', '$idProdotto[id]', 0)";
                             if (!$connessione->query($sql7)) {
                                 $interruttore = false;
                                 EchoMessage("Errore nella insert in immagazzina" . $sql7 . " . " . $connessione->error, "./registrazione.html");

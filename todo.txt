@@ -4,9 +4,7 @@ ALL - inserire i check nel db
 ALL - on delete del magazzino = set null 
 FELIX - gestire la pressione del tasto sign up più volte
 FELIX - gestire il rollback nella registrazione, se c'è un errore vanno cancellati i record registrati associati(FARE DOPO GLI ALERT)
-FELIX - sistemare le insert nella tabella immagazina nella registrazione
-1 - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione.
-2 - fare le insert nella tabella immagazina nella registrazione
+FELIX - fare  gli alert per l'utente a seguito della registrazione e della login 
 DIEGO gestione modale del fornitore 
 DIEGO finire tabella magazzino appena felix finisce insert
 momo - migliorare grafica home.html e finire servizi.php
