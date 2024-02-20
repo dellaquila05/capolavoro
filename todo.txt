@@ -1,2 +1,4 @@
 1 - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione.
 2 - fare le insert nella tabella immagazina nella registrazione
+DIEGO gestione modale del fornitore 
+DIEGO finire tabella magazzino appena felix finisce insert

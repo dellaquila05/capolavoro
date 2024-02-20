@@ -18,7 +18,7 @@ session_start();
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./management.html">HomeTech</a>
+            <a class="navbar-brand" href="../home/private/home.html">HomeTech</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -82,19 +82,68 @@ if(!isset($_SESSION['loggato']) || $_SESSION['loggato'] = true){
                 echo "
                 <td>".$b." </td>";
             }
-            echo "<td></tr>";
+            echo "<td><input id=".$id." type='number' min='0' value='0'></input> </td></tr>";
+            
         }
+        echo "</table>";
         $result->free(); // Liberare la memoria associata al risultato
+?>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Spesa dal fornitore</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Codice</th>
+                            <th>Nome prodotto</th>
+                            <th>Quantità prodotto</th>
+                            <th>Prezzo singolo prodotto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     <?php 
 
+$sql_select = "SELECT nome, costoAcquisto, costoVendita FROM prodotto";
+$result = $connessione->query($sql_select);
+$id = 0;
+if (mysqli_num_rows($result) > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $id++;
+        echo "<tr>";
+        echo "<td>" . $id . "</td>"; // Codice
+        echo "<td>" . $row['nome'] . "</td>"; // Nome prodotto
+        echo "<td> </td>"; // Quantità prodotto
+        echo "<td>" . $row['costoAcquisto'] . "</td>"; // Prezzo singolo prodotto
+        echo "</tr>";
+    }
+}
+                     ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div><?php
     } else {
         $connessione->close();
     }
 }
 ?>
-        </table>
+        
         <div class="d-flex flex-column justify-content-center align-items-center">
         <div  id="spazio">Spazio dispondibile in magazzino:</div>
-        <button id="acquista" type="button" class="btn btn-primary">Acquista</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Acquista</button>
+
+
+
     </div>
     </div>
     
