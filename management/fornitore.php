@@ -64,7 +64,7 @@ session_start();
                     Prezzo di vendita in € 
                 </th>
                 <th>
-                    Quantità prodotto
+                    Quantità prodotto da acquistare
                 </th>
             </tr>
             <?php
@@ -82,7 +82,7 @@ if(!isset($_SESSION['loggato']) || $_SESSION['loggato'] = true){
                 echo "
                 <td>".$b." </td>";
             }
-            echo "</tr>";
+            echo "<td></tr>";
         }
         $result->free(); // Liberare la memoria associata al risultato
 
@@ -92,10 +92,13 @@ if(!isset($_SESSION['loggato']) || $_SESSION['loggato'] = true){
 }
 ?>
         </table>
-        <div class="d-flex flex-column justify-content-center align-items-center"  id="spazio">
-            Articoli in magazzino:</div>
-        
+        <div class="d-flex flex-column justify-content-center align-items-center">
+        <div  id="spazio">Spazio dispondibile in magazzino:</div>
+        <button id="acquista" type="button" class="btn btn-primary">Acquista</button>
     </div>
+    </div>
+    
+    
     
 </body>
 
