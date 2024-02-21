@@ -2,9 +2,10 @@ ALL - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte iner
 ALL - Aggiungere quantità a tabella ordine 
 ALL - inserire i check nel db
 ALL - on delete del magazzino = set null 
-FELIX - gestire la pressione del tasto sign up e log in più volte
-FELIX - gestire il rollback nella registrazione, se c'è un errore vanno cancellati i record registrati associati(FARE DOPO GLI ALERT)
-FELIX - fare gli alert per l'utente a seguito della login
+FELIX - gestire la pressione del pulsante login più volte (da testare)
+FELIX - gestire il rollback nella registrazione, se c'è un errore vanno cancellati i record registrati associati
+FELIX - fare gli alert per l'utente a seguito della login (da testare)
+FELIX - testare la login (da testare)
 DIEGO gestione modale del fornitore 
 DIEGO finire tabella magazzino appena felix finisce insert
 momo - migliorare grafica home.html e finire servizi.php

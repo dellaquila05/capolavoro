@@ -3,71 +3,88 @@ session_start();
 require_once('../connessione.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+?>
+    <script>
+        //script per gestire la visualizzazione del pulsante signUp.
+        const buttonSignUp = document.getElementById('buttonSignUp');
+        const signUp = document.getElementById('signUp');
+        const loading = document.getElementById('loading');
+        signUp.classList.remove('d-none'); //faccio apparire il pulsante sign up
+        loading.classList.add('d-none'); //faccio scomparire il pulsante loading
+    </script>
+<?php
     $nome = $connessione->real_escape_string($_POST['nomeUtente']); //recupero il nome con cui si vuole effettuare la registrazione
     $password = $connessione->real_escape_string($_POST['password']); //recupero la password con cui si vuole effettuare la registrazione
 
     try {
-        //verifico che il nome utente non sia già presente nel database
-        $sql = "SELECT username FROM utente WHERE username = '$nome'";
-        $result = $connessione->query($sql);
-        if (mysqli_num_rows($result)) {
-            $_SESSION['error'] = 1; //nome utente già presente nel database
+        //verifico che il nome utente abbia più di 4 caratteri
+        if (strlen($nome) < 5) {
+            $_SESSION['error'] = 1; //nome utente troppo corto
             $_SESSION['loggato'] = false; //blocco la registrazione
             $connessione->close();
-        } else { //se il nome utente non è presente nel database vado avanti con la registrazione
-            if (strlen($password) < 6) { //se la password contiene meno di 6 caratteri blocco la registrazione
-                $_SESSION['error'] = 2; //password troppo corta
+        } else { //se il nome utente ha più di 4 caratteri vado avanti col la registrazione
+            //verifico che il nome utente non sia già presente nel database
+            $sql = "SELECT username FROM utente WHERE username = '$nome'";
+            $result = $connessione->query($sql);
+            if (mysqli_num_rows($result)) {
+                $_SESSION['error'] = 1; //nome utente già presente nel database
                 $_SESSION['loggato'] = false; //blocco la registrazione
                 $connessione->close();
-            } else { //se la password ha più di 5 caratteri vado avanti con la registrazione
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT); //eseguo una funzione di hashing sulla password
-                //creo il magazzino del nuovo utente
-                $sql1 = "INSERT INTO magazzino(dimensione)VALUES(20)";
-                if ($connessione->query($sql1)) { //se non ci sono errori
-                    //recupero l'id del magazzino appena creato
-                    $sql2 = "SELECT id FROM magazzino ORDER BY id DESC LIMIT 1";
-                    $result = $connessione->query($sql2);
-                    if (mysqli_num_rows($result)) { //se non ci sono errori
-                        $idMagazzino = $result->fetch_array()['id'];
-                        //creo il nuovo utente
-                        $sql3 = "INSERT INTO utente(username,password,n_settimana,idMagazzino)VALUES('$nome','$hashed_password',' 1 ',' $idMagazzino ')";
-                        if ($connessione->query($sql3)) { //se non ci sono errori
-                            //recupero l'id dell'utente appena creato
-                            $sql4 = "SELECT id FROM utente ORDER BY id DESC LIMIT 1";
-                            $result = $connessione->query($sql4);
-                            if (mysqli_num_rows($result)) { //se non ci sono errori
-                                $idUtente = $result->fetch_array()['id'];
-                                //creo i costi fissi che dovrà pagare l'utente appena creato 
-                                $sql5 = "INSERT INTO costoFisso(nome,prezzo,idUtente)VALUES('Gas', 50, '$idUtente'),('Luce', 450, '$idUtente'),('Affitto', 1700, '$idUtente');";
-                                if ($connessione->query($sql5)) { //se non ci sono errori
-                                    //recupero gli id di ogni prodotto del gioco 
-                                    $sql6 = "SELECT id FROM prodotto ORDER BY id";
-                                    $result = $connessione->query($sql6);
-                                    if (mysqli_num_rows($result)) { //se non ci sono errori
-                                        while ($idProdotto = $result->fetch_array()) {
-                                            //inserisco i prodotti nel magazzino dell'utente con quantità = 0
-                                            $sql7 = "INSERT INTO immagazzina(idMagazzino,idProdotto,quantitàPr) VALUES ('$idMagazzino', '$idProdotto[id]', 0)";
-                                            if (!$connessione->query($sql7)) {
-                                                throw new Exception("Errore durante la insert nella tabella immagazzina per inserire i prodotti nel magazzino");
+            } else { //se il nome utente non è presente nel database vado avanti con la registrazione
+                if (strlen($password) < 6) { //se la password contiene meno di 6 caratteri blocco la registrazione
+                    $_SESSION['error'] = 2; //password troppo corta
+                    $_SESSION['loggato'] = false; //blocco la registrazione
+                    $connessione->close();
+                } else { //se la password ha più di 5 caratteri vado avanti con la registrazione
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT); //eseguo una funzione di hashing sulla password
+                    //creo il magazzino del nuovo utente
+                    $sql1 = "INSERT INTO magazzino(dimensione)VALUES(20)";
+                    if ($connessione->query($sql1)) { //se non ci sono errori
+                        //recupero l'id del magazzino appena creato
+                        $sql2 = "SELECT id FROM magazzino ORDER BY id DESC LIMIT 1";
+                        $result = $connessione->query($sql2);
+                        if (mysqli_num_rows($result)) { //se non ci sono errori
+                            $idMagazzino = $result->fetch_array()['id'];
+                            //creo il nuovo utente
+                            $sql3 = "INSERT INTO utente(username,password,n_settimana,idMagazzino)VALUES('$nome','$hashed_password',' 1 ',' $idMagazzino ')";
+                            if ($connessione->query($sql3)) { //se non ci sono errori
+                                //recupero l'id dell'utente appena creato
+                                $sql4 = "SELECT id FROM utente ORDER BY id DESC LIMIT 1";
+                                $result = $connessione->query($sql4);
+                                if (mysqli_num_rows($result)) { //se non ci sono errori
+                                    $idUtente = $result->fetch_array()['id'];
+                                    //creo i costi fissi che dovrà pagare l'utente appena creato 
+                                    $sql5 = "INSERT INTO costoFisso(nome,prezzo,idUtente)VALUES('Gas', 50, '$idUtente'),('Luce', 450, '$idUtente'),('Affitto', 1700, '$idUtente');";
+                                    if ($connessione->query($sql5)) { //se non ci sono errori
+                                        //recupero gli id di ogni prodotto del gioco 
+                                        $sql6 = "SELECT id FROM prodotto ORDER BY id";
+                                        $result = $connessione->query($sql6);
+                                        if (mysqli_num_rows($result)) { //se non ci sono errori
+                                            while ($idProdotto = $result->fetch_array()) {
+                                                //inserisco i prodotti nel magazzino dell'utente con quantità = 0
+                                                $sql7 = "INSERT INTO immagazzina(idMagazzino,idProdotto,quantitàPr) VALUES ('$idMagazzino', '$idProdotto[id]', 0)";
+                                                if (!$connessione->query($sql7)) {
+                                                    throw new Exception("Errore durante la insert nella tabella immagazzina per inserire i prodotti nel magazzino");
+                                                }
                                             }
+                                        } else {
+                                            throw new Exception("Errore nella select dalla tabella prodotto per recuperare gli id");
                                         }
                                     } else {
-                                        throw new Exception("Errore nella select dalla tabella prodotto per recuperare gli id");
+                                        throw new Exception("Errore durante la insert nella tabella costoFisso");
                                     }
                                 } else {
-                                    throw new Exception("Errore durante la insert nella tabella costoFisso");
+                                    throw new Exception("Errore nella select dalla tabella utente per recuperare l'ultimo id");
                                 }
                             } else {
-                                throw new Exception("Errore nella select dalla tabella utente per recuperare l'ultimo id");
+                                throw new Exception("Errore durante la insert nella tabella utente per creare un nuovo utente");
                             }
                         } else {
-                            throw new Exception("Errore durante la insert nella tabella utente per creare un nuovo utente");
+                            throw new Exception("Errore nella select dalla tabella magazzino per recuperare l'ultimo id");
                         }
                     } else {
-                        throw new Exception("Errore nella select dalla tabella magazzino per recuperare l'ultimo id");
+                        throw new Exception("Errore durante la insert nella tabella magazzino per creare un nuovo magazzino");
                     }
-                } else {
-                    throw new Exception("Errore durante la insert nella tabella magazzino per creare un nuovo magazzino");
                 }
             }
         }
@@ -112,8 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="card-body">
                     <div class="mb-3">
                         <?php
-                        if (isset($_SESSION['error'])) {
-                            $error = $_SESSION['error'];
+                        //codice per gestire la visualizzazione dell'alert
+                        if (isset($_SESSION['error'])) { //se c'è un errore
+                            $error = $_SESSION['error']; //lo recupero
                             echo "<div id='alert'>";
                         } else {
                             echo "<div id='alert' class='d-none'>";
@@ -133,6 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </svg>
                             <strong id="testoAlert">
                                 <?php
+                                //stampo il testo dell'errore dentro l'alert
                                 switch ($error) {
                                     case 1:
                                         echo "Nome utente non valido";
@@ -156,13 +175,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="mb-3">
                     <!-- form di inserimento -->
                     <label for="nomeUtente" class="form-label">Nome utente</label>
-                    <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" required />
+                    <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" />
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required />
+                    <input type="password" class="form-control" id="password" name="password" />
                 </div>
                 <div id="signUp" class="text-center">
+                    <!-- pulsante sign up -->
                     <button type="submit" id="buttonSignUp" class="btn btn-primary">
                         Sign up
                     </button>
@@ -171,6 +191,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <a href="./login.html">Log in</a>
                     </div>
                 </div>
+                <div id="loading" class="text-center d-none">
+                    <!-- pulsante disabilitato che serve a dare l'idea del caricamento, appare alla pressione del pulsante sign up -->
+                    <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status">Loading...</span>
+                    </button>
+                </div>
+                <script>
+                    /*
+                    script per gestire la visualizzazione del pulsante signUp.
+                    siccome tutte le query possono richiedere del tempo ad eseguirsi
+                    */
+                    signUp.onclick = () => { //alla pressione del pulsante sign up
+                        signUp.classList.add('d-none'); //evito che l'utente prema il pulsante due volte di fila facendolo scomparire
+                        loading.classList.remove('d-none'); //e facendo apparire un pulsante disabilitato con all'interno uno spinner di bootstrap 
+                    }
+                </script>
             </form>
         </div>
     </div>
