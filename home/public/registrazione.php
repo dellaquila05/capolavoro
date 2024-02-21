@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../connessione.php');
+$connessione->begin_transaction();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
@@ -19,23 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
         //verifico che il nome utente abbia più di 4 caratteri
         if (strlen($nome) < 5) {
-            $_SESSION['error'] = 1; //nome utente troppo corto
-            $_SESSION['loggato'] = false; //blocco la registrazione
-            $connessione->close();
-        } else { //se il nome utente ha più di 4 caratteri vado avanti col la registrazione
+            throw new Exception("Il nome utente ha meno di 5 caratteri", 1);
+        } else {
             //verifico che il nome utente non sia già presente nel database
             $sql = "SELECT username FROM utente WHERE username = '$nome'";
             $result = $connessione->query($sql);
             if (mysqli_num_rows($result)) {
-                $_SESSION['error'] = 1; //nome utente già presente nel database
-                $_SESSION['loggato'] = false; //blocco la registrazione
-                $connessione->close();
-            } else { //se il nome utente non è presente nel database vado avanti con la registrazione
-                if (strlen($password) < 6) { //se la password contiene meno di 6 caratteri blocco la registrazione
-                    $_SESSION['error'] = 2; //password troppo corta
-                    $_SESSION['loggato'] = false; //blocco la registrazione
-                    $connessione->close();
-                } else { //se la password ha più di 5 caratteri vado avanti con la registrazione
+                throw new Exception("Il nome utente è già presente nel database", 1);
+            } else {
+                //verifico che la password abbia più di 5 caratteri
+                if (strlen($password) < 6) {
+                    throw new Exception("La password ha meno di 6 caratteri", 2);
+                } else {
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT); //eseguo una funzione di hashing sulla password
                     //creo il magazzino del nuovo utente
                     $sql1 = "INSERT INTO magazzino(dimensione)VALUES(20)";
@@ -63,40 +59,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                             while ($idProdotto = $result->fetch_array()) {
                                                 //inserisco i prodotti nel magazzino dell'utente con quantità = 0
                                                 $sql7 = "INSERT INTO immagazzina(idMagazzino,idProdotto,quantitàPr) VALUES ('$idMagazzino', '$idProdotto[id]', 0)";
-                                                if (!$connessione->query($sql7)) {
-                                                    throw new Exception("Errore durante la insert nella tabella immagazzina per inserire i prodotti nel magazzino");
+                                                if ($connessione->query($sql7)) {
+                                                    $connessione->commit(); //effettuo la commit delle modifiche al database
+                                                    $_SESSION['loggato'] = true; //registrazione effettuata con successo
+                                                } else {
+                                                    throw new Exception("Errore durante la insert nella tabella immagazzina per inserire i prodotti nel magazzino", 3);
                                                 }
                                             }
                                         } else {
-                                            throw new Exception("Errore nella select dalla tabella prodotto per recuperare gli id");
+                                            throw new Exception("Errore nella select dalla tabella prodotto per recuperare gli id", 3);
                                         }
                                     } else {
-                                        throw new Exception("Errore durante la insert nella tabella costoFisso");
+                                        throw new Exception("Errore durante la insert nella tabella costoFisso", 3);
                                     }
                                 } else {
-                                    throw new Exception("Errore nella select dalla tabella utente per recuperare l'ultimo id");
+                                    throw new Exception("Errore nella select dalla tabella utente per recuperare l'ultimo id", 3);
                                 }
                             } else {
-                                throw new Exception("Errore durante la insert nella tabella utente per creare un nuovo utente");
+                                throw new Exception("Errore durante la insert nella tabella utente per creare un nuovo utente", 3);
                             }
                         } else {
-                            throw new Exception("Errore nella select dalla tabella magazzino per recuperare l'ultimo id");
+                            throw new Exception("Errore nella select dalla tabella magazzino per recuperare l'ultimo id", 3);
                         }
                     } else {
-                        throw new Exception("Errore durante la insert nella tabella magazzino per creare un nuovo magazzino");
+                        throw new Exception("Errore durante la insert nella tabella magazzino per creare un nuovo magazzino", 3);
                     }
                 }
             }
         }
     } catch (Exception $e) {
-        $_SESSION['error'] = 3; //errore con una query
+        $connessione->rollback(); //eseguo la rollback delle modifiche al database
+        $_SESSION['error'] = $e->getCode(); //recupero il codice di errore
         $_SESSION['loggato'] = false; //blocco la registrazione
-        $connessione->close();
+        $connessione->close(); //chiudo la connessione
     }
 
-    if (!isset($_SESSION['error'])) {
+    if ($_SESSION['loggato'] === true) {
         //registrazione avvenuta con successo
-        $_SESSION['loggato'] = true; //confermo la registrazione
+        $connessione->close(); //chiudo la connessione
         header("location: ../private/home.php");
     }
 }
@@ -132,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         //codice per gestire la visualizzazione dell'alert
                         if (isset($_SESSION['error'])) { //se c'è un errore
                             $error = $_SESSION['error']; //lo recupero
+                            unset($_SESSION['error']); //pulisco la sessione
                             echo "<div id='alert'>";
                         } else {
                             echo "<div id='alert' class='d-none'>";
@@ -175,11 +176,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="mb-3">
                     <!-- form di inserimento -->
                     <label for="nomeUtente" class="form-label">Nome utente</label>
-                    <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" />
+                    <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" aria-describedby="nomeHelp"/>
+                    <div id="nomeHelp" class="form-text text-body-tertiary">Il nome deve essere di almeno 5 caratteri.</div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" />
+                    <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp"/>
+                    <div id="passwordHelp" class="form-text text-body-tertiary">La password deve essere di almeno 6 caratteri.</div>
                 </div>
                 <div id="signUp" class="text-center">
                     <!-- pulsante sign up -->
@@ -188,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </button>
                     <div class="form-text mt-2">
                         Sei già registrato?
-                        <a href="./login.html">Log in</a>
+                        <a href="./login.php">Log in</a>
                     </div>
                 </div>
                 <div id="loading" class="text-center d-none">

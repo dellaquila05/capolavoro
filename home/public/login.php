@@ -19,15 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
         //verifico che il nome utente abbia più di 4 caratteri
         if (strlen($nome) < 5) {
-            $_SESSION['error'] = 1; //nome utente troppo corto
-            $_SESSION['loggato'] = false; //blocco la registrazione
-            $connessione->close();
-        } else { //se il nome utente ha più di 4 caratteri vado avanti col la logIn
-            if (strlen($password) < 6) { //se la password contiene meno di 6 caratteri blocco la logIn
-                $_SESSION['error'] = 2; //password troppo corta
-                $_SESSION['loggato'] = false; //blocco la registrazione
-                $connessione->close();
-            } else { //se la password ha più di 5 caratteri vado avanti con la logIn
+            throw new Exception("Il nome utente ha meno di 5 caratteri", 1);
+        } else {
+            //verifico che la password abbia più di 5 caratteri
+            if (strlen($password) < 6) {
+                throw new Exception("La password ha meno di 6 caratteri", 2);
+            } else {
                 $sql_select = "SELECT password FROM utente WHERE username = '$nome'";
                 $result = $connessione->query($sql_select);
                 if (mysqli_num_rows($result)) {
@@ -35,23 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     if (password_verify($password, $passwordSaved)) { //confronto le due password
                         $_SESSION['loggato'] = true; //login effettuata con successo
                     } else {
-                        $_SESSION['error'] = 2; //password non corretta
-                        $_SESSION['loggato'] = false; //blocco la registrazione
-                        $connessione->close();
+                        throw new Exception("Password non corretta", 2);
                     }
                 } else {
-                    throw new Exception("Non ci sono account con questo username", "./login.html");
+                    throw new Exception("Non ci sono account con questo username", 3);
                 }
             }
         }
     } catch (Exception $e) {
-        $_SESSION['error'] = 3; //errore con una query
+        $_SESSION['error'] = $e->getCode(); //recupero il codice di errore
         $_SESSION['loggato'] = false; //blocco la login
-        $connessione->close();
+        $connessione->close(); //chiudo la connessione
     }
 
-    if (!isset($_SESSION['error']) && isset($_SESSION['loggato'])) {
+    if ($_SESSION['loggato'] === true) {
         //login avvenuta con successo
+        $connessione->close(); //chiudo la connessione
         header("location: ../private/home.php");
     }
 }
@@ -87,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         //codice per gestire la visualizzazione dell'alert
                         if (isset($_SESSION['error'])) { //se c'è un errore
                             $error = $_SESSION['error']; //lo recupero
+                            unset($_SESSION['error']); //pulisco la sessione
                             echo "<div id='alert'>";
                         } else {
                             echo "<div id='alert' class='d-none'>";
@@ -115,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                         echo "Password errata";
                                         break;
                                     case 3:
-                                        echo "Errore nella login";
+                                        echo "Non ci sono utenti con questo username";
                                         break;
                                     default:
                                         break;
@@ -129,11 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <div class="mb-3">
                         <!-- form di inserimento -->
                         <label for="nomeUtente" class="form-label">Nome utente</label>
-                        <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" required />
+                        <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" />
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required />
+                        <input type="password" class="form-control" id="password" name="password" />
                     </div>
                     <div id="login" class="text-center">
                         <!-- pulsante log in -->

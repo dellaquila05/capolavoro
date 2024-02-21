@@ -1,11 +1,9 @@
 ALL - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione, alla login e tutto il resto.
-ALL - Aggiungere quantità a tabella ordine 
-ALL - inserire i check nel db
-ALL - on delete del magazzino = set null 
-FELIX - gestire la pressione del pulsante login più volte (da testare)
-FELIX - gestire il rollback nella registrazione, se c'è un errore vanno cancellati i record registrati associati
-FELIX - fare gli alert per l'utente a seguito della login (da testare)
-FELIX - testare la login (da testare)
+ALL - Aggiungere quantità a tabella ordine (valenti)
+ALL - inserire i check nel db (valenti)
+ALL - on delete del magazzino = set null  (valenti)
+ALL - unire home html e home php, altrimenti aggiungere il reindirizzamento a login.php in caso sessione non settata in home.html (controllare anche le altre pagine, copiando la url e incollandola nel browser)
+ALL - spostare connessione.php fuori da /home
 DIEGO gestione modale del fornitore 
 DIEGO finire tabella magazzino appena felix finisce insert
 momo - migliorare grafica home.html e finire servizi.php
