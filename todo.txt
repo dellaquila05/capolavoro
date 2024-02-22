@@ -1,9 +1,8 @@
 ALL - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione, alla login e tutto il resto.
-ALL - Aggiungere quantità a tabella ordine (valenti)
 ALL - inserire i check nel db (valenti)
-ALL - on delete del magazzino = set null  (valenti)
-ALL - unire home html e home php, altrimenti aggiungere il reindirizzamento a login.php in caso sessione non settata in home.html (controllare anche le altre pagine, copiando la url e incollandola nel browser)
 ALL - spostare connessione.php fuori da /home
-DIEGO gestione modale del fornitore 
-DIEGO finire tabella magazzino appena felix finisce insert
+DIEGO - gestione modale del fornitore 
 momo - migliorare grafica home.html e finire servizi.php
+momo - unire home html e home php, altrimenti aggiungere il reindirizzamento a login.php in caso sessione non settata in home.html (controllare anche le altre pagine, copiando la url e incollandola nel browser)
+FATTO - on delete del magazzino = set null  (valenti)
+FATTO - Aggiungere quantità a tabella ordine (valenti) [aggiunto quantità alla tabella richiede, da discutere con la prof]
