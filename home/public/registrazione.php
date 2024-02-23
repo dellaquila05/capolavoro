@@ -178,12 +178,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="mb-3">
                     <!-- form di inserimento -->
                     <label for="nomeUtente" class="form-label">Nome utente</label>
-                    <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" aria-describedby="nomeHelp"/>
+                    <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" aria-describedby="nomeHelp" />
                     <div id="nomeHelp" class="form-text text-body-tertiary">Il nome deve essere di almeno 5 caratteri.</div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp"/>
+                    <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" />
                     <div id="passwordHelp" class="form-text text-body-tertiary">La password deve essere di almeno 6 caratteri.</div>
                 </div>
                 <div id="signUp" class="text-center">
