@@ -26,14 +26,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 throw new Exception("La password ha meno di 6 caratteri", 2);
             } else {
                 $sql_select = "SELECT password FROM utente WHERE username = '$nome'";
+                $sql_select2 = "SELECT idMagazzino FROM utente WHERE username = '$nome'";
+                $sql_select3 = "SELECT id FROM utente WHERE username = '$nome'";
                 $result = $connessione->query($sql_select);
                 if (mysqli_num_rows($result)) {
-                    $passwordSaved = $result->fetch_array()['password'];
+                    $result2 = $connessione->query($sql_select2);
+                    if (mysqli_num_rows($result2)) {
+                        $idMagazzino = $result2->fetch_array()['idMagazzino'];                                    
+                    $result3 = $connessione->query($sql_select3);
+                    if (mysqli_num_rows($result3)) {
+                        $idUtente = $result3->fetch_array()['id'];                                    
+                        $passwordSaved = $result->fetch_array()['password'];
                     if (password_verify($password, $passwordSaved)) { //confronto le due password
                         $_SESSION['loggato'] = true; //login effettuata con successo
+                        $_SESSION['idMagazzino'] = $idMagazzino; 
+                        $_SESSION['idUtente'] = $idUtente; 
+
                     } else {
                         throw new Exception("Password non corretta", 2);
                     }
+                } else {
+                    throw new Exception("Errore nella select dell'id dell'utente", 3);
+                }} else {
+                    throw new Exception("Errore nella select dell'idMagazzino dell'utente", 3);
+                }
                 } else {
                     throw new Exception("Non ci sono account con questo username", 3);
                 }

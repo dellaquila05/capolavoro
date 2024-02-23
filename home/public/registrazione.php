@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 $sql4 = "SELECT id FROM utente ORDER BY id DESC LIMIT 1";
                                 $result = $connessione->query($sql4);
                                 if (mysqli_num_rows($result)) { //se non ci sono errori
-                                    $idUtente = $result->fetch_array()['id'];
+                                    $idUtente = $result->fetch_array()['id'];                                    
                                     //creo i costi fissi che dovrà pagare l'utente appena creato 
                                     $sql5 = "INSERT INTO costoFisso(nome,prezzo,idUtente)VALUES('Gas', 50, '$idUtente'),('Luce', 450, '$idUtente'),('Affitto', 1700, '$idUtente');";
                                     if ($connessione->query($sql5)) { //se non ci sono errori
@@ -62,6 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                 if ($connessione->query($sql7)) {
                                                     $connessione->commit(); //effettuo la commit delle modifiche al database
                                                     $_SESSION['loggato'] = true; //registrazione effettuata con successo
+                                                    $_SESSION['idUtente'] = $idUtente; 
+                                                    $_SESSION['idMagazzino'] = $idMagazzino; 
                                                 } else {
                                                     throw new Exception("Errore durante la insert nella tabella immagazzina per inserire i prodotti nel magazzino", 3);
                                                 }
