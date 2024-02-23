@@ -139,8 +139,27 @@ if (mysqli_num_rows($result) > 0) {
 ?>
         
         <div class="d-flex flex-column justify-content-center align-items-center">
-        <div  id="spazio">Spazio dispondibile in magazzino:</div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Acquista</button>
+        <div class="d-flex flex-column justify-content-center align-items-center" id="spazio">
+            
+            Articoli in magazzino: <?php 
+            if (isset($_SESSION['idMagazzino'])) {
+                $idMagazzino = $_SESSION['idMagazzino'];
+                $sql_select = "SELECT dimensione
+             FROM magazzino 
+             WHERE id = $idMagazzino";
+             $result = $connessione->query($sql_select);
+             $somma = $_SESSION['spazioMaga']  ;
+             if (mysqli_num_rows($result)) {
+                while ($row = $result->fetch_assoc()) {
+                    echo ($somma."/".$row['dimensione']);
+                }
+                $result->free(); // Liberare la memoria associata al risultato
+            } else {
+                $connessione->close();
+            }
+            }
+             
+             ?></div>        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Acquista</button>
 
 
 

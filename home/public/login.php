@@ -32,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if (mysqli_num_rows($result)) {
                     $result2 = $connessione->query($sql_select2);
                     if (mysqli_num_rows($result2)) {
-                        $idMagazzino = $result2->fetch_array()['idMagazzino'];                                    
+                        $idMagazzino = $result2->fetch_array()['idMagazzino']; 
+                        $sql_select4 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";                                   
                     $result3 = $connessione->query($sql_select3);
                     if (mysqli_num_rows($result3)) {
                         $idUtente = $result3->fetch_array()['id'];                                    
@@ -40,8 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     if (password_verify($password, $passwordSaved)) { //confronto le due password
                         $_SESSION['loggato'] = true; //login effettuata con successo
                         $_SESSION['idMagazzino'] = $idMagazzino; 
-                        $_SESSION['idUtente'] = $idUtente; 
-
+                        $_SESSION['idUtente'] = $idUtente;
+                        $result4 = $connessione->query($sql_select4);
+                        if (mysqli_num_rows($result4)) {
+                            while ($row = $result4->fetch_assoc()) {
+                                $somma+=$row['quantitàPr'];
+                            }
+                            $_SESSION['spazioMaga'] = $somma;
+                        }
                     } else {
                         throw new Exception("Password non corretta", 2);
                     }

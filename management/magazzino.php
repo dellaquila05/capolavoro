@@ -67,7 +67,6 @@ session_start();
             $somma=0;
 
             if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] = true) {
-
                 if (isset($_SESSION['idMagazzino']) && isset($_SESSION['idUtente'])) {
                     $idMagazzino = $_SESSION['idMagazzino'];
                     $sql_select = "SELECT p.nome, p.costoAcquisto, p.costoVendita, i.quantitàPr
@@ -75,7 +74,6 @@ session_start();
                     JOIN immagazzina i ON p.id = i.idProdotto
                     WHERE i.idMagazzino = $idMagazzino";
                     $result = $connessione->query($sql_select);
-
                     if (mysqli_num_rows($result)) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
@@ -85,7 +83,6 @@ session_start();
                 <td>" . $row['costoVendita'] . " </td>                
                  <td>" . $row['quantitàPr'] . " </td>";
                             echo "</tr>";
-                            $somma+=$row['quantitàPr'];
                         }
                         $result->free(); // Liberare la memoria associata al risultato
                     } else {
@@ -96,7 +93,21 @@ session_start();
             ?>
         </table>
         <div class="d-flex flex-column justify-content-center align-items-center" id="spazio">
-            Articoli in magazzino: <?php echo ($somma);?>/20</div>
+            Articoli in magazzino: <?php 
+             $sql_select = "SELECT dimensione
+             FROM magazzino 
+             WHERE id = $idMagazzino";
+             $result = $connessione->query($sql_select);
+             $somma = $_SESSION['spazioMaga'];
+             if (mysqli_num_rows($result)) {
+                while ($row = $result->fetch_assoc()) {
+                    echo ($somma."/".$row['dimensione']);
+                }
+                $result->free(); // Liberare la memoria associata al risultato
+            } else {
+                $connessione->close();
+            }
+             ?></div>
 
     </div>
 
