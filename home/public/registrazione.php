@@ -65,13 +65,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                     $_SESSION['idUtente'] = $idUtente;
                                                     $_SESSION['idMagazzino'] = $idMagazzino;
                                                     $result4 = $connessione->query($sql_select4);
-                                                    $sql_select5 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";  
-                                                    $result5 = $connessione->query($sql_select5);
+                                                    $sql_select5 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
+                                                    $sql_select6 = "SELECT m.dimensione
+                                                    FROM magazzino m 
+                                                    JOIN utente u ON u.idMagazzino = m.id
+                                                    WHERE u.id = $idUtente
+                                                   ";                                                    
+                                                   $result5 = $connessione->query($sql_select5);
                                                     if (mysqli_num_rows($result5)) {
                                                         while ($row = $result5->fetch_assoc()) {
                                                             $somma += $row['quantitàPr'];
                                                         }
-                                                        $_SESSION['spazioMaga'] = $somma;
+                                                        $_SESSION['prodottiMaga'] = $somma;
+                                                    }
+                                                    if (mysqli_num_rows($result6)) {
+                                                        while ($row = $result6->fetch_assoc()) {
+                                                            $dimensione = $row['dimensione'];
+                                                        }
+                                                        $_SESSION['dimensioneMaga'] = $dimensione;
                                                     }
                                                 } else {
                                                     throw new Exception("Errore durante la insert nella tabella immagazzina per inserire i prodotti nel magazzino", 3);

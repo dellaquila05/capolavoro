@@ -32,31 +32,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if (mysqli_num_rows($result)) {
                     $result2 = $connessione->query($sql_select2);
                     if (mysqli_num_rows($result2)) {
-                        $idMagazzino = $result2->fetch_array()['idMagazzino']; 
-                        $sql_select4 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";                                   
-                    $result3 = $connessione->query($sql_select3);
-                    if (mysqli_num_rows($result3)) {
-                        $idUtente = $result3->fetch_array()['id'];                                    
-                        $passwordSaved = $result->fetch_array()['password'];
-                    if (password_verify($password, $passwordSaved)) { //confronto le due password
-                        $_SESSION['loggato'] = true; //login effettuata con successo
-                        $_SESSION['idMagazzino'] = $idMagazzino; 
-                        $_SESSION['idUtente'] = $idUtente;
-                        $result4 = $connessione->query($sql_select4);
-                        if (mysqli_num_rows($result4)) {
-                            while ($row = $result4->fetch_assoc()) {
-                                $somma+=$row['quantitàPr'];
+                        $idMagazzino = $result2->fetch_array()['idMagazzino'];
+                        $sql_select4 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
+                        $result3 = $connessione->query($sql_select3);
+                        if (mysqli_num_rows($result3)) {
+                            $idUtente = $result3->fetch_array()['id'];
+                            $passwordSaved = $result->fetch_array()['password'];
+                            if (password_verify($password, $passwordSaved)) { //confronto le due password
+                                $_SESSION['loggato'] = true; //login effettuata con successo
+                                $_SESSION['idMagazzino'] = $idMagazzino;
+                                $_SESSION['idUtente'] = $idUtente;
+                                $somma = 0;
+                                $dimensione = 0;
+                                $result4 = $connessione->query($sql_select4);
+
+                                $sql_select6 = "SELECT m.dimensione
+                                                    FROM magazzino m 
+                                                    JOIN utente u ON u.idMagazzino = m.id
+                                                    WHERE u.id = $idUtente
+                                                   ";
+                                $result6 = $connessione->query($sql_select6);
+
+                                if (mysqli_num_rows($result4)) {
+                                    while ($row = $result4->fetch_assoc()) {
+                                        $somma += $row['quantitàPr'];
+                                    }
+                                    $_SESSION['prodottiMaga'] = $somma;
+                                }
+                                if (mysqli_num_rows($result6)) {
+                                    while ($row = $result6->fetch_assoc()) {
+                                        $dimensione = $row['dimensione'];
+                                    }
+                                    $_SESSION['dimensioneMaga'] = $dimensione;
+                                }
+                            } else {
+                                throw new Exception("Password non corretta", 2);
                             }
-                            $_SESSION['spazioMaga'] = $somma;
+                        } else {
+                            throw new Exception("Errore nella select dell'id dell'utente", 3);
                         }
                     } else {
-                        throw new Exception("Password non corretta", 2);
+                        throw new Exception("Errore nella select dell'idMagazzino dell'utente", 3);
                     }
-                } else {
-                    throw new Exception("Errore nella select dell'id dell'utente", 3);
-                }} else {
-                    throw new Exception("Errore nella select dell'idMagazzino dell'utente", 3);
-                }
                 } else {
                     throw new Exception("Non ci sono account con questo username", 3);
                 }
