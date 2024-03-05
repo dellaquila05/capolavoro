@@ -9,16 +9,13 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-        </script>
-    <title>Magazzino</title>
+    <title>Fornitore</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="../home/private/home.html">HomeTech</a>
+            <a class="navbar-brand" href="../home/private/home.php">HomeTech</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -68,98 +65,122 @@ session_start();
                 </th>
             </tr>
             <?php
-require_once("../home/connessione.php");
+            require_once("../home/connessione.php");
 
-if(!isset($_SESSION['loggato']) || $_SESSION['loggato'] = true){
-    $sql_select = "SELECT nome , costoAcquisto , costoVendita FROM prodotto ";
-    $result = $connessione->query($sql_select);
-    $id = 0 ; 
-    if (mysqli_num_rows($result)) {
-        while ($row = $result->fetch_assoc()) {
-            $id++;
-            echo "<tr>";
-            foreach ($row as $b) {
-                echo "
-                <td>".$b." </td>";
+            if(isset($_SESSION['loggato']) && $_SESSION['loggato'] == true){
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $showModal = true;
+                   ?> <?php
+        
+                        
+                    
+                }
+                $sql_select = "SELECT nome , costoAcquisto , costoVendita FROM prodotto ";
+                $result = $connessione->query($sql_select);
+                $id = 0 ; 
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $id++;
+                        echo "<tr>";
+                        foreach ($row as $b) {
+                            echo "
+                            <td>".$b." </td>";
+                        }
+                        echo "<td><input id=".$id." type='number' min='0' value='0'></input> </td></tr>";
+                        
+                    }
+                    echo "</table>";
+                    $result->free(); // Liberare la memoria associata al risultato
+                    ?>
+                    <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Spesa dal fornitore</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Codice</th>
+                                                <th>Nome prodotto</th>
+                                                <th>Quantità prodotto</th>
+                                                <th>Prezzo singolo prodotto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+
+                                            $sql_select = "SELECT nome, costoAcquisto, costoVendita FROM prodotto ";
+                                            $result = $connessione->query($sql_select);
+                                            $id = 0;
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $id++;
+                                                    echo "<tr>";
+                                                    echo "<td>" . $id . "</td>"; // Codice
+                                                    echo "<td>" . $row['nome'] . "</td>"; // Nome prodotto
+                                                    echo "<td> 2 </td>"; // Quantità prodotto
+                                                    echo "<td>" . $row['costoAcquisto'] . "</td>"; // Prezzo singolo prodotto
+                                                    echo "</tr>";
+                                                }
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="chiusura" name="chiusura" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                } else {
+                    $connessione->close();
+                }
             }
-            echo "<td><input id=".$id." type='number' min='0' value='0'></input> </td></tr>";
-            
-        }
-        echo "</table>";
-        $result->free(); // Liberare la memoria associata al risultato
-?>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Spesa dal fornitore</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Codice</th>
-                            <th>Nome prodotto</th>
-                            <th>Quantità prodotto</th>
-                            <th>Prezzo singolo prodotto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                     <?php 
-
-$sql_select = "SELECT nome, costoAcquisto, costoVendita FROM prodotto";
-$result = $connessione->query($sql_select);
-$id = 0;
-if (mysqli_num_rows($result) > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $id++;
-        echo "<tr>";
-        echo "<td>" . $id . "</td>"; // Codice
-        echo "<td>" . $row['nome'] . "</td>"; // Nome prodotto
-        echo "<td> </td>"; // Quantità prodotto
-        echo "<td>" . $row['costoAcquisto'] . "</td>"; // Prezzo singolo prodotto
-        echo "</tr>";
-    }
-}
-                     ?>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div><?php
-    } else {
-        $connessione->close();
-    }
-}
-?>
+            ?>
         
         <div class="d-flex flex-column justify-content-center align-items-center">
-        <div class="d-flex flex-column justify-content-center align-items-center" id="spazio">
-            
-            Articoli in magazzino: <?php 
-            if (isset($_SESSION['idMagazzino'])) {
-                $idMagazzino = $_SESSION['idMagazzino'];
-                $somma = $_SESSION['prodottiMaga'];
-             $dimensione = $_SESSION['dimensioneMaga'];
- echo ($somma."/".$dimensione);
-            }
-             
-             ?></div>        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Acquista</button>
-
-
-
+            <div class="d-flex flex-column justify-content-center align-items-center" id="spazio">
+                Articoli in magazzino: <?php 
+                if (isset($_SESSION['idMagazzino'])) {
+                    $idMagazzino = $_SESSION['idMagazzino'];
+                    $somma = $_SESSION['prodottiMaga'];
+                    $dimensione = $_SESSION['dimensioneMaga'];
+                    echo ($somma."/".$dimensione);
+                }
+                ?>
+            </div>        
+            <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary" name="submit">Acquista</button>
+                </div>
+            </form>
+        </div>
     </div>
-    </div>
-    
-    
-    
+
+     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        let showModal = <?php echo $showModal ? 'true' : 'false'; ?>;
+
+        if (showModal) {
+            $('#exampleModal').modal('show');
+        }
+
+        // Aggiungi un gestore per il clic sul pulsante di chiusura del modale
+        $('#chiusura').click(function() {
+            $('#exampleModal').modal('hide'); // Chiudi il modale
+        });
+    });
+</script>
 </body>
 
 </html>
-
-

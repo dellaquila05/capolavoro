@@ -93,7 +93,7 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
         require_once("../connessione.php");
         $sql_select = "SELECT dettaglio , nome
                     FROM evento 
-                    WHERE id = 1";
+                    WHERE id = $id";
         $result = $connessione->query($sql_select);
         if (mysqli_num_rows($result)) {
             while ($row = $result->fetch_assoc()) {
