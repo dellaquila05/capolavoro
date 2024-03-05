@@ -90,7 +90,7 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $randomNumber = 1;
-        require_once("../home/connessione.php");
+        require_once("../connessione.php");
         $sql_select = "SELECT dettaglio , nome
                     FROM evento 
                     WHERE id = $id";
