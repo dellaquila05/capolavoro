@@ -1,8 +1,9 @@
 ALL - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione, alla login e tutto il resto.
-ALL - inserire i check nel db (valenti)
 ALL - spostare connessione.php fuori da /home
+ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordine ha per forza un utente un utente non ha per forza un ordine)
+ALL - Aggiungere utile sul modello er
 DIEGO - gestione modale del fornitore 
+DIEGO - gestione eventi
 momo - migliorare grafica home.html e finire servizi.php
-momo - unire home html e home php, altrimenti aggiungere il reindirizzamento a login.php in caso sessione non settata in home.html (controllare anche le altre pagine, copiando la url e incollandola nel browser)
-FATTO - on delete del magazzino = set null  (valenti)
-FATTO - Aggiungere quantità a tabella ordine (valenti) [aggiunto quantità alla tabella richiede, da discutere con la prof]
+momo - inserire i check nel db (valenti)
+felix - gestione colore celle nel modale ordini
