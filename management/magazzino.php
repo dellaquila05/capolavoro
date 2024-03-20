@@ -38,9 +38,15 @@ session_start();
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    Numero settimana:
-                    <div id="nsett">
-                    </div>
+                <p id="settimana">
+                Numero settimana: 
+            <?php echo $_SESSION["n_settimana"]; ?>
+    </p>
+            <p id="utile">
+                Utile: 
+            <?php echo $_SESSION["utile"]; ?>
+            €
+    </p>
                 </span>
             </div>
         </div>

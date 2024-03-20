@@ -45,14 +45,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 $somma = 0;
                                 $dimensione = 0;
                                 $result4 = $connessione->query($sql_select4);
-
                                 $sql_select6 = "SELECT m.dimensione
                                                     FROM magazzino m 
                                                     JOIN utente u ON u.idMagazzino = m.id
                                                     WHERE u.id = $idUtente
                                                    ";
+                                $sql_select7 = "SELECT n_settimana,utile
+                                                   FROM utente 
+                                                   WHERE id = $idUtente
+                                                  ";
                                 $result6 = $connessione->query($sql_select6);
-
+                                $result7 = $connessione->query($sql_select7);
                                 if (mysqli_num_rows($result4)) {
                                     while ($row = $result4->fetch_assoc()) {
                                         $somma += $row['quantitàPr'];
@@ -64,6 +67,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                         $dimensione = $row['dimensione'];
                                     }
                                     $_SESSION['dimensioneMaga'] = $dimensione;
+                                    
+                                }
+                                if (mysqli_num_rows($result7)) {
+                                    while ($row = $result7->fetch_assoc()) {
+                                        $nSettimana = $row['n_settimana'];
+                                        $utile = $row['utile'];
+
+                                    }
+                                    $_SESSION['n_settimana'] = $nSettimana;
+                                    $_SESSION['utile'] = $utile;
+
                                 }
                             } else {
                                 throw new Exception("Password non corretta", 2);

@@ -21,7 +21,7 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./home.html">HomeTech</a>
+        <a class="navbar-brand" href="../home/private/home.php">HomeTech</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -52,8 +52,15 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                     </div>
                 </div>
             </div>
-            <div id="settimana">N settimana</div>
-            <div id="capitale">2000$</div>
+            <p id="settimana">
+                Numero settimana: 
+            <?php echo $_SESSION["n_settimana"]; ?>
+    </p>
+            <p id="utile">
+                Utile: 
+            <?php echo $_SESSION["utile"]; ?>
+            €
+    </p>
         </div>
     </nav>
     <div class="">

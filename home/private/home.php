@@ -60,8 +60,15 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                     </div>
                 </div>
             </div>
-            <div id="settimana">N settimana</div>
-            <div id="capitale">2000$</div>
+            <p id="settimana">
+                Numero settimana:
+                <?php echo $_SESSION["n_settimana"]; ?>
+            </p>
+            <p id="utile">
+                Utile:
+                <?php echo $_SESSION["utile"]; ?>
+                €
+            </p>
         </div>
     </nav>
     <br><br><br>
@@ -88,15 +95,114 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $randomNumber = 1;
+        $randomNumber = 0;
+        $nome_evento = "";
+        $dettaglio = "";
+        $idUtente = $_SESSION['idUtente'];
+        $idMagazzino = $_SESSION['idMagazzino'];
         require_once("../connessione.php");
-        $sql_select = "SELECT dettaglio , nome
-                    FROM evento 
-                    WHERE id = $id";
+        $sql_select = "SELECT dettaglio , nome , id , stato
+                    FROM evento ";
         $result = $connessione->query($sql_select);
         if (mysqli_num_rows($result)) {
             while ($row = $result->fetch_assoc()) {
-               
+                if ($row['id'] == 1 && $_SESSION['n_settimana'] % 52 == 0) {
+                    $randomNumber = 1;
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $update1 = "UPDATE utente SET utile = utile * 0.6  WHERE id = $idUtente";
+                    $result1 = $connessione->query($update1);
+                }else if ($row['id'] == 2  &&  $_SESSION['utile']<0) {
+                    $randomNumber = 1;
+                    if($_SESSION['n_settimana'] % 4 == 0){
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $id=$row['id'];
+                    $update1 = "UPDATE costoFisso SET prezzo = 450 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                    $update2 = "UPDATE costoFisso SET prezzo = 50 WHERE nome = 'Gas' AND idUtente = $idUtente";
+                    $update4 = "UPDATE costoFisso SET prezzo = 1700 WHERE nome = 'Affitto' AND idUtente = $idUtente";                                          
+                    $update3 = "UPDATE evento SET stato = 0 WHERE  stato = 1";
+                    $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
+                    $update6 = "UPDATE utente SET n_settimana = 1 , utile = 2000 WHERE  id = $idUtente";
+                    $update7 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Allarme' AND idUtente = $idUtente";
+                    $update8 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Telecamere' AND idUtente = $idUtente";
+                    $update9 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Guardia' AND idUtente = $idUtente"; 
+                    $result1 = $connessione->query($update1);
+                    $result2 = $connessione->query($update2);
+                    $result3 = $connessione->query($update3);
+                    $result4 = $connessione->query($update4);
+                    $result5 = $connessione->query($update5);
+                    $result6 = $connessione->query($update6);
+                    $result7 = $connessione->query($update7);
+                    $result8 = $connessione->query($update8);
+                    $result9 = $connessione->query($update9);
+                    }else {
+                     $dettaglio ="Gentile Utente,
+
+                     Ci rivolgiamo a lei per comunicarle che attualmente il suo saldo contabile risulta essere in negativo, il che potrebbe mettere a rischio la solidità finanziaria della sua attività.
+                     
+                     Per garantire il benessere finanziario della sua azienda e prevenire qualsiasi difficoltà aggiuntiva, le consigliamo di valutare attentamente le strategie finanziarie disponibili per migliorare la sua situazione.
+                     Cordiali saluti.";
+                    }
+                } else if ($row['id'] == 3 ) {
+                    $randomNumber = 1;
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $id=$row['id'];
+                    $update1 = "UPDATE utente SET utile = utile * 0.2  WHERE id = $idUtente";
+                    $result1 = $connessione->query($update1);
+                }else if ($row['id'] == 4 ) { //metodo furto
+                   /* $randomNumber = 1;
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $id=$row['id'];
+                    */
+                }else if ($row['id'] == 5 && $_SESSION['n_settimana'] == 15 && $row['stato'] == 0) {
+                    $randomNumber = 1;
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $id=$row['id'];
+                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Gas' AND idUtente = $idUtente";                    
+                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
+                    $result1 = $connessione->query($update1);
+                    $result2 = $connessione->query($update2);
+                    $result3 = $connessione->query($update3);
+                } else if ($row['id'] == 6 && $_SESSION['n_settimana'] == 35 && $row['stato'] == 0) {
+                    $randomNumber = 1;
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $id=$row['id'];
+                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Gas' AND idUtente = $idUtente";                    
+                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
+                    $result1 = $connessione->query($update1);
+                    $result2 = $connessione->query($update2);
+                    $result3 = $connessione->query($update3);
+                } else if ($row['id'] == 7 && $_SESSION['n_settimana'] == 58 && $row['stato'] == 0) {
+                    $randomNumber = 1;
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $id=$row['id'];
+                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Gas' AND idUtente = $idUtente";                    
+                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
+                    $result1 = $connessione->query($update1);
+                    $result2 = $connessione->query($update2);
+                    $result3 = $connessione->query($update3);
+                } else if ($row['id'] == 8 && $_SESSION['n_settimana'] == 88 && $row['stato'] == 0) {
+                    $randomNumber = 1;
+                    $nome_evento = $row['nome'];
+                    $dettaglio =  $row['dettaglio'];
+                    $id=$row['id'];
+                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 3 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 2.5 WHERE nome = 'Gas' AND idUtente = $idUtente";
+                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
+                    $result1 = $connessione->query($update1);
+                    $result2 = $connessione->query($update2);
+                    $result3 = $connessione->query($update3);
+
+                }
             }
             $result->free(); // Liberare la memoria associata al risultato
         } else {
@@ -121,10 +227,10 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Modal Title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1"> <?php echo $nome_evento; ?></h5>
                 </div>
                 <div class="modal-body">
-                    <?php $testo;
+                    <?php echo $dettaglio;
                     ?> </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
