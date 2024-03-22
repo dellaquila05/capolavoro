@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once("../connessione.php");
+
 if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     header("location: ../public/login.php");
 }
@@ -96,112 +98,148 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $randomNumber = 0;
-        $nome_evento = "";
-        $dettaglio = "";
+        $nome_evento = [];
+        $dettaglio = [];
         $idUtente = $_SESSION['idUtente'];
         $idMagazzino = $_SESSION['idMagazzino'];
-        require_once("../connessione.php");
+        $id = [];
+        if ($_SESSION['n_settimana'] == 1) {
+            $id[] = 1;
+        }
+        if (/*$_SESSION['utile'] < 0) {
+            $id[] = 2;
+        }
+        if (/*gestione rapina*/$idUtente == 100) {
+            $id[] = 3;
+        }
+        if (/*gestione furto*/$idUtente == 100) {
+            $id[] = 4;
+        }
+        if ($_SESSION['n_settimana'] == 15) {
+            $id[] = 5;
+        }
+        if ($_SESSION['n_settimana'] == 35) {
+            $id[] = 6;
+        }
+        if ($_SESSION['n_settimana'] == 58) {
+            $id[] = 7;
+        }
+        if ($_SESSION['n_settimana'] == 88) {
+            $id[] = 8;
+        }
+        $stringa = "WHERE ";
+        for ($i = 0; $i < count($id); $i++) {
+            $stringa = $stringa . "id = " . $id[$i] . " OR ";
+        }
+        $pos = strripos($stringa, 'OR');
+        if ($pos !== false) {
+            $stringa = substr_replace($stringa, '', $pos, strlen('OR'));
+        }
         $sql_select = "SELECT dettaglio , nome , id , stato
-                    FROM evento ";
+                    FROM evento " . $stringa;
         $result = $connessione->query($sql_select);
         if (mysqli_num_rows($result)) {
             while ($row = $result->fetch_assoc()) {
-                if ($row['id'] == 1 && $_SESSION['n_settimana'] % 52 == 0) {
+                if ($row['id'] == 1) {
                     $randomNumber = 1;
-                    $nome_evento = $row['nome'];
-                    $dettaglio =  $row['dettaglio'];
+                    $nome_evento[] = $row['nome'];
+                    $dettaglio[] =  $row['dettaglio'];
                     $update1 = "UPDATE utente SET utile = utile * 0.6  WHERE id = $idUtente";
                     $result1 = $connessione->query($update1);
-                }else if ($row['id'] == 2  &&  $_SESSION['utile']<0) {
+                    
+                }
+                if ($row['id'] == 2) {
                     $randomNumber = 1;
-                    if($_SESSION['n_settimana'] % 4 == 0){
-                    $nome_evento = $row['nome'];
-                    $dettaglio =  $row['dettaglio'];
-                    $id=$row['id'];
-                    $update1 = "UPDATE costoFisso SET prezzo = 450 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                    $update2 = "UPDATE costoFisso SET prezzo = 50 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                    $update4 = "UPDATE costoFisso SET prezzo = 1700 WHERE nome = 'Affitto' AND idUtente = $idUtente";                                          
-                    $update3 = "UPDATE evento SET stato = 0 WHERE  stato = 1";
-                    $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
-                    $update6 = "UPDATE utente SET n_settimana = 1 , utile = 2000 WHERE  id = $idUtente";
-                    $update7 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Allarme' AND idUtente = $idUtente";
-                    $update8 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Telecamere' AND idUtente = $idUtente";
-                    $update9 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Guardia' AND idUtente = $idUtente"; 
-                    $result1 = $connessione->query($update1);
-                    $result2 = $connessione->query($update2);
-                    $result3 = $connessione->query($update3);
-                    $result4 = $connessione->query($update4);
-                    $result5 = $connessione->query($update5);
-                    $result6 = $connessione->query($update6);
-                    $result7 = $connessione->query($update7);
-                    $result8 = $connessione->query($update8);
-                    $result9 = $connessione->query($update9);
-                    }else {
-                     $dettaglio ="Gentile Utente,
-
-                     Ci rivolgiamo a lei per comunicarle che attualmente il suo saldo contabile risulta essere in negativo, il che potrebbe mettere a rischio la solidità finanziaria della sua attività.
-                     
+                    $nome_evento[] = $row['nome'];
+                    if ($_SESSION['n_settimana'] % 4 == 0) {
+                        $dettaglio[] =  $row['dettaglio'];
+                        $id = $row['id'];
+                        $update1 = "UPDATE costoFisso SET prezzo = 450 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                        $update2 = "UPDATE costoFisso SET prezzo = 50 WHERE nome = 'Gas' AND idUtente = $idUtente";
+                        $update4 = "UPDATE costoFisso SET prezzo = 1700 WHERE nome = 'Affitto' AND idUtente = $idUtente";
+                        $update3 = "UPDATE evento SET stato = 0 WHERE  stato = 1";
+                        $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
+                        $update6 = "UPDATE utente SET n_settimana = 1 , utile = 2000 WHERE  id = $idUtente";
+                        $update7 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Allarme' AND idUtente = $idUtente";
+                        $update8 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Telecamere' AND idUtente = $idUtente";
+                        $update9 = "UPDATE costoFisso SET prezzo = 0 WHERE nome = 'Guardia' AND idUtente = $idUtente";
+                        $result1 = $connessione->query($update1);
+                        $result2 = $connessione->query($update2);
+                        $result3 = $connessione->query($update3);
+                        $result4 = $connessione->query($update4);
+                        $result5 = $connessione->query($update5);
+                        $result6 = $connessione->query($update6);
+                        $result7 = $connessione->query($update7);
+                        $result8 = $connessione->query($update8);
+                        $result9 = $connessione->query($update9);
+                    } else {
+                        $dettaglio[] = "Gentile Utente,Ci rivolgiamo a lei per comunicarle che attualmente il suo saldo contabile risulta essere in negativo, il che potrebbe mettere a rischio la solidità finanziaria della sua attività.
                      Per garantire il benessere finanziario della sua azienda e prevenire qualsiasi difficoltà aggiuntiva, le consigliamo di valutare attentamente le strategie finanziarie disponibili per migliorare la sua situazione.
                      Cordiali saluti.";
                     }
-                } else if ($row['id'] == 3 ) {
+                }
+                if ($row['id'] == 3) {
                     $randomNumber = 1;
-                    $nome_evento = $row['nome'];
-                    $dettaglio =  $row['dettaglio'];
-                    $id=$row['id'];
+                    $nome_evento[] = $row['nome'];
+                    $dettaglio[] =  $row['dettaglio'];
+                    $id = $row['id'];
                     $update1 = "UPDATE utente SET utile = utile * 0.2  WHERE id = $idUtente";
                     $result1 = $connessione->query($update1);
-                }else if ($row['id'] == 4 ) { //metodo furto
-                   /* $randomNumber = 1;
+                }
+                if ($row['id'] == 4) { //metodo furto
+                    /* $randomNumber = 1;
                     $nome_evento = $row['nome'];
                     $dettaglio =  $row['dettaglio'];
                     $id=$row['id'];
                     */
-                }else if ($row['id'] == 5 && $_SESSION['n_settimana'] == 15 && $row['stato'] == 0) {
+                }
+                if ($row['id'] == 5  && $row['stato'] == 0) {
                     $randomNumber = 1;
-                    $nome_evento = $row['nome'];
-                    $dettaglio =  $row['dettaglio'];
-                    $id=$row['id'];
+                    $nome_evento[] = $row['nome'];
+                    $dettaglio[] =  $row['dettaglio'];
+                    $id = $row['id'];
                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Gas' AND idUtente = $idUtente";                    
+                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Gas' AND idUtente = $idUtente";
                     $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
                     $result1 = $connessione->query($update1);
                     $result2 = $connessione->query($update2);
                     $result3 = $connessione->query($update3);
-                } else if ($row['id'] == 6 && $_SESSION['n_settimana'] == 35 && $row['stato'] == 0) {
+                }
+                if ($row['id'] == 6 &&  $row['stato'] == 0) {
                     $randomNumber = 1;
-                    $nome_evento = $row['nome'];
-                    $dettaglio =  $row['dettaglio'];
-                    $id=$row['id'];
+                    $nome_evento[] = $row['nome'];
+                    $dettaglio[] =  $row['dettaglio'];
+                    $id = $row['id'];
                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Gas' AND idUtente = $idUtente";                    
+                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Gas' AND idUtente = $idUtente";
                     $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
                     $result1 = $connessione->query($update1);
                     $result2 = $connessione->query($update2);
                     $result3 = $connessione->query($update3);
-                } else if ($row['id'] == 7 && $_SESSION['n_settimana'] == 58 && $row['stato'] == 0) {
+                }
+                if ($row['id'] == 7 &&  $row['stato'] == 0) {
                     $randomNumber = 1;
                     $nome_evento = $row['nome'];
-                    $dettaglio =  $row['dettaglio'];
-                    $id=$row['id'];
+                    //  $dettaglio =  $row['dettaglio'];
+                    $id = $row['id'];
                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Gas' AND idUtente = $idUtente";                    
+                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Gas' AND idUtente = $idUtente";
                     $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
                     $result1 = $connessione->query($update1);
                     $result2 = $connessione->query($update2);
                     $result3 = $connessione->query($update3);
-                } else if ($row['id'] == 8 && $_SESSION['n_settimana'] == 88 && $row['stato'] == 0) {
+                }
+                if ($row['id'] == 8 && $row['stato'] == 0) {
                     $randomNumber = 1;
                     $nome_evento = $row['nome'];
-                    $dettaglio =  $row['dettaglio'];
-                    $id=$row['id'];
+                    $dettaglio[] =  $row['dettaglio'];
+                    $id = $row['id'];
                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 3 WHERE nome = 'Luce' AND idUtente = $idUtente";
                     $update2 = "UPDATE costoFisso SET prezzo = prezzo * 2.5 WHERE nome = 'Gas' AND idUtente = $idUtente";
                     $update3 = "UPDATE evento SET stato = 1 WHERE id = $id AND stato = 0";
                     $result1 = $connessione->query($update1);
                     $result2 = $connessione->query($update2);
                     $result3 = $connessione->query($update3);
-
                 }
             }
             $result->free(); // Liberare la memoria associata al risultato
@@ -222,25 +260,73 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1"> <?php echo $nome_evento; ?></h5>
-                </div>
-                <div class="modal-body">
-                    <?php echo $dettaglio;
-                    ?> </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<?php $currentIdx = 0; ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentIdx = <?php echo $currentIdx; ?>;
+        let nome_evento = <?php echo json_encode($nome_evento); ?>;
+        let dettaglio = <?php echo json_encode($dettaglio); ?>;
+        let arrayLength = nome_evento.length;
+        let modal = document.getElementById('exampleModal1');
+        let modalTitle = modal.querySelector('.modal-title');
+        let modalBody = modal.querySelector('.modal-body');
+        let previousPageBtn = document.getElementById('previousPageBtn');
+        let nextPageBtn = document.getElementById('nextPageBtn');
+
+        modal.addEventListener('show.bs.modal', function (event) {
+            updateModalContent(currentIdx);
+        });
+
+        nextPageBtn.addEventListener('click', function() {
+            currentIdx = (currentIdx + 1) % arrayLength;
+            updateModalContent(currentIdx);
+        });
+
+        previousPageBtn.addEventListener('click', function() {
+            currentIdx = (currentIdx - 1 + arrayLength) % arrayLength;
+            updateModalContent(currentIdx);
+        });
+
+        function updateModalContent(idx) {
+            modalTitle.textContent = nome_evento[idx];
+            modalBody.textContent = dettaglio[idx];
+            if (idx === 0) {
+                previousPageBtn.style.display = 'none';
+            } else {
+                previousPageBtn.style.display = 'block';
+            }
+            if (idx === arrayLength - 1) {
+                nextPageBtn.style.display = 'none';
+            } else {
+                nextPageBtn.style.display = 'block';
+            }
+        }
+    });
+</script>
+
+<!-- Modale -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="previousPageBtn">Previous Page</button>
+                <button type="button" class="btn btn-primary" id="nextPageBtn">Next Page</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
+
+
+
 
     <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>

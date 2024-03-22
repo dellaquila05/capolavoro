@@ -3,10 +3,9 @@ ALL - spostare connessione.php fuori da /home
 ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordine ha per forza un utente un utente non ha per forza un ordine)
 ALL - Aggiungere utile sul modello er
 DIEGO - gestione modale del fornitore 
-DIEGO - correzione asssegnamento id per la generazione degli eventi 
+DIEGO - dove ci sono update aggiornare il valore di tutte le robe salvate in sessione
 DIEGO - creazione metodo per furto in magazzino in home.php
 DIEGO - creazione metodo per reare la casualità del furto e rapina
-momo - migliorare grafica home.html e finire servizi.php
 ALL - creare resoconto 
 ALL - creare finanze
 felix - gestione colore celle nel modale ordini
@@ -15,4 +14,6 @@ felix- aggiunta creazione metodo insert in costo fisso di telecamre allarme e bo
 momo - rendere la navbar uguale per tutte le page
 momo - ridimensionare le immagini
 momo - quando fai servizi fai update a tab costo fisso aggiungendo i prezzi
+momo - migliorare grafica home.html e finire servizi.php
+
 
