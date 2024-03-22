@@ -6,12 +6,12 @@ DIEGO - gestione modale del fornitore
 DIEGO - correzione asssegnamento id per la generazione degli eventi 
 DIEGO - creazione metodo per furto in magazzino in home.php
 DIEGO - creazione metodo per reare la casualità del furto e rapina
-momo - migliorare grafica home.html e finire servizi.php
 ALL - creare resoconto 
 ALL - creare finanze
 felix - gestione colore celle nel modale ordini
 felix - gestione check di disponibilità ordini
 felix- aggiunta creazione metodo insert in costo fisso di telecamre allarme e bodyguard(guarda db)
+momo - migliorare grafica home.html e finire servizi.php
 momo - rendere la navbar uguale per tutte le page
 momo - ridimensionare le immagini
 momo - quando fai servizi fai update a tab costo fisso aggiungendo i prezzi
