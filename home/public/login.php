@@ -66,8 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     while ($row = $result6->fetch_assoc()) {
                                         $dimensione = $row['dimensione'];
                                     }
-                                    $_SESSION['dimensioneMaga'] = $dimensione;
-                                    
+                                    $_SESSION['dimensioneMaga'] = $dimensione;  
                                 }
                                 if (mysqli_num_rows($result7)) {
                                     while ($row = $result7->fetch_assoc()) {

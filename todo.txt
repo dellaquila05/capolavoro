@@ -3,9 +3,7 @@ ALL - spostare connessione.php fuori da /home
 ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordine ha per forza un utente un utente non ha per forza un ordine)
 ALL - Aggiungere utile sul modello er
 DIEGO - gestione modale del fornitore 
-DIEGO - dove ci sono update aggiornare il valore di tutte le robe salvate in sessione
-DIEGO - creazione metodo per furto in magazzino in home.php
-DIEGO - creazione metodo per reare la casualità del furto e rapina
+DIEGO - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
 ALL - creare resoconto 
 ALL - creare finanze
 felix - gestione colore celle nel modale ordini
