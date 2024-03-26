@@ -19,16 +19,92 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <title>Home</title>
     <style>
+        /* Stile generale della pagina */
+        html, body {
+            height: 100%; /* Imposta altezza al 100% della finestra del browser */
+        }
+
+        body {
+            background-color: #f8f9fa; /* Colore di sfondo */
+            font-family: Arial, sans-serif; /* Tipo di carattere */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%; /* Estendi la larghezza su tutto lo schermo */
+            background-color: #343a40; /* Colore di sfondo */
+        }
+
+        /* Contenitore principale */
+        .container {
+            width: 100%;
+            min-height: calc(100vh - 56px); /* Altezza massima meno l'altezza della navbar */
+            padding: 20px;
+            background-color: #fff; /* Colore di sfondo del contenitore */
+            border-radius: 10px; /* Bordi arrotondati */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombra */
+        }
+
+        /* Tabella */
+        table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+        }
+
         table img {
-            width: 40%;
-            /* Imposta la larghezza al 100% della larghezza del contenitore */
+            display: block;
+            margin: 0 auto;
+            width: 100px;
             height: auto;
-            /* Imposta l'altezza automaticamente per mantenere l'aspetto originale */
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 20px; /* Spazio interno alle celle */
+        }
+
+        /* Nome dell'immagine */
+        .nome-immagine {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #555; /* Colore del testo */
+        }
+
+        /* Bottone "Avanti" */
+        .btn-avanti {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff; /* Colore di sfondo */
+            color: #fff; /* Colore del testo */
+            border: none;
+            padding: 10px 20px; /* Spazio interno */
+            border-radius: 5px; /* Bordi arrotondati */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Transizione al passaggio del mouse */
+        }
+
+        .btn-avanti:hover {
+            background-color: #0056b3; /* Cambia colore al passaggio del mouse */
+        }
+
+        /* Modale */
+        .modal-content {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
 <body>
+<div class="container">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="./home.html">HomeTech</a>
@@ -91,8 +167,17 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
         </table>
         <br><br>
 
+        <div class="container1">
+    <div class="row justify-content-end">
+        <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <div class="col-2 text-end"> <!-- Utilizzo la classe 'text-end' per allineare il contenuto a destra -->
+                <button type="submit" class="btn btn-primary" name="submit">Avanti</button>
+            </div>
+        </form>
     </div>
-    </div>
+</div>
+
+
     <?php
     $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
 
@@ -354,16 +439,8 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
             $showModal = true;
         }
     }
-
-    ?> <div class="container">
-        <div class="row justify-content-end">
-            <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <div class="col-2">
-                    <button type="submit" class="btn btn-primary" name="submit">Avanti</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    ?> 
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <?php $currentIdx = 0; ?>
@@ -452,6 +529,9 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
             }
         });
     </script>
+
+    </div>
+    
 </body>
 
 </html>
