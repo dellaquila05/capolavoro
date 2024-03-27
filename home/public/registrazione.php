@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                     $_SESSION['loggato'] = true; //registrazione effettuata con successo
                                                     $_SESSION['idUtente'] = $idUtente;
                                                     $_SESSION['idMagazzino'] = $idMagazzino;
-                                                    $result4 = $connessione->query($sql_select4);
+                                                    $result4 = $connessione->query($sql_select4);  //Undefined variable $sql_select4
                                                     $sql_select5 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
                                                     $sql_select6 = "SELECT m.dimensione
                                                     FROM magazzino m 
@@ -190,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 }
                                 ?>
                             </strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="sumbit" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             <!-- bottone per chiudere l'alert -->
                         </div>
                     </div>
