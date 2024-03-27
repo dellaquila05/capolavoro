@@ -16,7 +16,7 @@ session_start();
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="../home/private/home.html">HomeTech</a>
+        <a class="navbar-brand" href="../home/private/home.php">HomeTech</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,9 +38,15 @@ session_start();
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    Numero settimana:
-                    <div id="nsett">
-                    </div>
+                <p id="settimana">
+                Numero settimana: 
+            <?php echo $_SESSION["n_settimana"]; ?>
+    </p>
+            <p id="utile">
+                Utile: 
+            <?php echo $_SESSION["utile"]; ?>
+            €
+    </p>
                 </span>
             </div>
         </div>
