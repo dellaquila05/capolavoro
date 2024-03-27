@@ -4,6 +4,7 @@ ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordi
 ALL - Aggiungere utile sul modello er
 DIEGO - gestione modale del fornitore 
 DIEGO - gestione eventi
+DIEGO - quando elimino un utente non si elimina il suo magazzino 
 momo - migliorare grafica home.html e finire servizi.php
 momo - inserire i check nel db (valenti)
 felix - gestione colore celle nel modale ordini
