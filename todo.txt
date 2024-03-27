@@ -6,7 +6,6 @@ DIEGO - gestione modale del fornitore
 DIEGO - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
 ALL - creare resoconto 
 ALL - creare finanze
-felix - gestione colore celle nel modale ordini
 felix - gestione check di disponibilità ordini
 momo - migliorare grafica home.html e finire servizi.php
 momo - rendere la navbar uguale per tutte le page
