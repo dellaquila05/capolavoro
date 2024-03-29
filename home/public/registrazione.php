@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         if (mysqli_num_rows($result)) { //se non ci sono errori
                             $idMagazzino = $result->fetch_array()['id'];
                             //creo il nuovo utente
-                            $sql3 = "INSERT INTO utente(username,password,n_settimana,idMagazzino,utile)VALUES('$nome','$hashed_password', 1 ,' $idMagazzino ', 2000)";
+                            $sql3 = "INSERT INTO utente(username, password, n_settimana, idMagazzino, utile) VALUES ('$nome','$hashed_password','1','$idMagazzino','2000')";
                             if ($connessione->query($sql3)) { //se non ci sono errori
                                 //recupero l'id dell'utente appena creato
                                 $sql4 = "SELECT id FROM utente ORDER BY id DESC LIMIT 1";
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 if (mysqli_num_rows($result)) { //se non ci sono errori
                                     $idUtente = $result->fetch_array()['id'];
                                     //creo i costi fissi che dovrà pagare l'utente appena creato 
-                                    $sql5 = "INSERT INTO costoFisso(nome,prezzo,idUtente)VALUES('Gas', 50, '$idUtente'),('Luce', 450, '$idUtente'),('Affitto', 1700, '$idUtente');";
+                                    $sql5 = "INSERT INTO costoFisso(nome,prezzo,idUtente)VALUES('Gas', 50, '$idUtente'),('Luce', 450, '$idUtente'),('Affitto', 1700, '$idUtente'),('Telecamere', 0, '$idUtente'),('Allarme', 0, '$idUtente'),('Guardie', 0, '$idUtente');";
                                     if ($connessione->query($sql5)) { //se non ci sono errori
                                         //recupero gli id di ogni prodotto del gioco 
                                         $sql6 = "SELECT id FROM prodotto ORDER BY id";
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                     $_SESSION['idMagazzino'] = $idMagazzino;
                                                     $_SESSION['n_settimana'] = 1;
                                                     $_SESSION['utile'] = 2000;
-                                                    $result4 = $connessione->query($sql_select4);
+                                                    $somma = 0;
                                                     $sql_select5 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
                                                     $sql_select6 = "SELECT m.dimensione
                                                     FROM magazzino m 
@@ -80,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                         }
                                                         $_SESSION['prodottiMaga'] = $somma;
                                                     }
+                                                    $result6 = $connessione->query($sql_select6);
                                                     if (mysqli_num_rows($result6)) {
                                                         while ($row = $result6->fetch_assoc()) {
                                                             $dimensione = $row['dimensione'];
@@ -192,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 }
                                 ?>
                             </strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="sumbit" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             <!-- bottone per chiudere l'alert -->
                         </div>
                     </div>
