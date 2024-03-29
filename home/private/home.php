@@ -29,6 +29,9 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
             font-family: Arial, sans-serif; /* Tipo di carattere */
             margin: 0;
             padding: 0;
+            
+    overflow: hidden;
+
         }
 
         /* Navbar */
@@ -107,7 +110,7 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
 <div class="container">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./home.html">HomeTech</a>
+            <a class="navbar-brand">HomeTech</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

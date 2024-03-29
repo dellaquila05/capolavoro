@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <button type="submit" name="submitTelecamera" class="btn btn-primary">Aggiungi</button>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <button type="submit" name="submitMagazzino" class="btn btn-primary">Aggiungi</button>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <button type="submit" name="submitAllarme" class="btn btn-primary">Aggiungi</button>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <button type="submit" name="submitGuardia" class="btn btn-primary">Aggiungi</button>
                                     </div>
                                 </div>
                             </div>
