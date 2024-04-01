@@ -20,17 +20,17 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     <title>Home</title>
     <style>
         /* Stile generale della pagina */
-        html, body {
+        html {
             height: 100%; /* Imposta altezza al 100% della finestra del browser */
         }
 
         body {
+            height: 100%;
             background-color: #f8f9fa; /* Colore di sfondo */
             font-family: Arial, sans-serif; /* Tipo di carattere */
             margin: 0;
             padding: 0;
-            
-    overflow: hidden;
+            overflow: hidden;
 
         }
 
