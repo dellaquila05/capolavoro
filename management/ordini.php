@@ -21,7 +21,7 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-        <a class="navbar-brand" href="../home/private/home.php">HomeTech</a>
+            <a class="navbar-brand" href="../home/private/home.php">HomeTech</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -53,14 +53,14 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                 </div>
             </div>
             <p id="settimana">
-                Numero settimana: 
-            <?php echo $_SESSION["n_settimana"]; ?>
-    </p>
+                Numero settimana:
+                <?php echo $_SESSION["n_settimana"]; ?>
+            </p>
             <p id="utile">
-                Utile: 
-            <?php echo $_SESSION["utile"]; ?>
-            €
-    </p>
+                Utile:
+                <?php echo $_SESSION["utile"]; ?>
+                €
+            </p>
         </div>
     </nav>
     <div class="">
@@ -87,10 +87,12 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                         <th></th>
                     </tr>
                     <?php
+                    $arrayOrdini = [];
                     $contatore = 0;
                     while ($row = $result->fetch_assoc()) {
                         $contatore++;
                         $idOrdine = $row['id'];
+                        array_push($arrayOrdini, $idOrdine);
                         $somma_quantita = $row['somma_quantità'];
                         $totale_costo = $row['totale_costo'];
                         echo "<tr>";
@@ -98,13 +100,13 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                         echo "<td>$somma_quantita</td>";
                         echo "<td>$totale_costo €</td>";
                         //Button trigger modal
-                        echo "<td><button type='button' class='btn btn-primary rounded-pill p-1 m-1' data-bs-toggle='modal' data-bs-target='#modal$idOrdine'>Visualizza</button></td>";
+                        echo "<td><button type='button' class='btn btn-primary rounded-pill p-1 m-1' data-bs-toggle='modal' data-bs-target='#modal$contatore'>Visualizza</button></td>";
                         echo "</tr>";
                     }
                     ?>
                 </table>
                 <?php
-                for ($i = 0; $i <= $contatore; $i++) {
+                for ($i = 1; $i <= $contatore; $i++) {
                 ?>
                     <!-- Modal -->
                     <div class="modal fade" id="modal<?php echo $i ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -131,15 +133,18 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                                         </thead>
                                         <tbody>
                                             <?php
+                                            $idCorrente = $arrayOrdini[$i - 1];
                                             $sqlJoin2 = "SELECT richiede.quantitàPr AS quantità,
                                             prodotto.id AS id_prodotto,
                                             prodotto.costoVendita AS prezzo,
                                             prodotto.nome AS nome
                                             FROM richiede
                                             JOIN prodotto ON richiede.idProdotto = prodotto.id
-                                            WHERE richiede.idOrdine = $i";
+                                            WHERE richiede.idOrdine = $idCorrente";
                                             $result = $connessione->query($sqlJoin2);
                                             if (mysqli_num_rows($result)) {
+                                                $idMagazzino = $_SESSION['idMagazzino'];
+                                                $interruttore = true;
                                                 while ($row = $result->fetch_assoc()) {
                                                     $idProdotto = $row['id_prodotto'];
                                                     $nome = $row['nome'];
@@ -147,7 +152,17 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                                                     $quantita = $row['quantità'];
                                                     echo "<tr>";
                                                     echo "<td>$idProdotto</td>";
-                                                    echo "<td class='table-success'>$nome</td>";
+                                                    $sql_select = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino AND idProdotto = $idProdotto";
+                                                    $result2 = $connessione->query($sql_select);
+                                                    if (mysqli_num_rows($result2)) {
+                                                        $quantitaMagazzino = $result2->fetch_array()["quantitàPr"];
+                                                        if ($quantita > $quantitaMagazzino) {
+                                                            echo "<td class='table-danger'>$nome</td>";
+                                                            $interruttore = false;
+                                                        } else {
+                                                            echo "<td class='table-success'>$nome</td>";
+                                                        }
+                                                    }
                                                     echo "<td>$quantita</td>";
                                                     echo "<td>$prezzo €</td>";
                                                     echo "</tr>";
@@ -165,12 +180,22 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                                                         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                                             <div class="d-flex justify-content-between">
                                                                 <button type="submit" name="rifiuta" class="btn btn-danger mx-5">Rifiuta</button>
+                                                                <?php
+                                                                if($interruttore){
+                                                                ?>
                                                                 <button type="submit" name="soddisfa" class="btn btn-primary mx-5">Soddisfa</button>
+                                                                <?php
+                                                                } else {
+                                                                    echo "<button type=\"submit\" name=\"soddisfa\" class=\"btn btn-primary mx-5\" disabled>Soddisfa</button>";
+                                                                }
+                                                                ?>
                                                             </div>
                                                         </form>
                                                     </td>
                                                 </tr>
                                             <?php
+                                            } else {
+                                                echo "errore nella join";
                                             }
                                             ?>
                                         </tbody>
@@ -187,7 +212,11 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
                     </div>
         <?php
                 }
+            } else {
+                echo "errore nella join";
             }
+        } else {
+            //sessione non attiva
         }
         ?>
     </div>

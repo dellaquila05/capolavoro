@@ -1,5 +1,5 @@
 body {
-    background-image: url(../img/sfondoLogin.avif);
+    background-image: url("../img/sfondoLogin.avif");
     background-attachment: fixed;
     background-size: cover;
 }

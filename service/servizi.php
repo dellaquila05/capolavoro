@@ -1,3 +1,55 @@
+<?php
+   require_once("../home/connessione.php");
+   session_start();
+
+   if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
+    header("location: /home/public/login.php");
+}
+
+$idUtente = $_SESSION['idUtente'];
+$utile = $_SESSION['utile'];
+
+
+$queryT = " SELECT costoFisso.prezzo as telecamere FROM costoFisso WHERE nome = 'Telecamere' AND idUtente = $idUtente ; ";          
+$resultT = $connessione->query($queryT);
+if($resultT){ 
+    while( $row = $resultT->fetch_assoc()){
+   $costoTelecamere=$row["telecamere"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+$queryG = " SELECT costoFisso.prezzo as guardia FROM costoFisso WHERE nome = 'Guardia' AND idUtente = $idUtente ; ";          
+$resultG = $connessione->query($queryG);
+if($resultG){ 
+    while( $row = $resultG->fetch_assoc()){
+   $costoGuardia=$row["guardia"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+
+$queryA = " SELECT costoFisso.prezzo as allarme FROM costoFisso WHERE nome = 'Allarme' AND idUtente = $idUtente ; ";          
+$resultA = $connessione->query($queryA);
+if($resultA){ 
+    while( $row = $resultA->fetch_assoc()){
+   $costoAllarme=$row["allarme"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+
+$queryM = " SELECT dimensione FROM magazzino WHERE id=$idUtente ; ";          
+$resultM = $connessione->query($queryM);
+if($resultM){ 
+    while( $row = $resultM->fetch_assoc()){
+   $dimensioneMagazzino=$row["dimensione"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,8 +100,9 @@
                     </div>
                 </div>
             </div>
-            <div id="settimana">N settimana</div>
-            <div id="capitale">2000$</div>
+            <div id="settimana"> Numero settimana:
+                <?php echo $_SESSION["n_settimana"]; ?></div>
+            <div id="capitale"><?php echo $_SESSION['utile']; ?>$</div>
         </div>
     </nav>
 
@@ -78,7 +131,10 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <button type="submit" name="submitTelecamera" data-bs-dismiss="modal" class="btn btn-primary">Aggiungi telecamera</button>
+</form>
+
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +156,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                                        <button type="submit" name="submitMagazzino" class="btn btn-primary">Aggiungi</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +181,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                                        <button type="submit" name="submitAllarme" class="btn btn-primary">Aggiungi</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +205,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <button type="button" class="btn btn-primary">Aggiungi</button>
+                                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                                        <button type="submit" name="submitGuardia" class="btn btn-primary">Aggiungi</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -155,6 +217,124 @@
             </tbody>
         </table>
     </div>
+
+
+    <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_SESSION['idUtente']) && isset($_SESSION['utile'])) {
+    
+    if (isset($_POST['submitTelecamera'])) {
+        if($costoTelecamere==0){ 
+            $utile=$utile-300;
+            $_SESSION['utile'] = $utile;
+
+            $query=" UPDATE utente SET utile=$utile WHERE  id = $idUtente ; ";
+            $result = $connessione->query($query);
+            if($result){ 
+                $query1=" UPDATE costoFisso SET prezzo = 20 WHERE nome = 'Telecamere' AND idUtente = $idUtente ; ";
+                $result1 = $connessione->query($query1);
+                if($result1){ 
+              echo "telecamera aggiunta";
+                }else {
+                    echo "Errore: " . $connessione->error;
+                }
+            }else {
+                echo "Errore: " . $connessione->error;
+            }
+
+        }else{
+            echo "telecamera Già presente"; 
+        }
+        }   
+    
+
+     elseif (isset($_POST['submitGuardia'])) {
+
+        if($costoGuardia==0){ 
+                $query1=" UPDATE costoFisso SET prezzo = 1500 WHERE nome = 'Guardia' AND idUtente = $idUtente ; ";
+                $result1 = $connessione->query($query1);
+                if($result1){ 
+              echo "Guardia Assunta";
+                }else {
+                    echo "Errore: " . $connessione->error;
+                }
+        }else{
+            echo "Guardia Già presente"; 
+        }
+
+        
+    }
+
+    elseif (isset($_POST['submitAllarme'])) {
+
+        if($costoAllarme==0){ 
+            $utile=$utile-199;
+            $_SESSION['utile'] = $utile;
+
+            $query=" UPDATE utente SET utile=$utile WHERE  id = $idUtente ; ";
+            $result = $connessione->query($query);
+            if($result){ 
+                $query1=" UPDATE costoFisso SET prezzo = 14.99 WHERE nome = 'Allarme' AND idUtente = $idUtente ; ";
+                $result1 = $connessione->query($query1);
+                if($result1){ 
+              echo "allarme installato";
+                }else {
+                    echo "Errore: " . $connessione->error;
+                }
+            }else {
+                echo "Errore: " . $connessione->error;
+            }
+
+        }else{
+            echo "allarme Già presente"; 
+        }
+        
+    }
+
+    elseif (isset($_POST['submitMagazzino'])) {
+
+        if($dimensioneMagazzino<60){ 
+            $utile=$utile-1000;
+            $_SESSION['utile'] = $utile;
+
+            $query=" UPDATE utente SET utile=$utile WHERE  id = $idUtente ; ";
+            $result = $connessione->query($query);
+            if($result){ 
+                $query1=" UPDATE costoFisso SET prezzo = prezzo+200 WHERE nome = 'Affitto' AND idUtente = $idUtente ; ";
+                $result1 = $connessione->query($query1);
+                if($result1){ 
+                    $query2=" INSERT INTO `costoFisso`(`nome`, `prezzo`, `idUtente`) VALUES ('dipMagazzino',1700,$idUtente) ; ";
+                    $result2 = $connessione->query($query2);
+                    if($result2){ 
+                        $query3=" UPDATE magazzino SET dimensione=dimensione+20 WHERE id= $idUtente ; ";
+                        $result3 = $connessione->query($query3);
+                        if($result3){ 
+                      echo "Magazzino Aumentato";
+                        }else {
+                            echo "Errore: " . $connessione->error;
+                        }
+                    }else {
+                        echo "Errore: " . $connessione->error;
+                    }
+                }else {
+                    echo "Errore: " . $connessione->error;
+                }
+            }else {
+                echo "Errore: " . $connessione->error;
+            }
+
+        }else{
+            echo "limite raggiunto"; 
+        }
+        
+    }
+}else{
+    header("location: /home/public/login.php");
+}
+}
+?>
+
+
 </body>
 </html>
 
