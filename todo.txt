@@ -9,6 +9,9 @@ ALL - creare finanze
 felix - gestione colore celle nel modale ordini
 felix - gestione check di disponibilità ordini
 felix- aggiunta creazione metodo insert in costo fisso di telecamre allarme e bodyguard(guarda db)
+FELIX - check funzionamento registrazione 
+FELIX - immagazzina salva solo prodotto 1 e non tutti e 15 
+FELIX - vari errori in registrazione php quando provo a registrarmi crea l'account lato db ma non vengo reinderizzato alla home 
 momo - migliorare grafica home.html e finire servizi.php
 momo - rendere la navbar uguale per tutte le page
 momo - ridimensionare le immagini

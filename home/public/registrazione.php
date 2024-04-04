@@ -66,7 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                     $_SESSION['idMagazzino'] = $idMagazzino;
                                                     $_SESSION['n_settimana'] = 1;
                                                     $_SESSION['utile'] = 2000;
-                                                    $result4 = $connessione->query($sql_select4);
                                                     $sql_select5 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
                                                     $sql_select6 = "SELECT m.dimensione
                                                     FROM magazzino m 
