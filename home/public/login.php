@@ -2,6 +2,7 @@
 session_start();
 require_once("../connessione.php");
 
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
     <script>

@@ -102,7 +102,7 @@ if($resultM){
             </div>
             <div id="settimana"> Numero settimana:
                 <?php echo $_SESSION["n_settimana"]; ?></div>
-            <div id="utile"><?php echo $_SESSION['utile']; ?>€</div>
+            <div id="utile">Utile: <?php echo $_SESSION['utile']; ?>€</div>
         </div>
     </nav>
 

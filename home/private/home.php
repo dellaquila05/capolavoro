@@ -154,6 +154,7 @@ $Nsettimana= $_SESSION["n_settimana"];
                 <?php echo $_SESSION["utile"]; ?>
                 €
             </p>
+           <a href="/home/public/login.php"><button type="button" class="btn btn-outline-dark" onclick="<?php $_SESSION['loggato'] == false ?>">Log Out</button></a>
         </div>
     </nav>
     <br><br><br>
