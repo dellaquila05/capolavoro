@@ -5,6 +5,10 @@ require_once("../connessione.php");
 if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     header("location: ../public/login.php");
 }
+
+$idUtente = $_SESSION['idUtente'];
+$utile = $_SESSION['utile'];
+$Nsettimana= $_SESSION["n_settimana"];
 ?>
 
 
@@ -183,8 +187,24 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
 
     <?php
     $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
-
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+        
+        $query = "INSERT INTO bilancio( valore, idUtente, Nsettimana) VALUES ($utile,$idUtente,$Nsettimana)";
+        $result = $connessione->query($query);
+        if ($result) { 
+                $query1 = "UPDATE utente SET n_settimana=n_settimana+1 WHERE id=$idUtente";
+                $result1 = $connessione->query($query1);
+                if ($result1) { 
+                    $_SESSION['n_settimana'] = $Nsettimana+1;
+                } else {
+                    echo "Errore: " . $connessione->error;
+                }
+        } else {
+            echo "Errore: " . $connessione->error;
+        }
+
         $randomNumber = 0;
         $nome_evento = [];
         $dettaglio = [];
@@ -440,7 +460,7 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
         if ($randomNumber == 1) {
 
             $showModal = true;
-        }
+        }        
     }
     ?> 
     

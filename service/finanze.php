@@ -62,7 +62,7 @@ $utile = $_SESSION['utile'];
             </div>
             <div id="settimana"> Numero settimana:
                 <?php echo $_SESSION["n_settimana"]; ?></div>
-            <div id="capitale"><?php echo $_SESSION['utile']; ?>$</div>
+            <div id="capitale"><?php echo $_SESSION['utile']; ?>€</div>
         </div>
     </nav>
 
@@ -90,7 +90,7 @@ if ($result) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . $row['nome'] . "</td>";
-        echo "<td>" . $row['prezzo'] . "</td>";
+        echo "<td>" . $row['prezzo'] . "€</td>";
         echo "</tr>";
     }
 
@@ -100,7 +100,7 @@ if ($result) {
         while ($row = $result_totale->fetch_assoc()) {
             echo "<tr>";
             echo "<td><strong>Totale spesa</strong></td>";
-            echo "<td><strong>" . $row['Totale_Spese'] . "</strong></td>";
+            echo "<td><strong><mark>" . $row['Totale_Spese'] . "€</mark></strong></td>";
             echo "</tr>";
         }
     } else {
@@ -117,7 +117,30 @@ if ($result) {
     ?> 
 
 
+<script>
+        // Funzione per aggiornare il contenuto dei paragrafi
+        function aggiornaContenuto() {
+            // Aggiorna il contenuto dei paragrafi recuperando i dati PHP
+            document.getElementById("settimana").innerHTML = "Numero settimana: <?php echo $_SESSION['n_settimana']; ?>";
+            document.getElementById("utile").innerHTML = "Utile: <?php echo $_SESSION['utile']; ?> €";
+        }
 
+        // Esegui la funzione aggiornaContenuto ogni due secondi
+        setInterval(aggiornaContenuto, 2000);
+    </script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let showModal = <?php echo $showModal ? 'true' : 'false'; ?>;
+
+            if (showModal) {
+                $('#exampleModal1').modal('show');
+            }
+        });
+    </script>
 
 </body>
 </html>
