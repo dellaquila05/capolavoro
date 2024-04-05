@@ -88,10 +88,11 @@ session_start();
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <div class="d-flex flex-column justify-content-center align-items-center" id="spazio">
                     Articoli in magazzino: <?php
+                                            $disponibilità = 0;
                                             if (isset($_SESSION['idMagazzino'])) {
-                                                $idMagazzino = $_SESSION['idMagazzino'];
                                                 $somma = $_SESSION['prodottiMaga'];
                                                 $dimensione = $_SESSION['dimensioneMaga'];
+                                                $disponibilità = $dimensione - $somma;
                                                 echo ($somma . "/" . $dimensione);
                                             }
                                             ?>
@@ -122,48 +123,89 @@ session_start();
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php
+                                    <?php
 
-                                $sql_select = "SELECT id,nome, costoAcquisto, costoVendita FROM prodotto ";
-                                $result = $connessione->query($sql_select);
-                                $id = 0;
-                                $array = [];
-                                foreach ($_POST as $input_id => $value) {
-                                    if (strpos($input_id, 'input_') !== false && $value > 0) {
-
-                                        $numero_id = str_replace('input_', '', $input_id);
-                                        $array[] = $numero_id;
-                                    }
-                                }
-                                if (mysqli_num_rows($result) > 0) {
-                                    if (count($array) > 0) {
-                                        echo count($array);
-                                        var_dump($array);
-                                        while ($row = $result->fetch_assoc()) {
-                                            if ($array[$id] == $row['id']) {
-                                                echo "<tr>";
-                                                echo "<td>" . $id . "</td>"; // Codice
-                                                echo "<td>" . $row['nome'] . "</td>"; // Nome prodotto
-                                                echo "<td> " . $array[$id] . " </td>"; // Quantità prodotto
-                                                echo "<td>" . $row['costoAcquisto'] . "</td>"; // Prezzo singolo prodotto
-                                                echo "</tr>";
-                                                $id++;
-                                            }
+                                    $sql_select = "SELECT id,nome, costoAcquisto, costoVendita FROM prodotto ";
+                                    $result = $connessione->query($sql_select);
+                                    $id = 0;
+                                    $quantita_prodotti = [];
+                                    $totale_costo = 0;
+                                    $totale_quantita = 0;
+                                    $totaleCostoProdotto = 0;
+                                    $interruttore = true;
+                                    foreach ($_POST as $input_id => $value) {
+                                        if (strpos($input_id, 'input_') !== false && $value > 0) {
+                                            $numero_id = str_replace('input_', '', $input_id);
+                                            $quantita_prodotti[$numero_id] = $value; // Associare l'ID del prodotto alla sua quantità selezionata
                                         }
-                                    } else {
-                                        echo "<tr>";
-                                        echo "<td> Va selezionato almeno un prodotto </td> </td>";
+                                    }
+                                    if (mysqli_num_rows($result) > 0) {
+                                        if (!empty($quantita_prodotti)) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                if (isset($quantita_prodotti[$row['id']])) {
+                                                    echo "<tr>";
+                                                    echo "<td>" . $row['id'] . "</td>"; // Codice
+                                                    echo "<td>" . $row['nome'] . "</td>"; // Nome prodotto
+                                                    echo "<td>" . $quantita_prodotti[$row['id']] . "</td>"; // Quantità prodotto
+                                                    echo "<td>" . $row['costoAcquisto'] . "€</td>"; // Prezzo singolo prodotto
+                                                    echo "</tr>";
+                                                    $totaleCostoProdotto = $quantita_prodotti[$row['id']] * $row['costoAcquisto'];
+                                                    $totale_costo += $totaleCostoProdotto;
+                                                    $totale_quantita += $quantita_prodotti[$row['id']];
+                                                }
+                                            }
+                                    ?> <tr>
+                                                <?php if ($_SESSION["utile"] < $totale_costo) {
+                                                    echo '<td colspan="3">Totale Costo:</td>';
+                                                    echo "<td class='table-danger'>$totale_costo €</td>";
+                                                    $interruttore = false;
+                                                } else {
+                                                    echo '<td colspan="3">Totale Costo:</td>';
+                                                    echo "<td class='table-success'>$totale_costo €</td>";
+                                                } ?>
+                                            </tr>
+                                            <tr><?php if ($disponibilità < $totale_quantita) {
+                                                    echo '<td colspan="3">Totale Quantità:</td>';
+                                                    echo "<td class='table-danger'>$totale_quantita</td>";
+                                                    $interruttore = false;
+                                                } else {
+                                                    echo '<td colspan="3">Totale Quantità:</td>';
+                                                    echo "<td class='table-success'>$totale_quantita</td>";
+                                                } ?>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">N.B. Se l'articolo è rosso la quantità non è disponibile</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                                        <div class="d-flex justify-content-between">
+                                                            <?php
+                                                            if ($interruttore) {
+                                                            ?>
+                                                                <button type="submit" name="soddisfa" class="btn btn-primary mx-5">Concludi spesa</button>
+                                                            <?php
+                                                            } else {
+                                                                echo "<button type=\"submit\" name=\"soddisfa\" class=\"btn btn-primary mx-5\" disabled>Concludi Spesa</button>";
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                <?php
+                                        } else {
+                                            echo "<tr>";
+                                            echo "<td colspan='4'>Nessun prodotto selezionato.</td>";
+                                            echo "</tr>";
+                                        }
                                     }
                                 }
-                            }
 
 
                                 ?>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="chiusura" name="chiusura" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
 
                     </div>
