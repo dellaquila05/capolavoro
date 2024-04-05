@@ -219,6 +219,21 @@ $Nsettimana= $_SESSION["n_settimana"];
         $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $query = "INSERT INTO bilancio( valore, idUtente, Nsettimana) VALUES ($utile,$idUtente,$Nsettimana)";
+            $result = $connessione->query($query);
+            if ($result) { 
+                    $query1 = "UPDATE utente SET n_settimana=n_settimana+1 WHERE id=$idUtente";
+                    $result1 = $connessione->query($query1);
+                    if ($result1) { 
+                        $_SESSION['n_settimana'] = $Nsettimana+1;
+                    } else {
+                        echo "Errore: " . $connessione->error;
+                    }
+            } else {
+                echo "Errore: " . $connessione->error;
+            }
+
+
             $randomNumber = 0;
             $nome_evento = [];
             $dettaglio = [];
