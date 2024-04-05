@@ -1,5 +1,21 @@
 <?php
 session_start();
+require_once("../home/connessione.php");
+
+$idUtente = $_SESSION['idUtente'];
+
+$queryT = " SELECT utile,n_settimana FROM utente WHERE id = $idUtente ; ";          
+$resultT = $connessione->query($queryT);
+if($resultT){ 
+    while( $row = $resultT->fetch_assoc()){
+        $_SESSION['utile']=$row["utile"];
+        $_SESSION['n_settimana']=$row["n_settimana"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+$utile = $_SESSION['utile'];
+$Nsettimana= $_SESSION["n_settimana"];
 $idProdotto = [];
 $quantitaPr = [];
 
@@ -67,7 +83,6 @@ $idUtente = $_SESSION['idUtente'];
                     <th>Quantità prodotto da acquistare</th>
                 </tr>
                 <?php
-                require_once("../home/connessione.php");
 
                 if (isset($_SESSION['loggato']) && $_SESSION['loggato'] == true) {
                     $sql_select = "SELECT nome, costoAcquisto, costoVendita FROM prodotto";

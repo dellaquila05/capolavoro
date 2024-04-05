@@ -1,8 +1,28 @@
 <?php
 session_start();
+require_once("../home/connessione.php");
+
 if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     header("location: ../home/public/login.php");
 }
+
+$idUtente = $_SESSION['idUtente'];
+
+$queryT = " SELECT utile,n_settimana FROM utente WHERE id = $idUtente ; ";          
+$resultT = $connessione->query($queryT);
+if($resultT){ 
+    while( $row = $resultT->fetch_assoc()){
+        $_SESSION['utile']=$row["utile"];
+        $_SESSION['n_settimana']=$row["n_settimana"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+
+
+
+$utile = $_SESSION['utile'];
+$Nsettimana= $_SESSION["n_settimana"];
 ?>
 
 
@@ -66,7 +86,6 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     <div class="">
         <?php
         if (isset($_SESSION['idUtente'])) {
-            require_once("../home/connessione.php");
             $idUtente = $_SESSION['idUtente'];
             $sqlJoin1 = "SELECT ordine.id, 
             SUM(richiede.quantitàPr) AS somma_quantità, 
