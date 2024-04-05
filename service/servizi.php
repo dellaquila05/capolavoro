@@ -102,7 +102,7 @@ if($resultM){
             </div>
             <div id="settimana"> Numero settimana:
                 <?php echo $_SESSION["n_settimana"]; ?></div>
-            <div id="capitale"><?php echo $_SESSION['utile']; ?>$</div>
+            <div id="utile">Utile: <?php echo $_SESSION['utile']; ?>€</div>
         </div>
     </nav>
 
@@ -303,7 +303,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $query1=" UPDATE costoFisso SET prezzo = prezzo+200 WHERE nome = 'Affitto' AND idUtente = $idUtente ; ";
                 $result1 = $connessione->query($query1);
                 if($result1){ 
-                    $query2=" INSERT INTO `costoFisso`(`nome`, `prezzo`, `idUtente`) VALUES ('dipMagazzino',1700,$idUtente) ; ";
+                    $query2=" INSERT INTO `costoFisso`(`nome`, `prezzo`, `idUtente`) VALUES ('StipendioDip',1700,$idUtente) ; ";
                     $result2 = $connessione->query($query2);
                     if($result2){ 
                         $query3=" UPDATE magazzino SET dimensione=dimensione+20 WHERE id= $idUtente ; ";
@@ -334,6 +334,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<script>
+        // Funzione per aggiornare il contenuto dei paragrafi
+        function aggiornaContenuto() {
+            // Aggiorna il contenuto dei paragrafi recuperando i dati PHP
+            document.getElementById("settimana").innerHTML = "Numero settimana: <?php echo $_SESSION['n_settimana']; ?>";
+            document.getElementById("utile").innerHTML = "Utile: <?php echo $_SESSION['utile']; ?> €";
+        }
+
+        // Esegui la funzione aggiornaContenuto ogni due secondi
+        setInterval(aggiornaContenuto, 2000);
+    </script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let showModal = <?php echo $showModal ? 'true' : 'false'; ?>;
+
+            if (showModal) {
+                $('#exampleModal1').modal('show');
+            }
+        });
+    </script>
 
 </body>
 </html>
