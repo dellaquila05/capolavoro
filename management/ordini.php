@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once("../home/connessione.php");
+
 if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     header("location: ../home/public/login.php");
 }
@@ -84,7 +86,6 @@ $Nsettimana= $_SESSION["n_settimana"];
     <div class="">
         <?php
         if (isset($_SESSION['idUtente'])) {
-            require_once("../home/connessione.php");
             $idUtente = $_SESSION['idUtente'];
             $sqlJoin1 = "SELECT ordine.id, 
             SUM(richiede.quantitàPr) AS somma_quantità, 

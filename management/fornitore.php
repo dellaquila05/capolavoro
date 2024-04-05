@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("../home/connessione.php");
 
 $idUtente = $_SESSION['idUtente'];
 
@@ -12,9 +13,6 @@ if($resultT){
 }}else {
     echo "Errore: " . $connessione->error;
 }
-
-
-
 
 $utile = $_SESSION['utile'];
 $Nsettimana= $_SESSION["n_settimana"];
@@ -80,7 +78,6 @@ $Nsettimana= $_SESSION["n_settimana"];
                     <th>Quantità prodotto da acquistare</th>
                 </tr>
                 <?php
-                require_once("../home/connessione.php");
 
                 if (isset($_SESSION['loggato']) && $_SESSION['loggato'] == true) {
                     $sql_select = "SELECT nome, costoAcquisto, costoVendita FROM prodotto";

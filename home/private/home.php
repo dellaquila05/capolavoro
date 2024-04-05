@@ -282,7 +282,25 @@ $Nsettimana= $_SESSION["n_settimana"];
                     $id[] = 3;
                 }
             }
-
+            if ($_SESSION['n_settimana'] % 4 == 0) {
+                $query_totale = "SELECT SUM(prezzo) as Totale_Spese FROM costoFisso WHERE idUtente = $idUtente";
+    $result_totale = $connessione->query($query_totale);
+    if ($result_totale) { 
+        while ($row = $result_totale->fetch_assoc()) {
+            $costo=$row['Totale_Spese']; 
+            $query=" UPDATE utente SET utile=$utile-$costo WHERE  id = $idUtente ; ";
+            $result = $connessione->query($query);
+            if($result){ 
+                //ok
+                $_SESSION['utile']=$utile-$row['Totale_Spese'];
+            }else {
+                echo "Errore: " . $connessione->error;
+            }
+        }
+    } else {
+        echo "Errore: " . $connessione->error;
+    }
+            }
             generaRapina($resultRapina);
             if ($_SESSION['n_settimana'] % 52 == 0) {
                 $id[] = 1;
@@ -347,6 +365,34 @@ $Nsettimana= $_SESSION["n_settimana"];
                                 if ($_SESSION['n_settimana'] % 4 == 0) {
                                     $nome_evento[] = "Game Over";
                                     $dettaglio[] =  $row['dettaglio'];
+
+                                    $queryO = " DELETE FROM bilancio WHERE idUtente=$idUtente ; ";          
+                                    $resultO = $connessione->query($queryO);
+                                    if($resultO){ 
+                                        //ok
+                                       }else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
+                                    $queryR = " DELETE FROM `costoFisso` WHERE nome='StipendioDip' AND idUtente=$idUtente ";          
+                                    $resultR = $connessione->query($queryR);
+                                    if($resultR){ 
+                                        //ok
+                                       }else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
+
+                                    $queryF = " DELETE FROM forniture WHERE idUtente=$idUtente ";          
+                                    $resultF = $connessione->query($queryF);
+                                    if($resultF){ 
+                                        //ok
+                                       }else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
+
+
                                     $update1 = "UPDATE costoFisso
                                 SET prezzo = CASE 
                                                 WHEN nome = 'Luce' THEN 450
@@ -358,20 +404,12 @@ $Nsettimana= $_SESSION["n_settimana"];
                                                 ELSE prezzo 
                                             END
                                 WHERE nome IN ('Luce', 'Gas', 'Affitto', 'Allarme', 'Telecamere', 'Guardia') AND idUtente = $idUtente";
-
-                                    $sql_select2 = "SELECT m.dimensione
-                                                    FROM magazzino m 
-                                                    JOIN utente u ON u.idMagazzino = m.id
-                                                    WHERE u.id = $idUtente
-                                                   ";
+                                
                                     $update3 = "UPDATE evento SET stato = 0 WHERE  stato = 1";
-                                    $sql_select4 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
                                     $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
                                     $update6 = "UPDATE utente SET n_settimana = 1 , utile = 2000 WHERE  id = $idUtente";
                                     $result1 = $connessione->query($update1);
-                                    $result2 = $connessione->query($sql_select2);
                                     $result3 = $connessione->query($update3);
-                                    $result4 = $connessione->query($sql_select4);
                                     $result5 = $connessione->query($update5);
                                     $result6 = $connessione->query($update6);
                                     $query1 = "SELECT utile , n_settimana FROM utente WHERE id = $idUtente";
@@ -381,18 +419,6 @@ $Nsettimana= $_SESSION["n_settimana"];
                                             $_SESSION['utile'] = $row22['utile'];
                                             $_SESSION['n_settimana'] = $row22['n_settimana'];
                                         }
-                                    }
-                                    if (mysqli_num_rows($result4)) {
-                                        while ($row = $result4->fetch_assoc()) {
-                                            $somma += $row['quantitàPr'];
-                                        }
-                                        $_SESSION['prodottiMaga'] = $somma;
-                                    }
-                                    if (mysqli_num_rows($result2)) {
-                                        while ($row = $result2->fetch_assoc()) {
-                                            $dimensione = $row['dimensione'];
-                                        }
-                                        $_SESSION['dimensioneMaga'] = $dimensione;
                                     }
                                 } else {
                                     $nome_evento[] = $row['nome'];
