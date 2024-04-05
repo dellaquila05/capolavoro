@@ -174,8 +174,8 @@ $Nsettimana= $_SESSION["n_settimana"];
            <a href="/home/public/login.php"><button type="button" class="btn btn-outline-dark" onclick="<?php $_SESSION['loggato'] == false ?>">Log Out</button></a>
         </div>
     </nav>
-    <br><br><br>
-    <div class="container mt-4">
+    <br>
+    <div class="container ">
         <table class="table">
             <tbody>
                 <tr>
@@ -201,103 +201,7 @@ $Nsettimana= $_SESSION["n_settimana"];
         </form>
     </div>
 </div>
-
-
-    <?php
-    $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-
-        
-        $query = "INSERT INTO bilancio( valore, idUtente, Nsettimana) VALUES ($utile,$idUtente,$Nsettimana)";
-        $result = $connessione->query($query);
-        if ($result) { 
-                $query1 = "UPDATE utente SET n_settimana=n_settimana+1 WHERE id=$idUtente";
-                $result1 = $connessione->query($query1);
-                if ($result1) { 
-                    $_SESSION['n_settimana'] = $Nsettimana+1;
-                } else {
-                    echo "Errore: " . $connessione->error;
-                }
-        } else {
-            echo "Errore: " . $connessione->error;
-        }
-
-        $randomNumber = 0;
-        $nome_evento = [];
-        $dettaglio = [];
-        $idUtente = $_SESSION['idUtente'];
-        $idMagazzino = $_SESSION['idMagazzino'];
-        $id = [];
-        $sql_selectrapa = 'SELECT nome,prezzo FROM `costoFisso` WHERE nome="Telecamere" OR nome ="Allarme" OR nome="Guardia"';
-        $resultRapina = $connessione->query($sql_selectrapa);
-        $telecamere = 0;
-        $allarme = 0;
-        $guardia = 0;
-        function generaRapina($resultRapina)
-        {
-            global $id;
-            if (mysqli_num_rows($resultRapina)) {
-                while ($row = $resultRapina->fetch_assoc()) {
-                    // Assegnazione dei prezzi alle variabili
-                    switch ($row['nome']) {
-                        case 'Telecamere':
-                            $telecamere = $row['prezzo'];
-                            break;
-                        case 'Allarme':
-                            $allarme = $row['prezzo'];
-                            break;
-                        case 'Guardia':
-                            $guardia = $row['prezzo'];
-                            break;
-                    }
-                }
-            }
-                                Ogni 48 settimane, paga le tasse e migliora la sicurezza con servizi come telecamere o allarmi. Acquista prodotti dal fornitore, soddisfa gli ordini e pianifica con attenzione. Sii strategico per trasformare il tuo impero in una storia di successo in HomeTech!
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p id="settimana">
-                    Numero settimana:
-                    <?php echo $_SESSION["n_settimana"]; ?>
-                </p>
-                <p id="utile">
-                    Utile:
-                    <?php echo $_SESSION["utile"]; ?>
-                    €
-                </p>
-            </div>
-            <div class="row justify-content-end">
-                <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <div class="col-2 text-end"> <!-- Utilizzo la classe 'text-end' per allineare il contenuto a destra -->
-                        <button type="submit" class="btn btn-primary" name="submit">Avanti</button>
-                    </div>
-                </form>
-            </div>
-        </nav>
-        <br><br><br>
-        <div class="container mt-4">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td><a href="../../management/magazzino.php">Magazzino <br><img src="../../home/img/magazzino.png" alt=""><br></a></td>
-                        <td><a href="../../management/fornitore.php">Fornitore <br><img src="../../home/img/fornitore.png" alt=""><br></a></td>
-                        <td><a href="../../management/ordini.php">Ordini <br><img src="../../home/img/ordini.avif" alt=""><br></a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="../../service/servizi.php"><img src="../../home/img/servizi.png" alt=""><br>Servizi</a></td>
-                        <td><a href="../../service/resoconto.php"><img src="../../home/img/resoconto.png" alt=""><br>Resoconto</a></td>
-                        <td><a href="../../service/finanze.php"><img src="../../home/img/finanze.png" alt=""><br>Finanze</a></td>
-                    </tr>
-                </tbody>
-            </table>
-            <br><br>
-        </div>
-        <?php
+ <?php
         $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -561,10 +465,6 @@ $Nsettimana= $_SESSION["n_settimana"];
     }
     ?> 
     
-                $showModal = true;
-            }
-        }
-        ?>
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
