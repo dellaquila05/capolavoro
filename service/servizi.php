@@ -7,7 +7,22 @@
 }
 
 $idUtente = $_SESSION['idUtente'];
+
+$queryG = " SELECT utile,n_settimana FROM utente WHERE id = $idUtente ; ";          
+$resultG = $connessione->query($queryG);
+if($resultG){ 
+    while( $row = $resultG->fetch_assoc()){
+        $_SESSION['utile']=$row["utile"];
+        $_SESSION['n_settimana']=$row["n_settimana"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+
+
+
 $utile = $_SESSION['utile'];
+$Nsettimana= $_SESSION["n_settimana"];
 
 
 $queryT = " SELECT costoFisso.prezzo as telecamere FROM costoFisso WHERE nome = 'Telecamere' AND idUtente = $idUtente ; ";          
