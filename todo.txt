@@ -2,6 +2,7 @@ ALL - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte iner
 ALL - spostare connessione.php fuori da /home
 ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordine ha per forza un utente un utente non ha per forza un ordine)
 ALL - Aggiungere utile sul modello er
+ALL - Aggiungere ad er la tabella fornitore 
 DIEGO - gestione modale del fornitore 
 DIEGO - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
 felix - gestione check di disponibilità ordini
@@ -10,6 +11,5 @@ FELIX - check funzionamento registrazione
 FELIX - immagazzina salva solo prodotto 1 e non tutti e 15 
 FELIX - vari errori in registrazione php quando provo a registrarmi crea l'account lato db ma non vengo reinderizzato alla home 
 momo - migliorare grafica home.html e rendere la navbar uguale per tutte le page
-DIEGO - quando elimino un utente non si elimina il suo magazzino 
 
 
