@@ -1,5 +1,51 @@
 <?php
 session_start();
+require_once("../home/connessione.php");
+
+$idMagazzino = $_SESSION['idMagazzino'];
+$idUtente = $_SESSION['idUtente'];
+
+$queryT = " SELECT utile,n_settimana FROM utente WHERE id = $idUtente ; ";          
+$resultT = $connessione->query($queryT);
+if($resultT){ 
+    while( $row = $resultT->fetch_assoc()){
+        $_SESSION['utile']=$row["utile"];
+        $_SESSION['n_settimana']=$row["n_settimana"];
+}}else {
+    echo "Errore: " . $connessione->error;
+}
+
+
+$utile = $_SESSION['utile'];
+$Nsettimana= $_SESSION["n_settimana"];
+
+$sql_select2 = "SELECT m.dimensione
+FROM magazzino m 
+JOIN utente u ON u.idMagazzino = m.id
+WHERE u.id = $idUtente
+";
+$sql_select4 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
+
+$result2 = $connessione->query($sql_select2);
+ $result4 = $connessione->query($sql_select4);
+$somma=0;
+if (mysqli_num_rows($result4)) {
+    while ($row = $result4->fetch_assoc()) {
+        $somma += $row['quantitàPr'];
+    }
+    $_SESSION['prodottiMaga'] = $somma;
+}
+if (mysqli_num_rows($result2)) {
+    while ($row = $result2->fetch_assoc()) {
+        $dimensione = $row['dimensione'];
+    }
+    $_SESSION['dimensioneMaga'] = $dimensione;
+}
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -69,7 +115,6 @@ session_start();
                 </th>
             </tr>
             <?php
-            require_once("../home/connessione.php");
             $somma=0;
 
             if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] = true) {

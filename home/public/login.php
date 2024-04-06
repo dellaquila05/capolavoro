@@ -2,6 +2,7 @@
 session_start();
 require_once("../connessione.php");
 
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
     <script>
@@ -42,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 $_SESSION['loggato'] = true; //login effettuata con successo
                                 $_SESSION['idMagazzino'] = $idMagazzino;
                                 $_SESSION['idUtente'] = $idUtente;
-                                $somma = 0;
                                 $dimensione = 0;
                                 $result4 = $connessione->query($sql_select4);
                                 $sql_select6 = "SELECT m.dimensione
@@ -57,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 $result6 = $connessione->query($sql_select6);
                                 $result7 = $connessione->query($sql_select7);
                                 if (mysqli_num_rows($result4)) {
+                                    $somma = 0;
                                     while ($row = $result4->fetch_assoc()) {
                                         $somma += $row['quantitàPr'];
                                     }
