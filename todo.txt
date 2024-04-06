@@ -7,6 +7,7 @@ DIEGO - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COM
 ALL - creare resoconto 
 ALL - creare finanze
 felix - gestione check di disponibilità ordini
+felix - aggiornare l'utile in sessione
 momo - migliorare grafica home.html e finire servizi.php
 momo - rendere la navbar uguale per tutte le page
 momo - ridimensionare le immagini
