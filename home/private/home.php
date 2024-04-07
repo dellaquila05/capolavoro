@@ -225,8 +225,34 @@ logout
  <?php
         $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $query = "INSERT INTO bilancio( valore, idUtente, Nsettimana) VALUES ($utile,$idUtente,$Nsettimana)";
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                //generazione ordini
+                $n_settimana = $_SESSION['n_settimana'];
+                $idUtente = $_SESSION['idUtente'];
+                $numeroOrdini = mt_rand(1, intval($n_settimana / 5) + 1);
+                for ($i = 0; $i < $numeroOrdini; $i++) {
+                    $sql_insert = "INSERT INTO ordine (idUtente) VALUES ($idUtente)";
+                    $connessione->query($sql_insert);
+                    $idUltimoOrdine = $connessione->insert_id;
+                    $numeroProdotti = mt_rand(1, $numeroOrdini + 1);
+                    $sql_select_2 = "SELECT COUNT(id) as numeroPr FROM prodotto";
+                    $result_select_2 = $connessione->query($sql_select_2);
+                    $numeroPr = $result_select_2->fetch_array()['numeroPr'];
+                    $arrayIdProdotti = [];
+                    for ($i = 0; $i < $numeroProdotti; $i++) {
+                        $id = mt_rand(1, $numeroPr);
+                        $sql_select_3 = "SELECT id FROM prodotto WHERE id = $id";
+                        $result_select_3 = $connessione->query($sql_select_3);
+                        array_push($arrayIdProdotti, $result_select_3->fetch_array()['id']);
+                    }
+                    $conteggioProdotti = array_count_values($arrayIdProdotti);
+                    foreach ($conteggioProdotti as $idProdotto => $quantitaOrdine) {
+                        $sql_insert_richiede = "INSERT INTO richiede (idOrdine, idProdotto, quantitàPr) VALUES ($idUltimoOrdine, $idProdotto, $quantitaOrdine)";
+                        $connessione->query($sql_insert_richiede);
+                    }
+                }
+                
+                    $query = "INSERT INTO bilancio( valore, idUtente, Nsettimana) VALUES ($utile,$idUtente,$Nsettimana)";
             $result = $connessione->query($query);
             if ($result) { 
                     $query1 = "UPDATE utente SET n_settimana=n_settimana+1 WHERE id=$idUtente";
@@ -242,35 +268,35 @@ logout
 
 
             $randomNumber = 0;
-            $nome_evento = [];
-            $dettaglio = [];
-            $idUtente = $_SESSION['idUtente'];
-            $idMagazzino = $_SESSION['idMagazzino'];
-            $id = [];
-            $sql_selectrapa = 'SELECT nome,prezzo FROM `costoFisso` WHERE nome="Telecamere" OR nome ="Allarme" OR nome="Guardia"';
-            $resultRapina = $connessione->query($sql_selectrapa);
-            $telecamere = 0;
-            $allarme = 0;
-            $guardia = 0;
-            function generaRapina($resultRapina)
-            {
-                global $id;
-                if (mysqli_num_rows($resultRapina)) {
-                    while ($row = $resultRapina->fetch_assoc()) {
-                        // Assegnazione dei prezzi alle variabili
-                        switch ($row['nome']) {
-                            case 'Telecamere':
-                                $telecamere = $row['prezzo'];
-                                break;
-                            case 'Allarme':
-                                $allarme = $row['prezzo'];
-                                break;
-                            case 'Guardia':
-                                $guardia = $row['prezzo'];
-                                break;
+                    $nome_evento = [];
+                    $dettaglio = [];
+                    $idUtente = $_SESSION['idUtente'];
+                    $idMagazzino = $_SESSION['idMagazzino'];
+                    $id = [];
+                    $sql_selectrapa = 'SELECT nome,prezzo FROM `costoFisso` WHERE nome="Telecamere" OR nome ="Allarme" OR nome="Guardia"';
+                    $resultRapina = $connessione->query($sql_selectrapa);
+                    $telecamere = 0;
+                    $allarme = 0;
+                    $guardia = 0;
+                    function generaRapina($resultRapina)
+                    {
+                        global $id;
+                        if (mysqli_num_rows($resultRapina)) {
+                            while ($row = $resultRapina->fetch_assoc()) {
+                                // Assegnazione dei prezzi alle variabili
+                                switch ($row['nome']) {
+                                    case 'Telecamere':
+                                        $telecamere = $row['prezzo'];
+                                        break;
+                                    case 'Allarme':
+                                        $allarme = $row['prezzo'];
+                                        break;
+                                    case 'Guardia':
+                                        $guardia = $row['prezzo'];
+                                        break;
+                                }
+                            }
                         }
-                    }
-                }
 
                 // Inizializzo la probabilità di rapina a 7/52
                 $probabilita = 7 / 52;
