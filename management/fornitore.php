@@ -88,7 +88,7 @@ logout
   <a class="navbar-brand mx-auto" href="#"><strong>FORNITORE</strong> </a>
 </nav>
 <div class="text-center fw-lighter">
-    (Si può eseguire un ordine per settimana e il fornitore impiegherà una settimana a completare l'ordine)
+    (Il fornitore impiegherà una settimana a consegnare l'ordine)
 </div>
     <div class="align-items-center">
         <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
