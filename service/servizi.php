@@ -248,15 +248,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['submitTelecamera'])) {
         if($costoTelecamere==0){ 
             $utile=$utile-300;
+            if($utile<=0){
+                echo "<script type='text/javascript'>alert('Utile Insufficiente');</script>";
+            }else{ 
             $_SESSION['utile'] = $utile;
-
             $query=" UPDATE utente SET utile=$utile WHERE  id = $idUtente ; ";
             $result = $connessione->query($query);
             if($result){ 
                 $query1=" UPDATE costoFisso SET prezzo = 20 WHERE nome = 'Telecamere' AND idUtente = $idUtente ; ";
                 $result1 = $connessione->query($query1);
                 if($result1){ 
-              echo "telecamera aggiunta";
+              echo "<script type='text/javascript'>alert('telecamera aggiunta');</script>";
+              
                 }else {
                     echo "Errore: " . $connessione->error;
                 }
@@ -264,51 +267,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Errore: " . $connessione->error;
             }
 
-        }else{
-            echo "telecamera Già presente"; 
+        }}else{
+            echo "<script type='text/javascript'>alert('telecamera Già presente');</script>"; 
         }
         }   
     
 
      elseif (isset($_POST['submitGuardia'])) {
-
+        if(($utile-1500)<=0){
+            echo "<script type='text/javascript'>alert('Utile Insufficiente per soddisfare il primo stipendio ');</script>";
+        }else{ 
         if($costoGuardia==0){ 
                 $query1=" UPDATE costoFisso SET prezzo = 1500 WHERE nome = 'Guardia' AND idUtente = $idUtente ; ";
                 $result1 = $connessione->query($query1);
                 if($result1){ 
-              echo "Guardia Assunta";
+              echo "<script type='text/javascript'>alert('Guardia Assunta');</script>";
                 }else {
                     echo "Errore: " . $connessione->error;
                 }
         }else{
-            echo "Guardia Già presente"; 
+            echo "<script type='text/javascript'>alert('Guardia Già presente');</script>"; 
         }
 
         
-    }
+    }}
 
     elseif (isset($_POST['submitAllarme'])) {
 
         if($costoAllarme==0){ 
             $utile=$utile-199;
+            if($utile<=0){
+                echo "<script type='text/javascript'>alert('Utile Insufficiente');</script>";
+            }else{ 
             $_SESSION['utile'] = $utile;
-
             $query=" UPDATE utente SET utile=$utile WHERE  id = $idUtente ; ";
             $result = $connessione->query($query);
             if($result){ 
                 $query1=" UPDATE costoFisso SET prezzo = 14.99 WHERE nome = 'Allarme' AND idUtente = $idUtente ; ";
                 $result1 = $connessione->query($query1);
                 if($result1){ 
-              echo "allarme installato";
+              echo "<script type='text/javascript'>alert('allarme installato');</script>";
                 }else {
                     echo "Errore: " . $connessione->error;
                 }
             }else {
                 echo "Errore: " . $connessione->error;
             }
-
+        }
         }else{
-            echo "allarme Già presente"; 
+            echo "<script type='text/javascript'>alert('allarme Già presente');</script>"; 
         }
         
     }
@@ -317,8 +324,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($dimensioneMagazzino<60){ 
             $utile=$utile-1000;
+            if($utile<=0){
+                echo "<script type='text/javascript'>alert('Utile Insufficiente');</script>";
+            }else{ 
             $_SESSION['utile'] = $utile;
-
             $query=" UPDATE utente SET utile=$utile WHERE  id = $idUtente ; ";
             $result = $connessione->query($query);
             if($result){ 
@@ -331,7 +340,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $query3=" UPDATE magazzino SET dimensione=dimensione+20 WHERE id= $idUtente ; ";
                         $result3 = $connessione->query($query3);
                         if($result3){ 
-                      echo "Magazzino Aumentato";
+                      echo "<script type='text/javascript'>alert('Magazzino Aumentato');</script>";
                         }else {
                             echo "Errore: " . $connessione->error;
                         }
@@ -345,8 +354,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Errore: " . $connessione->error;
             }
 
-        }else{
-            echo "limite raggiunto"; 
+        }}else{
+            echo "<script type='text/javascript'>alert('limite raggiunto');</script>"; 
         }
         
     }
