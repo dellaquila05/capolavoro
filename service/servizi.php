@@ -74,55 +74,62 @@ if($resultM){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <title>Home</title>
-    <style>
-        table img {
-            width: 40%;
-            height: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="/home/private/CSS.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-        <a class="navbar-brand" href="../home/private/home.php">HomeTech</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <span class="material-symbols-outlined">
-                    info
-                </span>
-            </button>
+<div class="container">
+<nav class="navbar navbar-light" style="background-color: #ffefd5;">
+            <div class="container-fluid">
+                <a  href="/home/private/home.php" class="navbar-brand"><span class="material-symbols-outlined">
+storefront
+</span> HomeTech</a>
+                
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">HomeTech</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Benvenuto in HomeTech, il simulatore di gestione aziendale degli elettrodomestici!
-                            Inizia con un budget di 2000€ e gestisci il tuo impero settimana dopo settimana. Evita la bancarotta coprendo i costi fissi ogni 4 settimane. Affronta eventi imprevisti come guerre e furti, che influenzano le tue finanze.
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <span class="material-symbols-outlined">
+                        info
+                    </span>
+                </button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">HomeTech</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Benvenuto in HomeTech, il simulatore di gestione aziendale degli elettrodomestici!
+
+                                Inizia con un budget di 2000€ e gestisci il tuo impero settimana dopo settimana. Evita la bancarotta coprendo i costi fissi ogni 4 settimane. Affronta eventi imprevisti come guerre e furti, che influenzano le tue finanze.
+
                             Ogni 48 settimane, paga le tasse e migliora la sicurezza con servizi come telecamere o allarmi. Acquista prodotti dal fornitore, soddisfa gli ordini e pianifica con attenzione. Sii strategico per trasformare il tuo impero in una storia di successo in HomeTech!
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="settimana"> Numero settimana:
-                <?php echo $_SESSION["n_settimana"]; ?></div>
-            <div id="utile">Utile: <?php echo $_SESSION['utile']; ?>€</div>
+            <p id="settimana">
+                Numero settimana:
+                <?php echo $_SESSION["n_settimana"]; ?>
+            </p>
+            <p id="utile">
+                Utile:
+                <?php echo $_SESSION["utile"]; ?>
+                €
+            </p>
+           <a href="/home/public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
+logout
+</span></button></a>
         </div>
     </nav>
 
     <nav class="navbar navbar-dark bg-dark">
-  <a class="navbar-brand mx-auto" href="#">SERVIZI</a>
+  <a class="navbar-brand mx-auto" href="#"><strong>SERVIZI</strong></a>
 </nav>
 
     <br><br><br>
@@ -132,7 +139,7 @@ if($resultM){
             <tbody>
                 <tr>
                     <td>
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModa2">Aggiungi telecamera</button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa2"><img src="../../home/img/telecamera.png" alt=""><strong><mark>Aggiungi telecamera</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -157,7 +164,7 @@ if($resultM){
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModa3">Aumenta magazzino</button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa3"><img src="../../home/img/magazzinoSpazio.png" alt=""><strong><mark>Aumenta magazzino</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -182,7 +189,7 @@ if($resultM){
                 </tr>
                 <tr>
                     <td>
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModa4">Aggiungi allarme</button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa4"><img src="../../home/img/allarme.gif" alt=""><strong><mark>Aggiungi allarme</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -206,7 +213,7 @@ if($resultM){
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModa5">Aggiungi guardia</button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa5"><img src="../../home/img/guardia.png" alt=""><strong><mark>Aggiungi guardia</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -373,6 +380,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
     </script>
+</div>
 
 </body>
 </html>
