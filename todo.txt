@@ -11,5 +11,12 @@ FELIX - check funzionamento registrazione
 FELIX - immagazzina salva solo prodotto 1 e non tutti e 15 
 FELIX - vari errori in registrazione php quando provo a registrarmi crea l'account lato db ma non vengo reinderizzato alla home 
 momo - migliorare grafica home.html e rendere la navbar uguale per tutte le page
+felix - aggiornare l'utile in sessione
+momo - migliorare grafica home.html e finire servizi.php
+momo - rendere la navbar uguale per tutte le page
+momo - ridimensionare le immagini
+momo - quando fai servizi fai update a tab costo fisso aggiungendo i prezzi
+DIEGO - quando elimino un utente non si elimina il suo magazzino 
+momo - migliorare grafica home.html e finire servizi.php
 
 
