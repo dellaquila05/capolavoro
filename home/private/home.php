@@ -30,6 +30,7 @@ $Nsettimana= $_SESSION["n_settimana"];
 <html lang="it">
 
 <head>
+<link rel="stylesheet" href="/home/private/CSS.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,115 +38,13 @@ $Nsettimana= $_SESSION["n_settimana"];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <title>Home</title>
-    <style>
-    /* Stile generale della pagina */
-    html {
-        height: 100%;
-        /* Imposta altezza al 100% della finestra del browser */
-    }
-
-    body {
-        height: 100%;
-        background-color: #f8f9fa;
-        /* Colore di sfondo */
-        font-family: Arial, sans-serif;
-        /* Tipo di carattere */
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    /* Navbar */
-    .navbar {
-        width: 100%;
-    }
-
-    /* Contenitore principale */
-    .container {
-        width: 100%;
-        min-height: calc(100vh - 56px);
-        /* Altezza massima meno l'altezza della navbar */
-        padding: 20px;
-        background-color: #ffffff; /* giallo caldo */
-        color: #000000; /* testo nero */
-        /* Colore di sfondo del contenitore */
-        border-radius: 10px;
-        /* Bordi arrotondati */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        /* Ombra */
-    }
-
-    /* Tabella */
-    table {
-        width: 100%;
-        height: 100%;
-        border-collapse: collapse;
-    }
-
-    
-    table img {
-        display: block;
-        margin: 0 auto;
-        width: 100px;
-        height: auto;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    table td {
-        text-align: center;
-        vertical-align: middle;
-        padding: 20px;
-        /* Spazio interno alle celle */
-    }
-
-    /* Nome dell'immagine */
-    .nome-immagine {
-        font-size: 14px;
-        margin-top: 10px;
-        color: #555;
-        /* Colore del testo */
-    }
-
-    /* Bottone "Avanti" */
-    .btn-avanti {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #007bff;
-        /* Colore di sfondo */
-        color: #fff;
-        /* Colore del testo */
-        border: none;
-        padding: 10px 20px;
-        /* Spazio interno */
-        border-radius: 5px;
-        /* Bordi arrotondati */
-        cursor: pointer;
-        transition: background-color 0.3s;
-        /* Transizione al passaggio del mouse */
-    }
-
-    .btn-avanti:hover {
-        background-color: #0056b3;
-        /* Cambia colore al passaggio del mouse */
-    }
-
-    /* Modale */
-    .modal-content {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
 </head>
 
 <body>
     <div class="container">
         <nav class="navbar navbar-light" style="background-color: #ffefd5;">
             <div class="container-fluid">
-                <a class="navbar-brand"><span class="material-symbols-outlined">
+                <a  class="navbar-brand"><span class="material-symbols-outlined">
 storefront
 </span> HomeTech</a>
                 
