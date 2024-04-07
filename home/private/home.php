@@ -580,6 +580,7 @@ logout
                         $('#exampleModal1').modal('show');
                     }
                 });
+                //commit
             </script>
 
         </div>
