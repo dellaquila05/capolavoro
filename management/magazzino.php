@@ -51,7 +51,7 @@ if (mysqli_num_rows($result2)) {
 <html lang="it">
 
 <head>
-<link rel="stylesheet" href="/home/private/CSS.css">
+<link rel="stylesheet" href="../home/private/CSS.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,7 +65,7 @@ if (mysqli_num_rows($result2)) {
 <div class="container">
 <nav class="navbar navbar-light" style="background-color: #ffefd5;">
             <div class="container-fluid">
-                <a  href="/home/private/home.php" class="navbar-brand"><span class="material-symbols-outlined">
+                <a  href="../home/private/home.php" class="navbar-brand"><span class="material-symbols-outlined">
 storefront
 </span> HomeTech</a>
                 
@@ -105,7 +105,7 @@ storefront
                 <?php echo $_SESSION["utile"]; ?>
                 €
             </p>
-           <a href="/home/public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
+           <a href="../home/public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
 logout
 </span></button></a>
         </div>

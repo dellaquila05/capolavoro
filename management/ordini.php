@@ -30,7 +30,7 @@ $Nsettimana= $_SESSION["n_settimana"];
 <html lang="it">
 
 <head>
-<link rel="stylesheet" href="/home/private/CSS.css">
+<link rel="stylesheet" href="../home/private/CSS.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +80,7 @@ $Nsettimana= $_SESSION["n_settimana"];
     ?>
    <nav class="navbar navbar-light" style="background-color: #ffefd5;">
             <div class="container-fluid">
-                <a  href="/home/private/home.php" class="navbar-brand"><span class="material-symbols-outlined">
+                <a  href="../home/private/home.php" class="navbar-brand"><span class="material-symbols-outlined">
 storefront
 </span> HomeTech</a>
                 
@@ -120,7 +120,7 @@ storefront
                 <?php echo $_SESSION["utile"]; ?>
                 €
             </p>
-           <a href="/home/public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
+           <a href="../home/public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
 logout
 </span></button></a>
         </div>
@@ -311,13 +311,3 @@ logout
 </body>
 
 </html>
-
-
-
-<!-- 
-    1 - generare randomicamente il numero dei prodotti di cui sarà composto l'ordine (min = 0, max = numero settimana x 2)
-    2 - select di tutti i prodotti
-    3 - con un ciclo che andrà da 0 a il numero random generato prima seleziono i prodotti dall'array
-    4 - calcolo il totale dell'ordine
-    5 - salvo nel db l'ordine
--->
