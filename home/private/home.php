@@ -30,6 +30,7 @@ $Nsettimana= $_SESSION["n_settimana"];
 <html lang="it">
 
 <head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -37,118 +38,117 @@ $Nsettimana= $_SESSION["n_settimana"];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <title>Home</title>
     <style>
-        /* Stile generale della pagina */
-        html {
-            height: 100%;
-            /* Imposta altezza al 100% della finestra del browser */
-        }
+    /* Stile generale della pagina */
+    html {
+        height: 100%;
+        /* Imposta altezza al 100% della finestra del browser */
+    }
 
-        body {
-            height: 100%;
-            background-color: #f8f9fa;
-            /* Colore di sfondo */
-            font-family: Arial, sans-serif;
-            /* Tipo di carattere */
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
+    body {
+        height: 100%;
+        background-color: #f8f9fa;
+        /* Colore di sfondo */
+        font-family: Arial, sans-serif;
+        /* Tipo di carattere */
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
 
-        }
+    /* Navbar */
+    .navbar {
+        width: 100%;
+    }
 
-        /* Navbar */
-        .navbar {
-            width: 100%;
-            /* Estendi la larghezza su tutto lo schermo */
-            background-color: #343a40;
-            /* Colore di sfondo */
-        }
+    /* Contenitore principale */
+    .container {
+        width: 100%;
+        min-height: calc(100vh - 56px);
+        /* Altezza massima meno l'altezza della navbar */
+        padding: 20px;
+        background-color: #ffffff; /* giallo caldo */
+        color: #000000; /* testo nero */
+        /* Colore di sfondo del contenitore */
+        border-radius: 10px;
+        /* Bordi arrotondati */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        /* Ombra */
+    }
 
-        /* Contenitore principale */
-        .container {
-            width: 100%;
-            min-height: calc(100vh - 56px);
-            /* Altezza massima meno l'altezza della navbar */
-            padding: 20px;
-            background-color: #fff;
-            /* Colore di sfondo del contenitore */
-            border-radius: 10px;
-            /* Bordi arrotondati */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            /* Ombra */
-        }
+    /* Tabella */
+    table {
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+    }
 
-        /* Tabella */
-        table {
-            width: 100%;
-            height: 100%;
-            border-collapse: collapse;
-        }
+    
+    table img {
+        display: block;
+        margin: 0 auto;
+        width: 100px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        table img {
-            display: block;
-            margin: 0 auto;
-            width: 100px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+    table td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 20px;
+        /* Spazio interno alle celle */
+    }
 
-        table td {
-            text-align: center;
-            vertical-align: middle;
-            padding: 20px;
-            /* Spazio interno alle celle */
-        }
+    /* Nome dell'immagine */
+    .nome-immagine {
+        font-size: 14px;
+        margin-top: 10px;
+        color: #555;
+        /* Colore del testo */
+    }
 
-        /* Nome dell'immagine */
-        .nome-immagine {
-            font-size: 14px;
-            margin-top: 10px;
-            color: #555;
-            /* Colore del testo */
-        }
+    /* Bottone "Avanti" */
+    .btn-avanti {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        /* Colore di sfondo */
+        color: #fff;
+        /* Colore del testo */
+        border: none;
+        padding: 10px 20px;
+        /* Spazio interno */
+        border-radius: 5px;
+        /* Bordi arrotondati */
+        cursor: pointer;
+        transition: background-color 0.3s;
+        /* Transizione al passaggio del mouse */
+    }
 
-        /* Bottone "Avanti" */
-        .btn-avanti {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
-            /* Colore di sfondo */
-            color: #fff;
-            /* Colore del testo */
-            border: none;
-            padding: 10px 20px;
-            /* Spazio interno */
-            border-radius: 5px;
-            /* Bordi arrotondati */
-            cursor: pointer;
-            transition: background-color 0.3s;
-            /* Transizione al passaggio del mouse */
-        }
+    .btn-avanti:hover {
+        background-color: #0056b3;
+        /* Cambia colore al passaggio del mouse */
+    }
 
-        .btn-avanti:hover {
-            background-color: #0056b3;
-            /* Cambia colore al passaggio del mouse */
-        }
+    /* Modale */
+    .modal-content {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
 
-        /* Modale */
-        .modal-content {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-light" style="background-color: #ffefd5;">
             <div class="container-fluid">
-                <a class="navbar-brand">HomeTech</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <a class="navbar-brand"><span class="material-symbols-outlined">
+storefront
+</span> HomeTech</a>
+                
 
                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <span class="material-symbols-outlined">
@@ -185,32 +185,39 @@ $Nsettimana= $_SESSION["n_settimana"];
                 <?php echo $_SESSION["utile"]; ?>
                 €
             </p>
-           <a href="/home/public/login.php"><button type="button" class="btn btn-outline-dark" onclick="<?php $_SESSION['loggato'] == false ?>">Log Out</button></a>
+           <a href="/home/public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
+logout
+</span></button></a>
         </div>
     </nav>
-    <br>
-    <div class="container ">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td><a href="../../management/magazzino.php">Magazzino <br><img src="../../home/img/magazzino.png" alt=""><br></a></td>
-                    <td><a href="../../management/fornitore.php">Fornitore <br><img src="../../home/img/fornitore.png" alt=""><br></a></td>
-                    <td><a href="../../management/ordini.php">Ordini <br><img src="../../home/img/ordini.avif" alt=""><br></a></td>
-                </tr>
-                <tr>
-                    <td><a href="../../service/servizi.php"><img src="../../home/img/servizi.png" alt=""><br>Servizi</a></td>
-                    <td><a href="../../service/resoconto.php"><img src="../../home/img/resoconto.png" alt=""><br>Resoconto</a></td>
-                    <td><a href="../../service/finanze.php"><img src="../../home/img/finanze.png" alt=""><br>Finanze</a></td>
-                </tr>
-            </tbody>
-        </table>
+    <br><br><br>
+    <div class="container1">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="bg-custom text-center p-3"><a href="../../management/magazzino.php" class="text-decoration-none text-dark"><strong><mark>Magazzino</mark></strong> <br><img src="../../home/img/magazzino.png" alt=""></a></td>
+                <td class="bg-custom text-center p-3"><a href="../../management/fornitore.php" class="text-decoration-none text-dark"><strong><mark>Fornitore</mark></strong> <br><img src="../../home/img/fornitore.png" alt=""></a></td>
+                <td class="bg-custom text-center p-3"><a href="../../management/ordini.php" class="text-decoration-none text-dark"><strong><mark>Ordini</mark></strong> <br><img src="../../home/img/ordini.png" alt=""></a></td>
+            </tr>
+            <tr>
+                <td class="bg-custom text-center p-3"><a href="../../service/servizi.php" class="text-decoration-none text-dark"><img src="../../home/img/servizi.png" alt=""><strong><mark>Servizi</mark></strong></a></td>
+                <td class="bg-custom text-center p-3"><a href="../../service/resoconto.php" class="text-decoration-none text-dark"><img src="../../home/img/resoconto.png" alt=""><strong><mark>Resoconto</mark></strong></a></td>
+                <td class="bg-custom text-center p-3"><a href="../../service/finanze.php" class="text-decoration-none text-dark"><img src="../../home/img/finanze.png" alt=""><strong><mark>Finanze</mark></strong></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
         <br><br>
 
         <div class="container1">
     <div class="row justify-content-end">
         <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <div class="position-absolute bottom-0 end-0" style="margin-bottom: 8%; margin-right: 15%;">
             <div class="col-2 text-end"> <!-- Utilizzo la classe 'text-end' per allineare il contenuto a destra -->
-                <button type="submit" class="btn btn-primary" name="submit">Avanti</button>
+                <button type="submit" class="btn btn-outline-warning" name="submit">Avanti</button>
+            </div>
             </div>
         </form>
     </div>
