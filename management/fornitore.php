@@ -44,17 +44,17 @@ storefront
 </span> HomeTech</a>
                 
 
-                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                     <span class="material-symbols-outlined">
                         info
                     </span>
                 </button>
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">HomeTech</h1>
+                                <h1 class="modal-title fs-5" id="exampleModal2Label">HomeTech</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -87,6 +87,9 @@ logout
     <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand mx-auto" href="#"><strong>FORNITORE</strong> </a>
 </nav>
+<div class="text-center fw-lighter">
+    (Si può eseguire un ordine per settimana e il fornitore impiegherà una settimana a completare l'ordine)
+</div>
     <div class="align-items-center">
         <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <table class="table table-light table-bordered table-hover " id="magazzino">
