@@ -297,34 +297,42 @@ logout
                 $sql_select = "SELECT dettaglio , nome , id , stato
                     FROM evento " . $stringa;
 
-                $result = $connessione->query($sql_select);
-                if (mysqli_num_rows($result)) {
-                    while ($row = $result->fetch_assoc()) {
-                        $current_id = $row['id'];
-                        if (in_array($current_id, $id)) {
-                            switch ($current_id) {
-                                case 1:
-                                    // Codice per l'ID 1
-                                    $randomNumber = 1;
-                                    $nome_evento[] = $row['nome'];
-                                    $dettaglio[] =  $row['dettaglio'];
-                                    $update1 = "UPDATE utente SET utile = utile * 0.6  WHERE id = $idUtente";
-                                    $result1 = $connessione->query($update1);
-                                    $query1 = "SELECT utile , n_settimana FROM utente WHERE id = $idUtente";
-                                    $result22 = $connessione->query($query1);
-                                    if (mysqli_num_rows($result22)) {
-                                        while ($row22 = $result22->fetch_assoc()) {
-                                            $_SESSION['utile'] = $row22['utile'];
-                                            $_SESSION['n_settimana'] = $row22['n_settimana'];
-                                        }
+            $result = $connessione->query($sql_select);
+            if (mysqli_num_rows($result)) {
+                while ($row = $result->fetch_assoc()) {
+                    $current_id = $row['id'];
+                    if (in_array($current_id, $id)) {
+                        switch ($current_id) {
+                            case 1:
+                                // Codice per l'ID 1
+                                $randomNumber = 1;
+                                $nome_evento[] = $row['nome'];
+                                $dettaglio[] =  $row['dettaglio'];
+                                $update1 = "UPDATE utente SET utile = utile * 0.6  WHERE id = $idUtente";
+                                $result1 = $connessione->query($update1);
+                                $query1 = "SELECT utile , n_settimana FROM utente WHERE id = $idUtente";
+                                $result22 = $connessione->query($query1);
+                                if (mysqli_num_rows($result22)) {
+                                    while ($row22 = $result22->fetch_assoc()) {
+                                        $_SESSION['utile'] = $row22['utile'];
+                                        $_SESSION['n_settimana'] = $row22['n_settimana'];
                                     }
-                                    break;
-                                case 2:
-                                    // Codice per l'ID 2
-                                    $randomNumber = 1;
-                                    if ($_SESSION['n_settimana'] % 4 == 0) {
-                                        $nome_evento[] = "Game Over";
-                                        $dettaglio[] =  $row['dettaglio'];
+                                }
+                                break;
+                            case 2:
+                                // Codice per l'ID 2
+                                $randomNumber = 1;
+                                if ($_SESSION['n_settimana'] % 4 == 0) {
+                                    $nome_evento[] = "Game Over";
+                                    $dettaglio[] =  $row['dettaglio'];
+
+                                    $delete_ordine = "DELETE FROM ordine WHERE idUtente=$idUtente";
+                                    $delete_result = $connessione->query($delete_ordine);
+                                    if($delete_result){ 
+                                        //ok
+                                       }else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
 
                                         $queryO = " DELETE FROM bilancio WHERE idUtente=$idUtente ; ";
                                         $resultO = $connessione->query($queryO);
