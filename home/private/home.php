@@ -392,6 +392,14 @@ $Nsettimana= $_SESSION["n_settimana"];
                                     $nome_evento[] = "Game Over";
                                     $dettaglio[] =  $row['dettaglio'];
 
+                                    $delete_ordine = "DELETE FROM ordine WHERE idUtente=$idUtente";
+                                    $delete_result = $connessione->query($delete_ordine);
+                                    if($delete_result){ 
+                                        //ok
+                                       }else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
                                     $queryO = " DELETE FROM bilancio WHERE idUtente=$idUtente ; ";          
                                     $resultO = $connessione->query($queryO);
                                     if($resultO){ 
@@ -446,6 +454,8 @@ $Nsettimana= $_SESSION["n_settimana"];
                                             $_SESSION['n_settimana'] = $row22['n_settimana'];
                                         }
                                     }
+
+                                
                                 } else {
                                     $nome_evento[] = $row['nome'];
                                     $dettaglio[] = "Gentile Utente,Ci rivolgiamo a lei per comunicarle che attualmente il suo saldo contabile risulta essere in negativo, il che potrebbe mettere a rischio la solidità finanziaria della sua attività.
