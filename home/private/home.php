@@ -126,9 +126,12 @@ $Nsettimana = $_SESSION["n_settimana"];
         $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            //generazione ordini
-            $n_settimana = $_SESSION['n_settimana'];
             $idUtente = $_SESSION['idUtente'];
+            //eliminazione ordini precedenti
+            $sql_delete = "DELETE FROM ordine WHERE idUtente = $idUtente";
+            $result_delete = $connessione->query($sql_delete);
+            //generazione nuovi ordini
+            $n_settimana = $_SESSION['n_settimana'];
             $numeroOrdini = mt_rand(1, intval($n_settimana / 5) + 1);
             for ($i = 0; $i < $numeroOrdini; $i++) {
                 $sql_insert = "INSERT INTO ordine (idUtente) VALUES ($idUtente)";
