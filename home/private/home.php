@@ -331,7 +331,7 @@ if ($resultB) {
             if ($pos !== false) {
                 $stringa = substr_replace($stringa, "", $pos, strlen('OR'));
             }
-            $sql_select = "SELECT dettaglio , nome , id , stato
+            $sql_select = "SELECT dettaglio , nome , id 
                     FROM evento " . $stringa;
 
             $result = $connessione->query($sql_select);
@@ -412,11 +412,9 @@ if ($resultB) {
                                             END
                                 WHERE nome IN ('Luce', 'Gas', 'Affitto', 'Allarme', 'Telecamere', 'Guardia') AND idUtente = $idUtente";
 
-                                    $update3 = "UPDATE evento SET stato = 0 WHERE  stato = 1";
                                     $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
                                     $update6 = "UPDATE utente SET n_settimana = 1 , utile = 5000 WHERE  id = $idUtente";
                                     $result1 = $connessione->query($update1);
-                                    $result3 = $connessione->query($update3);
                                     $result5 = $connessione->query($update5);
                                     $result6 = $connessione->query($update6);
                                     $query1 = "SELECT utile , n_settimana FROM utente WHERE id = $idUtente";
@@ -456,62 +454,51 @@ if ($resultB) {
                                 break;
                             case 5:
                                 // Codice per l'ID 5
-                                if ($row['stato'] == 0) {
                                     $randomNumber = 1;
                                     $nome_evento[] = $row['nome'];
                                     $dettaglio[] =  $row['dettaglio'];
                                     $ID = $row['id'];
                                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Luce' AND idUtente = $idUtente";
                                     $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $ID AND stato = 0";
                                     $result1 = $connessione->query($update1);
                                     $result2 = $connessione->query($update2);
-                                    $result3 = $connessione->query($update3);
-                                }
+                                
                                 break;
                             case 6:
                                 // Codice per l'ID 6
-                                if ($row['stato'] == 0) {
                                     $randomNumber = 1;
                                     $nome_evento[] = $row['nome'];
                                     $dettaglio[] =  $row['dettaglio'];
                                     $ID = $row['id'];
                                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Luce' AND idUtente = $idUtente";
                                     $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $ID AND stato = 0";
                                     $result1 = $connessione->query($update1);
                                     $result2 = $connessione->query($update2);
-                                    $result3 = $connessione->query($update3);
-                                }
+                                
                                 break;
                             case 7:
                                 // Codice per l'ID 7
-                                if ($row['stato'] == 0) {
                                     $randomNumber = 1;
-                                    $nome_evento = $row['nome'];
+                                    $nome_evento[] = $row['nome'];
+                                    $dettaglio[] =  $row['dettaglio'];
                                     $ID = $row['id'];
                                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Luce' AND idUtente = $idUtente";
                                     $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $ID AND stato = 0";
                                     $result1 = $connessione->query($update1);
                                     $result2 = $connessione->query($update2);
-                                    $result3 = $connessione->query($update3);
-                                }
+                                
                                 break;
                             case 8:
                                 // Codice per l'ID 8
-                                if ($row['stato'] == 0) {
                                     $randomNumber = 1;
-                                    $nome_evento = $row['nome'];
+                                    $nome_evento[] = $row['nome'];
                                     $dettaglio[] =  $row['dettaglio'];
                                     $ID = $row['id'];
                                     $update1 = "UPDATE costoFisso SET prezzo = prezzo * 3 WHERE nome = 'Luce' AND idUtente = $idUtente";
                                     $update2 = "UPDATE costoFisso SET prezzo = prezzo * 2.5 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $update3 = "UPDATE evento SET stato = 1 WHERE id = $ID AND stato = 0";
                                     $result1 = $connessione->query($update1);
                                     $result2 = $connessione->query($update2);
-                                    $result3 = $connessione->query($update3);
-                                }
+                                
                                 break;
                         }
                     }

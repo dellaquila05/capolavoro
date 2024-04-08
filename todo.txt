@@ -8,7 +8,7 @@ ALL - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME 
 ALL - sistemare il ricaricamento di fornitore
 ALL - gestione game over settare loggato = false, svuotare id e chiudere modalde
 momo - migliorare grafica home.html e finire servizi.php
-
+ALL- modificare id game over come ultimo
 
 per capolavoro :
 ALL - sistemare modale info per ogni pagina
