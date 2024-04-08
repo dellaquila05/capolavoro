@@ -90,7 +90,7 @@ $queryB = "SELECT username FROM utente WHERE id = $idUtente;";
 $resultB = $connessione->query($queryB);
 if ($resultB) {
     while ($row = $resultB->fetch_assoc()) {
-        echo "<div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'><strong>Benvenuto " . $row["username"] . "</strong></div>";
+        echo "<div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'>Benvenuto " . $row["username"] . "</div>";
     }
 } else {
     echo "Errore: " . $connessione->error;

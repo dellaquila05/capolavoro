@@ -134,9 +134,14 @@ logout
                                             }
                                             ?>
                 </div>
-                <div class="col-2">
-                    <button type="submit" class="btn btn-outline-success position-absolute bottom-0 end-0" style="margin-bottom: -19%; margin-right: 46.8%;" name="submit">Acquista</button>
+                <br>
+                <div class="row justify-content-center">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-success"  name="submit">Acquista</button>
                 </div>
+                </div>
+
+
             </div>
         </form>
         <?php
