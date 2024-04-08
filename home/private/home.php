@@ -111,18 +111,18 @@ $Nsettimana = $_SESSION["n_settimana"];
 
         <br><br>
 
-        <div class="container1">
-    <div class="row justify-content-end">
+
+
         <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <div class="position-absolute bottom-0 end-0" style="margin-bottom: 8%; margin-right: 47.8%;">
-            <div class="col-2 text-end"> <!-- Utilizzo la classe 'text-end' per allineare il contenuto a destra -->
-                <button type="submit" class="btn btn-outline-warning" name="submit">Avanti</button>
-            </div>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-warning" name="submit">Avanti</button>
+                </div>
             </div>
         </form>
-    </div>
-</div>
- <?php
+
+
+        <?php
         $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

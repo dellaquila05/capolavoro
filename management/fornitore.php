@@ -225,7 +225,7 @@ logout
                                             } ?>
                                         </tr>
                                         <tr>
-                                            <td colspan="4">N.B. Se l'articolo è rosso la quantità non è disponibile ed è possibile effettuare un solo ordine a settimana.</td>
+                                            <td colspan="4">Nota bene:<br>- Se l'articolo è rosso la quantità non è disponibile.<br>- È possibile effettuare un solo ordine a settimana.</td>
                                         </tr>
 
 
@@ -305,6 +305,7 @@ logout
                             success: function(response) {
                                 // Gestisci la risposta dal server
                                 console.log(response); // Stampa la risposta a console per debug
+                                location.reload();
                             },
                             error: function(xhr, status, error) {
                                 // Gestisci gli errori di invio
