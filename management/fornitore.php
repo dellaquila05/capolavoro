@@ -32,7 +32,7 @@ $idUtente = $_SESSION['idUtente'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <title>Fornitore</title>
+    <title>HomeTech - Fornitore</title>
 </head>
 
 <body>
@@ -88,7 +88,7 @@ logout
   <a class="navbar-brand mx-auto" href="#"><strong>FORNITORE</strong> </a>
 </nav>
 <div class="text-center fw-lighter">
-    (Si può eseguire un ordine per settimana e il fornitore impiegherà una settimana a completare l'ordine)
+    (Il fornitore impiegherà una settimana a consegnare l'ordine)
 </div>
     <div class="align-items-center">
         <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">

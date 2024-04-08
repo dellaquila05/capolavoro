@@ -9,8 +9,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sett = $_POST['sett'];
     $tot = $_POST['totale'];
 
-    $query=" UPDATE utente SET utile= utile- $tot WHERE  id = $idUtente ; ";
+    $query = " UPDATE utente SET utile= utile- $tot WHERE  id = $idUtente ; ";
     $connessione->query($query);
+    $queryT = " SELECT utile,n_settimana FROM utente WHERE id = $idUtente ; ";
+    $resultT = $connessione->query($queryT);
+    if ($resultT) {
+        while ($row = $resultT->fetch_assoc()) {
+            $_SESSION['utile'] = $row["utile"];
+            $_SESSION['n_settimana'] = $row["n_settimana"];
+        }
+    } else {
+        echo "Errore: " . $connessione->error;
+    }
     // Esegui l'inserimento nel database
     for ($i = 0; $i < count($idProdotto); $i++) {
         $query_insert = "INSERT INTO forniture (idUtente, idProdotto, quantità, settimana) 
@@ -25,4 +35,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 } else {
     echo "Metodo non consentito.";
 }
-?>
