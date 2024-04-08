@@ -85,12 +85,24 @@ $Nsettimana = $_SESSION["n_settimana"];
                     <?php echo $_SESSION["utile"]; ?>
                     €
                 </p>
+                <?php
+$queryB = "SELECT username FROM utente WHERE id = $idUtente;";
+$resultB = $connessione->query($queryB);
+if ($resultB) {
+    while ($row = $resultB->fetch_assoc()) {
+        echo "<div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'><strong>Benvenuto " . $row["username"] . "</strong></div>";
+    }
+} else {
+    echo "Errore: " . $connessione->error;
+}
+?>
                 <a href="../public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
                             logout
                         </span></button></a>
             </div>
         </nav>
-        <br><br><br>
+        <br>
+        <br><br>
         <div class="container1">
             <table class="table">
                 <tbody>

@@ -154,9 +154,8 @@ logout
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
                                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <button type="submit" name="submitTelecamera" data-bs-dismiss="modal" class="btn btn-primary">Aggiungi telecamera</button>
+    <button type="submit" name="submitTelecamera" data-bs-dismiss="modal" class="btn btn-primary">Aggiungi</button>
 </form>
-
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +267,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
         }}else{
+
             echo "<script type='text/javascript'>alert('telecamera Già presente');</script>"; 
+            
         }
         }   
     
