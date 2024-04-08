@@ -132,7 +132,7 @@ logout
   <a class="navbar-brand mx-auto" href="#"><strong>SERVIZI</strong></a>
 </nav>
 
-    <br><br><br>
+    <br><br>
 
     <div class="container mt-4">
         <table class="table">

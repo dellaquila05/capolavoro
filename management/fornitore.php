@@ -135,7 +135,7 @@ logout
                                             ?>
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-primary" name="submit">Acquista</button>
+                    <button type="submit" class="btn btn-outline-success position-absolute bottom-0 end-0" style="margin-bottom: -19%; margin-right: 46.8%;" name="submit">Acquista</button>
                 </div>
             </div>
         </form>
@@ -304,7 +304,7 @@ logout
                             },
                             success: function(response) {
                                 // Gestisci la risposta dal server
-                                console.log(response); // Stampa la risposta a console per debug
+                                console.log(response); // Stampa la risposta a console per debugù
                             },
                             error: function(xhr, status, error) {
                                 // Gestisci gli errori di invio
