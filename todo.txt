@@ -6,6 +6,8 @@ ALL - Aggiungere utile sul modello er
 ALL - Aggiungere ad er la tabella fornitore 
 ALL - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
 ALL - sistemare il ricaricamento di fornitore
+ALL - gestione game over settare loggato = false, svuotare id e chiudere modalde
+momo - migliorare grafica home.html e finire servizi.php
 
 
 per capolavoro :
