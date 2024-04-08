@@ -139,7 +139,7 @@ logout
             <tbody>
                 <tr>
                     <td>
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa2"><img src="../../home/img/telecamera.png" alt=""><strong><mark>Aggiungi telecamera</mark></strong></button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa2"><img src="../home/img/telecamera.png" alt=""><strong><mark>Aggiungi telecamera</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -164,7 +164,7 @@ logout
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa3"><img src="../../home/img/magazzinoSpazio.png" alt=""><strong><mark>Aumenta magazzino</mark></strong></button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa3"><img src="../home/img/magazzinoSpazio.png" alt=""><strong><mark>Aumenta magazzino</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -189,7 +189,7 @@ logout
                 </tr>
                 <tr>
                     <td>
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa4"><img src="../../home/img/allarme.gif" alt=""><strong><mark>Aggiungi allarme</mark></strong></button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa4"><img src="../home/img/allarme.gif" alt=""><strong><mark>Aggiungi allarme</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -213,7 +213,7 @@ logout
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa5"><img src="../../home/img/guardia.png" alt=""><strong><mark>Aggiungi guardia</mark></strong></button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModa5"><img src="../home/img/guardia.png" alt=""><strong><mark>Aggiungi guardia</mark></strong></button>
 
                         <div class="modal fade" id="exampleModa5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

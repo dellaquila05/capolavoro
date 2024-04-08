@@ -68,7 +68,7 @@ $Nsettimana = $_SESSION["n_settimana"];
 
                                 Inizia con un budget di 2000€ e gestisci il tuo impero settimana dopo settimana. Evita la bancarotta coprendo i costi fissi ogni 4 settimane. Affronta eventi imprevisti come guerre e furti, che influenzano le tue finanze.
 
-                                Ogni 48 settimane, paga le tasse e migliora la sicurezza con servizi come telecamere o allarmi. Acquista prodotti dal fornitore, soddisfa gli ordini e pianifica con attenzione. Sii strategico per trasformare il tuo impero in una storia di successo in HomeTech!
+                                Ogni 52 settimane, paga le tasse e migliora la sicurezza con servizi come telecamere o allarmi. Acquista prodotti dal fornitore, soddisfa gli ordini e pianifica con attenzione. Sii strategico per trasformare il tuo impero in una storia di successo in HomeTech!
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -112,18 +112,20 @@ $Nsettimana = $_SESSION["n_settimana"];
         <br><br>
 
         <div class="container1">
-    <div class="row justify-content-end">
-        <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <div class="position-absolute bottom-0 end-0" style="margin-bottom: 8%; margin-right: 47.8%;">
-            <div class="col-2 text-end"> <!-- Utilizzo la classe 'text-end' per allineare il contenuto a destra -->
-                <button type="submit" class="btn btn-outline-warning" name="submit">Avanti</button>
+            <div class="row justify-content-end">
+                <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <div class="position-absolute bottom-0 end-0" style="margin-bottom: 8%; margin-right: 47.8%;">
+                        <div class="col-2 text-end"> <!-- Utilizzo la classe 'text-end' per allineare il contenuto a destra -->
+                            <button type="submit" class="btn btn-outline-warning" name="submit">Avanti</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            </div>
-        </form>
-    </div>
-</div>
- <?php
+        </div>
+        <?php
         $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
+        $gameOff = false;
+
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //generazione ordini
@@ -242,6 +244,26 @@ $Nsettimana = $_SESSION["n_settimana"];
                     $id[] = 3;
                 }
             }
+            /* function generaFurto()            {
+                global $id;
+                $probabilita = 7 / 52;
+                require_once("../connessione.php");
+                $query = "UPDATE immagazzina
+                        SET quantitàPr = quantitàPr - 1
+                        WHERE idProdotto IN (
+                        SELECT idProdotto
+                        FROM immagazzina
+                        WHERE quantitàPr > 0
+                        ORDER BY RANDOM()
+                        LIMIT FLOOR(RAND() * 4) + 1) AND idMagazzino = $idMagazzino  ;";
+                $result = $connessione->query($query);
+
+                // Genero un numero casuale tra 0 e 52
+                if (rand(0, 52) <= $probabilita * 52) {
+                    $id[] = 3;
+                }
+            }*/
+
             if ($_SESSION['n_settimana'] % 4 == 0) {
                 $query_totale = "SELECT SUM(prezzo) as Totale_Spese FROM costoFisso WHERE idUtente = $idUtente";
                 $result_totale = $connessione->query($query_totale);
@@ -325,7 +347,7 @@ $Nsettimana = $_SESSION["n_settimana"];
                                 if ($_SESSION['n_settimana'] % 4 == 0) {
                                     $nome_evento[] = "Game Over";
                                     $dettaglio[] =  $row['dettaglio'];
-
+                                    $gameOff = true;
                                     $delete_ordine = "DELETE FROM ordine WHERE idUtente=$idUtente";
                                     $delete_result = $connessione->query($delete_ordine);
                                     if ($delete_result) {
