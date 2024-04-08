@@ -1,22 +1,20 @@
+per compito:
 ALL - Aggiungere sia al diagramma di stato che a quello ad oggetti la parte inerente alla registrazione, alla login e tutto il resto.
 ALL - spostare connessione.php fuori da /home
+ALL - aggiungere inserimento.php nel uml
 ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordine ha per forza un utente un utente non ha per forza un ordine)
 ALL - Aggiungere utile sul modello er
 ALL - Aggiungere ad er la tabella fornitore 
-DIEGO - gestione modale del fornitore 
-DIEGO - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
-felix - gestione check di disponibilità ordini
-felix- aggiunta creazione metodo insert in costo fisso di telecamre allarme e bodyguard(guarda db)
-FELIX - check funzionamento registrazione 
-FELIX - immagazzina salva solo prodotto 1 e non tutti e 15 
-FELIX - vari errori in registrazione php quando provo a registrarmi crea l'account lato db ma non vengo reinderizzato alla home 
-momo - migliorare grafica home.html e rendere la navbar uguale per tutte le page
-felix - aggiornare l'utile in sessione
-momo - migliorare grafica home.html e finire servizi.php
-momo - rendere la navbar uguale per tutte le page
-momo - ridimensionare le immagini
-momo - quando fai servizi fai update a tab costo fisso aggiungendo i prezzi
-DIEGO - quando elimino un utente non si elimina il suo magazzino 
+ALL - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
+ALL - sistemare il ricaricamento di fornitore
 momo - migliorare grafica home.html e finire servizi.php
 
 
+per capolavoro :
+ALL - sistemare modale info per ogni pagina
+ALL - creare modale entrate/uscite a fine settimana
+ALL - aggiungere quantità in magazzino a fornitore
+ALL - aggiungere codice prodotto in fornitore
+ALL - migliorare l'estetica
+ALL - stampare il nom utente nella navbar
+ALL - VELOCIZZARE IL PROGRAMMA

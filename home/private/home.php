@@ -85,12 +85,24 @@ $Nsettimana = $_SESSION["n_settimana"];
                     <?php echo $_SESSION["utile"]; ?>
                     €
                 </p>
+                <?php
+$queryB = "SELECT username FROM utente WHERE id = $idUtente;";
+$resultB = $connessione->query($queryB);
+if ($resultB) {
+    while ($row = $resultB->fetch_assoc()) {
+        echo "<div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'>Benvenuto " . $row["username"] . "</div>";
+    }
+} else {
+    echo "Errore: " . $connessione->error;
+}
+?>
                 <a href="../public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
                             logout
                         </span></button></a>
             </div>
         </nav>
-        <br><br><br>
+        <br>
+        <br><br>
         <div class="container1">
             <table class="table">
                 <tbody>
@@ -111,26 +123,29 @@ $Nsettimana = $_SESSION["n_settimana"];
 
         <br><br>
 
-        <div class="container1">
-            <div class="row justify-content-end">
-                <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <div class="position-absolute bottom-0 end-0" style="margin-bottom: 8%; margin-right: 47.8%;">
-                        <div class="col-2 text-end"> <!-- Utilizzo la classe 'text-end' per allineare il contenuto a destra -->
-                            <button type="submit" class="btn btn-outline-warning" name="submit">Avanti</button>
-                        </div>
-                    </div>
-                </form>
+
+
+        <form id="myForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-warning" name="submit">Avanti</button>
+                </div>
             </div>
-        </div>
+        </form>
+
+
         <?php
         $showModal = false; // Inizializziamo la variabile per controllare se mostrare il modale
         $gameOff = false;
 
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            //generazione ordini
-            $n_settimana = $_SESSION['n_settimana'];
             $idUtente = $_SESSION['idUtente'];
+            //eliminazione ordini precedenti
+            $sql_delete = "DELETE FROM ordine WHERE idUtente = $idUtente";
+            $result_delete = $connessione->query($sql_delete);
+            //generazione nuovi ordini
+            $n_settimana = $_SESSION['n_settimana'];
             $numeroOrdini = mt_rand(1, intval($n_settimana / 5) + 1);
             for ($i = 0; $i < $numeroOrdini; $i++) {
                 $sql_insert = "INSERT INTO ordine (idUtente) VALUES ($idUtente)";
@@ -347,7 +362,9 @@ $Nsettimana = $_SESSION["n_settimana"];
                                 if ($_SESSION['n_settimana'] % 4 == 0) {
                                     $nome_evento[] = "Game Over";
                                     $dettaglio[] =  $row['dettaglio'];
-                                    $gameOff = true;
+
+                                    $_SESSION['loggato'] = false;
+
                                     $delete_ordine = "DELETE FROM ordine WHERE idUtente=$idUtente";
                                     $delete_result = $connessione->query($delete_ordine);
                                     if ($delete_result) {
@@ -397,7 +414,7 @@ $Nsettimana = $_SESSION["n_settimana"];
 
                                     $update3 = "UPDATE evento SET stato = 0 WHERE  stato = 1";
                                     $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
-                                    $update6 = "UPDATE utente SET n_settimana = 1 , utile = 2000 WHERE  id = $idUtente";
+                                    $update6 = "UPDATE utente SET n_settimana = 1 , utile = 5000 WHERE  id = $idUtente";
                                     $result1 = $connessione->query($update1);
                                     $result3 = $connessione->query($update3);
                                     $result5 = $connessione->query($update5);

@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         if (mysqli_num_rows($result)) { //se non ci sono errori
                             $idMagazzino = $result->fetch_array()['id'];
                             //creo il nuovo utente
-                            $sql3 = "INSERT INTO utente(username, password, n_settimana, idMagazzino, utile) VALUES ('$nome','$hashed_password','1','$idMagazzino','2000')";
+                            $sql3 = "INSERT INTO utente(username, password, n_settimana, idMagazzino, utile) VALUES ('$nome','$hashed_password','1','$idMagazzino','5000')";
                             if ($connessione->query($sql3)) { //se non ci sono errori
                                 //recupero l'id dell'utente appena creato
                                 $sql4 = "SELECT id FROM utente ORDER BY id DESC LIMIT 1";
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                     $_SESSION['idUtente'] = $idUtente;
                                                     $_SESSION['idMagazzino'] = $idMagazzino;
                                                     $_SESSION['n_settimana'] = 1;
-                                                    $_SESSION['utile'] = 5000;
+                                                    $_SESSION['utile'] = 2000;
                                                     $somma = 0;
                                                     $sql_select5 = "SELECT quantitàPr FROM immagazzina WHERE idMagazzino = $idMagazzino";
                                                     $sql_select6 = "SELECT m.dimensione

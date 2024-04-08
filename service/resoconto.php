@@ -96,7 +96,7 @@ logout
 $query = "SELECT valore, Nsettimana FROM bilancio WHERE idUtente=$idUtente";          
 $result = $connessione->query($query);
 if ($result) { 
-    echo "<div class='container'>";
+    echo "<div class='container table-responsive'>";
     echo "<table class='table table-bordered text-center' style='width: 50%; margin: auto;'>";
     echo "<thead class='table-dark'>";
     echo "<tr>";
