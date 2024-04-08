@@ -6,7 +6,9 @@ ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordi
 ALL - Aggiungere utile sul modello er
 ALL - Aggiungere ad er la tabella fornitore 
 ALL - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
+ALL - sistemare il ricaricamento di fornitore
 momo - migliorare grafica home.html e finire servizi.php
+
 
 per capolavoro :
 ALL - sistemare modale info per ogni pagina
