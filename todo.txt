@@ -6,9 +6,9 @@ ALL - Aggiungere la relazione nel modello er fra utente e ordine (1 a n, un ordi
 ALL - Aggiungere utile sul modello er
 ALL - Aggiungere ad er la tabella fornitore 
 ALL - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME FARLO
-ALL - sistemare il ricaricamento di fornitore
 ALL - gestione game over settare loggato = false, svuotare id e chiudere modalde
-momo - migliorare grafica home.html e finire servizi.php
+ALL - SISTEMARE FURTO
+ALL - controllare che non si generi solo un ordine alla volta
 
 
 per capolavoro :
@@ -19,3 +19,8 @@ ALL - aggiungere codice prodotto in fornitore
 ALL - migliorare l'estetica
 ALL - stampare il nom utente nella navbar
 ALL - VELOCIZZARE IL PROGRAMMA
+ALL - eliminazione utente
+ALL - sistemare il ricaricamento di fornitore
+
+
+

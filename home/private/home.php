@@ -146,7 +146,7 @@ if ($resultB) {
             $result_delete = $connessione->query($sql_delete);
             //generazione nuovi ordini
             $n_settimana = $_SESSION['n_settimana'];
-            $numeroOrdini = mt_rand(1, intval($n_settimana / 5) + 1);
+            $numeroOrdini = mt_rand(intval($n_settimana / 10) + 1, intval($n_settimana / 5) + 1);
             for ($i = 0; $i < $numeroOrdini; $i++) {
                 $sql_insert = "INSERT INTO ordine (idUtente) VALUES ($idUtente)";
                 $connessione->query($sql_insert);
