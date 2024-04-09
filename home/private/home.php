@@ -169,6 +169,8 @@ if ($resultB) {
                 }
             }
 
+            if (isset($_POST['submit'])) {
+
             $query = "INSERT INTO bilancio( valore, idUtente, Nsettimana) VALUES ($utile,$idUtente,$Nsettimana)";
             $result = $connessione->query($query);
             if ($result) {
@@ -183,7 +185,7 @@ if ($resultB) {
                 echo "Errore: " . $connessione->error;
             }
 
-
+        }
 
             $sql_select2 = "SELECT idMagazzino, n_settimana FROM utente WHERE id = $idUtente";
             $result2 = $connessione->query($sql_select2);
