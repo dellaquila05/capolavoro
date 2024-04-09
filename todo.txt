@@ -8,9 +8,8 @@ ALL - creazione metodo per creare la casualità del furto AIUTATEMI NON SO COME 
 ALL - gestione game over settare loggato = false, svuotare id e chiudere modalde
 ALL - SISTEMARE FURTO
 ALL - controllare che non si generi solo un ordine alla volta
-
-momo - migliorare grafica home.html e finire servizi.php
 ALL- modificare id game over come ultimo
+FELIX - sistemare ordini
 
 per capolavoro :
 ALL - sistemare modale info per ogni pagina
