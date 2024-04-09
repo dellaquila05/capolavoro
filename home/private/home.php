@@ -86,16 +86,16 @@ $Nsettimana = $_SESSION["n_settimana"];
                     €
                 </p>
                 <?php
-$queryB = "SELECT username FROM utente WHERE id = $idUtente;";
-$resultB = $connessione->query($queryB);
-if ($resultB) {
-    while ($row = $resultB->fetch_assoc()) {
-        echo "<div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'>Benvenuto " . $row["username"] . "</div>";
-    }
-} else {
-    echo "Errore: " . $connessione->error;
-}
-?>
+                $queryB = "SELECT username FROM utente WHERE id = $idUtente;";
+                $resultB = $connessione->query($queryB);
+                if ($resultB) {
+                    while ($row = $resultB->fetch_assoc()) {
+                        echo "<div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'>Benvenuto " . $row["username"] . "</div>";
+                    }
+                } else {
+                    echo "Errore: " . $connessione->error;
+                }
+                ?>
                 <a href="../public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
                             logout
                         </span></button></a>
@@ -146,27 +146,37 @@ if ($resultB) {
             $result_delete = $connessione->query($sql_delete);
             //generazione nuovi ordini
             $n_settimana = $_SESSION['n_settimana'];
-            $numeroOrdini = mt_rand(1, intval($n_settimana / 5) + 1);
+            $numeroOrdini = mt_rand(intval($n_settimana / 10) + 1, intval($n_settimana / 5) + 1);
             for ($i = 0; $i < $numeroOrdini; $i++) {
                 $sql_insert = "INSERT INTO ordine (idUtente) VALUES ($idUtente)";
+                echo $sql_insert. "<br>";
                 $connessione->query($sql_insert);
                 $idUltimoOrdine = $connessione->insert_id;
                 $numeroProdotti = mt_rand(1, $numeroOrdini + 1);
                 $sql_select_2 = "SELECT COUNT(id) as numeroPr FROM prodotto";
+                echo $sql_select_2. "<br>";
                 $result_select_2 = $connessione->query($sql_select_2);
                 $numeroPr = $result_select_2->fetch_array()['numeroPr'];
                 $arrayIdProdotti = [];
-                for ($i = 0; $i < $numeroProdotti; $i++) {
+                for ($j = 0; $j < $numeroProdotti; $j++) {
                     $id = mt_rand(1, $numeroPr);
                     $sql_select_3 = "SELECT id FROM prodotto WHERE id = $id";
+                    echo $sql_select_3. "<br>";
                     $result_select_3 = $connessione->query($sql_select_3);
                     array_push($arrayIdProdotti, $result_select_3->fetch_array()['id']);
                 }
                 $conteggioProdotti = array_count_values($arrayIdProdotti);
+                $sql_insert_richiede = "INSERT INTO richiede (idOrdine, idProdotto, quantitàPr) VALUES";
+                $values_richiede = "";
                 foreach ($conteggioProdotti as $idProdotto => $quantitaOrdine) {
-                    $sql_insert_richiede = "INSERT INTO richiede (idOrdine, idProdotto, quantitàPr) VALUES ($idUltimoOrdine, $idProdotto, $quantitaOrdine)";
-                    $connessione->query($sql_insert_richiede);
+                    $values_richiede .= "($idUltimoOrdine, $idProdotto, $quantitaOrdine),";
                 }
+                // Rimuovi l'ultima virgola
+                $values_richiede = rtrim($values_richiede, ",");
+                //concatena le due stringhe 
+                $sql_insert_richiede .= $values_richiede;
+                echo $sql_insert_richiede. "<br>";
+                $connessione->query($sql_insert_richiede);
             }
 
             if (isset($_POST['submit'])) {
@@ -456,51 +466,51 @@ if ($resultB) {
                                 break;
                             case 5:
                                 // Codice per l'ID 5
-                                    $randomNumber = 1;
-                                    $nome_evento[] = $row['nome'];
-                                    $dettaglio[] =  $row['dettaglio'];
-                                    $ID = $row['id'];
-                                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $result1 = $connessione->query($update1);
-                                    $result2 = $connessione->query($update2);
-                                
+                                $randomNumber = 1;
+                                $nome_evento[] = $row['nome'];
+                                $dettaglio[] =  $row['dettaglio'];
+                                $ID = $row['id'];
+                                $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                                $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Gas' AND idUtente = $idUtente";
+                                $result1 = $connessione->query($update1);
+                                $result2 = $connessione->query($update2);
+
                                 break;
                             case 6:
                                 // Codice per l'ID 6
-                                    $randomNumber = 1;
-                                    $nome_evento[] = $row['nome'];
-                                    $dettaglio[] =  $row['dettaglio'];
-                                    $ID = $row['id'];
-                                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $result1 = $connessione->query($update1);
-                                    $result2 = $connessione->query($update2);
-                                
+                                $randomNumber = 1;
+                                $nome_evento[] = $row['nome'];
+                                $dettaglio[] =  $row['dettaglio'];
+                                $ID = $row['id'];
+                                $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                                $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.10 WHERE nome = 'Gas' AND idUtente = $idUtente";
+                                $result1 = $connessione->query($update1);
+                                $result2 = $connessione->query($update2);
+
                                 break;
                             case 7:
                                 // Codice per l'ID 7
-                                    $randomNumber = 1;
-                                    $nome_evento[] = $row['nome'];
-                                    $dettaglio[] =  $row['dettaglio'];
-                                    $ID = $row['id'];
-                                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $result1 = $connessione->query($update1);
-                                    $result2 = $connessione->query($update2);
-                                
+                                $randomNumber = 1;
+                                $nome_evento[] = $row['nome'];
+                                $dettaglio[] =  $row['dettaglio'];
+                                $ID = $row['id'];
+                                $update1 = "UPDATE costoFisso SET prezzo = prezzo * 1.15 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                                $update2 = "UPDATE costoFisso SET prezzo = prezzo * 1.20 WHERE nome = 'Gas' AND idUtente = $idUtente";
+                                $result1 = $connessione->query($update1);
+                                $result2 = $connessione->query($update2);
+
                                 break;
                             case 8:
                                 // Codice per l'ID 8
-                                    $randomNumber = 1;
-                                    $nome_evento[] = $row['nome'];
-                                    $dettaglio[] =  $row['dettaglio'];
-                                    $ID = $row['id'];
-                                    $update1 = "UPDATE costoFisso SET prezzo = prezzo * 3 WHERE nome = 'Luce' AND idUtente = $idUtente";
-                                    $update2 = "UPDATE costoFisso SET prezzo = prezzo * 2.5 WHERE nome = 'Gas' AND idUtente = $idUtente";
-                                    $result1 = $connessione->query($update1);
-                                    $result2 = $connessione->query($update2);
-                                
+                                $randomNumber = 1;
+                                $nome_evento[] = $row['nome'];
+                                $dettaglio[] =  $row['dettaglio'];
+                                $ID = $row['id'];
+                                $update1 = "UPDATE costoFisso SET prezzo = prezzo * 3 WHERE nome = 'Luce' AND idUtente = $idUtente";
+                                $update2 = "UPDATE costoFisso SET prezzo = prezzo * 2.5 WHERE nome = 'Gas' AND idUtente = $idUtente";
+                                $result1 = $connessione->query($update1);
+                                $result2 = $connessione->query($update2);
+
                                 break;
                         }
                     }
