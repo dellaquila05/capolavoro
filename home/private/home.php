@@ -1,11 +1,15 @@
 <?php
 session_start();
+ob_start();
 require_once("../connessione.php");
-
-if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
-    header("location: ../public/login.php");
+function redirect()
+{
+    if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
+        header("location: ../public/login.php");
+        die();
+    }
 }
-
+redirect();
 $idUtente = $_SESSION['idUtente'];
 
 $queryT = " SELECT utile,n_settimana FROM utente WHERE id = $idUtente ; ";
@@ -85,17 +89,8 @@ $Nsettimana = $_SESSION["n_settimana"];
                     <?php echo $_SESSION["utile"]; ?>
                     €
                 </p>
-                <?php
-                $queryB = "SELECT username FROM utente WHERE id = $idUtente;";
-                $resultB = $connessione->query($queryB);
-                if ($resultB) {
-                    while ($row = $resultB->fetch_assoc()) {
-                        echo "<div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'>Benvenuto " . $row["username"] . "</div>";
-                    }
-                } else {
-                    echo "Errore: " . $connessione->error;
-                }
-                ?>
+                <div style='text-align: center; font-family: Arial, sans-serif; font-size: 18px;'>Benvenuto <?php echo $_SESSION["nome"] ?> </div>
+
                 <a href="../public/login.php"><button type="button" class="btn btn-outline-danger" onclick="<?php $_SESSION['loggato'] == false ?>"><span class="material-symbols-outlined">
                             logout
                         </span></button></a>
@@ -142,6 +137,8 @@ $Nsettimana = $_SESSION["n_settimana"];
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $idUtente = $_SESSION['idUtente'];
             //eliminazione ordini precedenti
+            $idMagazzino = $_SESSION['idMagazzino'];
+
             $sql_delete = "DELETE FROM ordine WHERE idUtente = $idUtente";
             $result_delete = $connessione->query($sql_delete);
             //generazione nuovi ordini
@@ -149,21 +146,27 @@ $Nsettimana = $_SESSION["n_settimana"];
             $numeroOrdini = mt_rand(intval($n_settimana / 10) + 1, intval($n_settimana / 5) + 1);
             for ($i = 0; $i < $numeroOrdini; $i++) {
                 $sql_insert = "INSERT INTO ordine (idUtente) VALUES ($idUtente)";
-                echo $sql_insert. "<br>";
                 $connessione->query($sql_insert);
                 $idUltimoOrdine = $connessione->insert_id;
                 $numeroProdotti = mt_rand(1, $numeroOrdini + 1);
                 $sql_select_2 = "SELECT COUNT(id) as numeroPr FROM prodotto";
-                echo $sql_select_2. "<br>";
                 $result_select_2 = $connessione->query($sql_select_2);
                 $numeroPr = $result_select_2->fetch_array()['numeroPr'];
                 $arrayIdProdotti = [];
+                $sql_select_3 = "SELECT id FROM prodotto WHERE ";
                 for ($j = 0; $j < $numeroProdotti; $j++) {
                     $id = mt_rand(1, $numeroPr);
-                    $sql_select_3 = "SELECT id FROM prodotto WHERE id = $id";
-                    echo $sql_select_3. "<br>";
-                    $result_select_3 = $connessione->query($sql_select_3);
-                    array_push($arrayIdProdotti, $result_select_3->fetch_array()['id']);
+                    $sql_select_3 .= "id = " . $id . " OR ";
+                    
+                }
+                $pos = strripos($sql_select_3, 'OR');
+                    if ($pos !== false) {
+                        $sql_select_3 = substr_replace($sql_select_3, "", $pos, strlen('OR'));
+                    }
+                $result_select_3 = $connessione->query($sql_select_3);
+                while ($row3 = $result_select_3->fetch_assoc()) {
+                    $id = $row3['id'];
+                    array_push($arrayIdProdotti, $id);                   
                 }
                 $conteggioProdotti = array_count_values($arrayIdProdotti);
                 $sql_insert_richiede = "INSERT INTO richiede (idOrdine, idProdotto, quantitàPr) VALUES";
@@ -175,11 +178,9 @@ $Nsettimana = $_SESSION["n_settimana"];
                 $values_richiede = rtrim($values_richiede, ",");
                 //concatena le due stringhe 
                 $sql_insert_richiede .= $values_richiede;
-                echo $sql_insert_richiede. "<br>";
                 $connessione->query($sql_insert_richiede);
             }
 
-            if (isset($_POST['submit'])) {
 
             $query = "INSERT INTO bilancio( valore, idUtente, Nsettimana) VALUES ($utile,$idUtente,$Nsettimana)";
             $result = $connessione->query($query);
@@ -188,6 +189,7 @@ $Nsettimana = $_SESSION["n_settimana"];
                 $result1 = $connessione->query($query1);
                 if ($result1) {
                     $_SESSION['n_settimana'] = $Nsettimana + 1;
+                    $n_settimana = $_SESSION['n_settimana'];
                 } else {
                     echo "Errore: " . $connessione->error;
                 }
@@ -195,39 +197,21 @@ $Nsettimana = $_SESSION["n_settimana"];
                 echo "Errore: " . $connessione->error;
             }
 
-        }
 
-            $sql_select2 = "SELECT idMagazzino, n_settimana FROM utente WHERE id = $idUtente";
-            $result2 = $connessione->query($sql_select2);
+            $sql_select3 = "SELECT idProdotto, quantità FROM forniture WHERE idUtente = $idUtente AND settimana = $n_settimana";
+            $result3 = $connessione->query($sql_select3);
 
-            if ($result2->num_rows > 0) {
-                while ($row2 = $result2->fetch_assoc()) {
-                    $settimanaUtente = $row2['n_settimana'];
+            while ($row3 = $result3->fetch_assoc()) {
+                $quant = $row3['quantità'];
+                $idProd = $row3['idProdotto'];
 
-                    $idMaga = $row2['idMagazzino'];
-
-                    $sql_select3 = "SELECT idProdotto, quantità FROM forniture WHERE idUtente = $idUtente AND settimana = $settimanaUtente";
-                    $result3 = $connessione->query($sql_select3);
-
-                    while ($row3 = $result3->fetch_assoc()) {
-                        $quant = $row3['quantità'];
-                        $idProd = $row3['idProdotto'];
-
-                        $sql_update = "UPDATE immagazzina SET quantitàPr = quantitàPr + $quant WHERE idMagazzino = $idMaga AND idProdotto = $idProd";
-                        $connessione->query($sql_update);
-                    }
-                }
-            } else {
-                echo "Nessun risultato trovato nella tabella utente per l'id specificato.";
+                $sql_update = "UPDATE immagazzina SET quantitàPr = quantitàPr + $quant WHERE idMagazzino = $idMagazzino AND idProdotto = $idProd";
+                $connessione->query($sql_update);
             }
-
-
-
             $randomNumber = 0;
             $nome_evento = [];
             $dettaglio = [];
             $idUtente = $_SESSION['idUtente'];
-            $idMagazzino = $_SESSION['idMagazzino'];
             $id = [];
             $sql_selectrapa = 'SELECT nome,prezzo FROM `costoFisso` WHERE nome="Telecamere" OR nome ="Allarme" OR nome="Guardia"';
             $resultRapina = $connessione->query($sql_selectrapa);
@@ -314,9 +298,7 @@ $Nsettimana = $_SESSION["n_settimana"];
             if ($_SESSION['n_settimana'] % 52 == 0) {
                 $id[] = 1;
             }
-            if ($_SESSION['utile'] < 1) {
-                $id[] = 2;
-            }
+
             if ($idUtente == 100) {
                 $id[] = 4;
             }
@@ -331,6 +313,9 @@ $Nsettimana = $_SESSION["n_settimana"];
             }
             if ($_SESSION['n_settimana'] == 88) {
                 $id[] = 8;
+            }
+            if ($_SESSION['utile'] < 1) {
+                $id[] = 9;
             }
             $stringa = "";
             if (!empty($id)) {
@@ -368,82 +353,7 @@ $Nsettimana = $_SESSION["n_settimana"];
                                     }
                                 }
                                 break;
-                            case 2:
-                                // Codice per l'ID 2
-                                $randomNumber = 1;
-                                if ($_SESSION['n_settimana'] % 4 == 0) {
-                                    $nome_evento[] = "Game Over";
-                                    $dettaglio[] =  $row['dettaglio'];
 
-                                    $_SESSION['loggato'] = false;
-
-                                    $delete_ordine = "DELETE FROM ordine WHERE idUtente=$idUtente";
-                                    $delete_result = $connessione->query($delete_ordine);
-                                    if ($delete_result) {
-                                        //ok
-                                    } else {
-                                        echo "Errore: " . $connessione->error;
-                                    }
-
-                                    $queryO = " DELETE FROM bilancio WHERE idUtente=$idUtente ; ";
-                                    $resultO = $connessione->query($queryO);
-                                    if ($resultO) {
-                                        //ok
-                                    } else {
-                                        echo "Errore: " . $connessione->error;
-                                    }
-
-                                    $queryR = " DELETE FROM `costoFisso` WHERE nome='StipendioDip' AND idUtente=$idUtente ";
-                                    $resultR = $connessione->query($queryR);
-                                    if ($resultR) {
-                                        //ok
-                                    } else {
-                                        echo "Errore: " . $connessione->error;
-                                    }
-
-
-                                    $queryF = " DELETE FROM forniture WHERE idUtente=$idUtente ";
-                                    $resultF = $connessione->query($queryF);
-                                    if ($resultF) {
-                                        //ok
-                                    } else {
-                                        echo "Errore: " . $connessione->error;
-                                    }
-
-
-
-                                    $update1 = "UPDATE costoFisso
-                                SET prezzo = CASE 
-                                                WHEN nome = 'Luce' THEN 450
-                                                WHEN nome = 'Gas' THEN 50
-                                                WHEN nome = 'Affitto' THEN 1700
-                                                WHEN nome = 'Allarme' THEN 0
-                                                WHEN nome = 'Telecamere' THEN 0
-                                                WHEN nome = 'Guardia' THEN 0
-                                                ELSE prezzo 
-                                            END
-                                WHERE nome IN ('Luce', 'Gas', 'Affitto', 'Allarme', 'Telecamere', 'Guardia') AND idUtente = $idUtente";
-
-                                    $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
-                                    $update6 = "UPDATE utente SET n_settimana = 1 , utile = 5000 WHERE  id = $idUtente";
-                                    $result1 = $connessione->query($update1);
-                                    $result5 = $connessione->query($update5);
-                                    $result6 = $connessione->query($update6);
-                                    $query1 = "SELECT utile , n_settimana FROM utente WHERE id = $idUtente";
-                                    $result22 = $connessione->query($query1);
-                                    if (mysqli_num_rows($result22)) {
-                                        while ($row22 = $result22->fetch_assoc()) {
-                                            $_SESSION['utile'] = $row22['utile'];
-                                            $_SESSION['n_settimana'] = $row22['n_settimana'];
-                                        }
-                                    }
-                                } else {
-                                    $nome_evento[] = $row['nome'];
-                                    $dettaglio[] = "Gentile Utente,Ci rivolgiamo a lei per comunicarle che attualmente il suo saldo contabile risulta essere in negativo, il che potrebbe mettere a rischio la solidità finanziaria della sua attività.
-                                Per garantire il benessere finanziario della sua azienda e prevenire qualsiasi difficoltà aggiuntiva, le consigliamo di valutare attentamente le strategie finanziarie disponibili per migliorare la sua situazione.
-                                Cordiali saluti.";
-                                }
-                                break;
                             case 3:
                                 // Codice per l'ID 3
                                 $randomNumber = 1;
@@ -512,6 +422,80 @@ $Nsettimana = $_SESSION["n_settimana"];
                                 $result2 = $connessione->query($update2);
 
                                 break;
+                            case 9:
+                                // Codice per l'ID 2
+                                $randomNumber = 1;
+                                if ($_SESSION['n_settimana'] % 4 == 0) {
+                                    $nome_evento[] = "Game Over";
+                                    $dettaglio[] =  $row['dettaglio'];
+                                    $_SESSION['loggato'] = false;
+                                    $delete_ordine = "DELETE FROM ordine WHERE idUtente=$idUtente";
+                                    $delete_result = $connessione->query($delete_ordine);
+                                    if ($delete_result) {
+                                        //ok
+                                    } else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
+                                    $queryO = " DELETE FROM bilancio WHERE idUtente=$idUtente ; ";
+                                    $resultO = $connessione->query($queryO);
+                                    if ($resultO) {
+                                        //ok
+                                    } else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
+                                    $queryR = " DELETE FROM `costoFisso` WHERE nome='StipendioDip' AND idUtente=$idUtente ";
+                                    $resultR = $connessione->query($queryR);
+                                    if ($resultR) {
+                                        //ok
+                                    } else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
+
+                                    $queryF = " DELETE FROM forniture WHERE idUtente=$idUtente ";
+                                    $resultF = $connessione->query($queryF);
+                                    if ($resultF) {
+                                        //ok
+                                    } else {
+                                        echo "Errore: " . $connessione->error;
+                                    }
+
+
+
+                                    $update1 = "UPDATE costoFisso
+                                    SET prezzo = CASE 
+                                                    WHEN nome = 'Luce' THEN 450
+                                                    WHEN nome = 'Gas' THEN 50
+                                                    WHEN nome = 'Affitto' THEN 1700
+                                                    WHEN nome = 'Allarme' THEN 0
+                                                    WHEN nome = 'Telecamere' THEN 0
+                                                    WHEN nome = 'Guardia' THEN 0
+                                                    ELSE prezzo 
+                                                END
+                                    WHERE nome IN ('Luce', 'Gas', 'Affitto', 'Allarme', 'Telecamere', 'Guardia') AND idUtente = $idUtente";
+
+                                    $update5 = "UPDATE immagazzina SET quantitàPr = 0 WHERE  idMagazzino = $idMagazzino";
+                                    $update6 = "UPDATE utente SET n_settimana = 1 , utile = 5000 WHERE  id = $idUtente";
+                                    $result1 = $connessione->query($update1);
+                                    $result5 = $connessione->query($update5);
+                                    $result6 = $connessione->query($update6);
+                                    $query1 = "SELECT utile , n_settimana FROM utente WHERE id = $idUtente";
+                                    $result22 = $connessione->query($query1);
+                                    if (mysqli_num_rows($result22)) {
+                                        while ($row22 = $result22->fetch_assoc()) {
+                                            $_SESSION['utile'] = $row22['utile'];
+                                            $_SESSION['n_settimana'] = $row22['n_settimana'];
+                                        }
+                                    }
+                                } else {
+                                    $nome_evento[] = $row['nome'];
+                                    $dettaglio[] = "Gentile Utente,Ci rivolgiamo a lei per comunicarle che attualmente il suo saldo contabile risulta essere in negativo, il che potrebbe mettere a rischio la solidità finanziaria della sua attività.
+                                    Per garantire il benessere finanziario della sua azienda e prevenire qualsiasi difficoltà aggiuntiva, le consigliamo di valutare attentamente le strategie finanziarie disponibili per migliorare la sua situazione.
+                                    Cordiali saluti.";
+                                }
+                                break;
                         }
                     }
                 }
@@ -533,6 +517,7 @@ $Nsettimana = $_SESSION["n_settimana"];
         // Verifica se le variabili sono definite e non vuote prima di utilizzarle con json_encode
         $nome_evento_json = isset($nome_evento) ? json_encode($nome_evento) : "[]";
         $dettaglio_json = isset($dettaglio) ? json_encode($dettaglio) : "[]";
+
         ?>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -588,7 +573,11 @@ $Nsettimana = $_SESSION["n_settimana"];
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="previousPageBtn">Previous Page</button>
                         <button type="button" class="btn btn-primary" id="nextPageBtn">Next Page</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <?php if ($_SESSION['loggato'] !== true) {
+                        ?><button type="button" class="btn btn-danger" onclick=' window.location.href="../public/login.php" '>Esci dal gioco</button> <?php
+                                                                                                                                                    } else { ?>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -620,9 +609,9 @@ $Nsettimana = $_SESSION["n_settimana"];
             });
             //commit
         </script>
+        <?php ob_end_flush(); ?>
 
     </div>
-
 </body>
 
 </html>

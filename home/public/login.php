@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (strlen($password) < 6) {
                 throw new Exception("La password ha meno di 6 caratteri", 2);
             } else {
+                $_SESSION['nome'] = $nome;
                 $sql_select = "SELECT password FROM utente WHERE username = '$nome'";
                 $sql_select2 = "SELECT idMagazzino FROM utente WHERE username = '$nome'";
                 $sql_select3 = "SELECT id FROM utente WHERE username = '$nome'";
@@ -67,17 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     while ($row = $result6->fetch_assoc()) {
                                         $dimensione = $row['dimensione'];
                                     }
-                                    $_SESSION['dimensioneMaga'] = $dimensione;  
+                                    $_SESSION['dimensioneMaga'] = $dimensione;
                                 }
                                 if (mysqli_num_rows($result7)) {
                                     while ($row = $result7->fetch_assoc()) {
                                         $nSettimana = $row['n_settimana'];
                                         $utile = $row['utile'];
-
                                     }
                                     $_SESSION['n_settimana'] = $nSettimana;
                                     $_SESSION['utile'] = $utile;
-
                                 }
                             } else {
                                 throw new Exception("Password non corretta", 2);
