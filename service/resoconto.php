@@ -96,8 +96,8 @@ logout
 $query = "SELECT valore, Nsettimana FROM bilancio WHERE idUtente=$idUtente";          
 $result = $connessione->query($query);
 if ($result) { 
-    echo "<div class='container table-responsive'>";
-    echo "<table class='table table-bordered text-center' style='width: 50%; margin: auto;'>";
+    echo "<div class='table-responsive' style='height: 400px; width: 40%; overflow-y: auto; margin: auto;'>";
+    echo "<table class='table table-bordered text-center'>";
     echo "<thead class='table-dark'>";
     echo "<tr>";
     echo "<th>Settimana</th>";
@@ -112,9 +112,13 @@ if ($result) {
         echo "<td>" . $row['valore'] . "€</td>";
         echo "</tr>";
     }
+    
     echo "</tbody>";
     echo "</table>";
-    echo "</div>";
+    echo "</div>"; // Chiudi div.table-responsive
+    
+
+    
 } else {
     echo "Errore: " . $connessione->error;
 }
